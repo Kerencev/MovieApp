@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_recycler">12dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+    <dimen name="height_image_movie">120dp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+</resources>
