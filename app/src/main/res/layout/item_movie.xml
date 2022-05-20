@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/card_elevation"
+    android:animateLayoutChanges="true"
     app:cardCornerRadius="@dimen/padding_recycler"
     app:cardElevation="@dimen/card_elevation">
 
@@ -15,26 +17,49 @@
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_image_movie"
+            android:contentDescription="@string/image_film"
             android:src="@drawable/movie"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Во все тяжкие"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            app:layout_constraintStart_toStartOf="@id/image"
             android:layout_marginStart="@dimen/card_elevation"
-            android:textSize="@dimen/title_text_size"/>
+            android:textSize="@dimen/title_text_size"
+            app:layout_constraintStart_toStartOf="@id/image"
+            app:layout_constraintTop_toBottomOf="@id/image"
+            tools:text="Во все тяжкие" />
 
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/padding_recycler"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="2020" />
 
+        <ImageView
+            android:id="@+id/image_star"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star_rating"
+            android:src="@drawable/ic_baseline_star_rate_24"
+            app:layout_constraintBottom_toBottomOf="@id/rating"
+            app:layout_constraintEnd_toStartOf="@id/rating"
+            app:layout_constraintTop_toTopOf="@id/rating" />
 
-
-
-
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/card_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/year"
+            tools:text="8.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
