@@ -3,5 +3,9 @@
     <dimen name="padding_recycler">12dp</dimen>
     <dimen name="card_elevation">8dp</dimen>
     <dimen name="height_image_movie">120dp</dimen>
-    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="title_text_size">8sp</dimen>
+    <dimen name="height_divider">1dp</dimen>
+    <dimen name="corners_radius">4dp</dimen>
+    <dimen name="width_poster_details">200dp</dimen>
+    <dimen name="height_poster_details">300dp</dimen>
 </resources>

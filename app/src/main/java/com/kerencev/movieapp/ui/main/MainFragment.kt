@@ -12,17 +12,22 @@ import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.MainFragmentBinding
 import com.kerencev.movieapp.model.AppState
-import com.kerencev.movieapp.model.MoviesAdapter
 import com.kerencev.movieapp.model.entities.Movie
+import com.kerencev.movieapp.model.entities.MoviesList
+import com.kerencev.movieapp.ui.adapters.MoviesListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
+
+    interface OnItemViewClickListener {
+        fun onItemViewClick(movie: Movie)
+    }
 
     private val viewModel: MainViewModel by viewModel()
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: MoviesAdapter
+    private lateinit var adapter: MoviesListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,15 +54,14 @@ class MainFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
 
-        adapter = MoviesAdapter()
+        adapter = MoviesListAdapter(fragmentManager = parentFragmentManager)
         recyclerView.adapter = adapter
-
     }
 
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
-                val moviesData: List<Movie> = appState.moviesData
+                val moviesData: List<MoviesList> = appState.moviesData
                 progressBar.visibility = View.GONE
                 adapter.setData(moviesData)
                 adapter.notifyDataSetChanged()

@@ -2,4 +2,6 @@
     <string name="app_name">MovieApp</string>
     <string name="image_film">картинка фильма</string>
     <string name="star_rating">Звёздочка для рейтинга</string>
+    <string name="poster_film">Постер фильма</string>
+    <string name="min">мин.</string>
 </resources>

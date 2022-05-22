@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_star_rate_24.xml" value="0.154" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_rating.xml" value="0.147" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_rating_gray.xml" value="0.147" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_rating_green.xml" value="0.147" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_rating_red.xml" value="0.147" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/details_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/item_movie.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/item_movies_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/main_activity.xml" value="0.1" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/main_fragment.xml" value="0.264" />
       </map>
