@@ -1,6 +1,7 @@
-package com.kerencev.movieapp
+package com.kerencev.movieapp.views
 
 import android.app.Application
+import com.kerencev.movieapp.model.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

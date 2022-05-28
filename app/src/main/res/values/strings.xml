@@ -4,4 +4,8 @@
     <string name="star_rating">Звёздочка для рейтинга</string>
     <string name="poster_film">Постер фильма</string>
     <string name="min">мин.</string>
+    <string name="most_popular_movies">Most Popular Movies</string>
+    <string name="top250">Top 250 IMDb</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="api_most_popular">MostPopularMovies</string>
 </resources>

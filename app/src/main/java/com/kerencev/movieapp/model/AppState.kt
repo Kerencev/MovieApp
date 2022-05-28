@@ -1,10 +1,9 @@
 package com.kerencev.movieapp.model
 
-import com.kerencev.movieapp.model.entities.Movie
-import com.kerencev.movieapp.model.entities.MoviesList
+import com.kerencev.movieapp.data.entities.MovieApi
 
 sealed class AppState {
-    data class Success(val moviesData: List<MoviesList>) : AppState()
-    data class Error(val error: Throwable) : AppState()
+    data class Success(val moviesData: List<List<MovieApi>?>) : AppState()
+    object Error : AppState()
     object Loading : AppState()
 }

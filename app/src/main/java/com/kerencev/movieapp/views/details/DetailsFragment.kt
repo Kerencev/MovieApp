@@ -1,17 +1,12 @@
-package com.kerencev.movieapp.ui.details
+package com.kerencev.movieapp.views.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.kerencev.movieapp.R
+import com.kerencev.movieapp.data.entities.MovieApi
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
-import com.kerencev.movieapp.databinding.MainFragmentBinding
-import com.kerencev.movieapp.model.entities.Movie
-import com.kerencev.movieapp.model.helpers.formatBudget
-import com.kerencev.movieapp.model.helpers.formatDuration
-import com.kerencev.movieapp.model.helpers.formatTitleDetails
 
 class DetailsFragment : Fragment() {
 
@@ -25,20 +20,16 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<Movie>(BUNDLE_MOVIE)?.let {
+        arguments?.getParcelable<MovieApi>(BUNDLE_MOVIE)?.let {
             renderData(it)
         }
     }
 
-    private fun renderData(movie: Movie) {
+    private fun renderData(movie: MovieApi) {
         with(binding) {
-            poster.setImageResource(movie.poster)
-            title.text = formatTitleDetails(movie.title, movie.year)
-            genre.text = movie.genre
-            duration.text = formatDuration(movie.duration)
-            rating.text = movie.rating.toString()
-            budget.text = formatBudget(movie.budget)
-            description.text = movie.description
+            title.text = movie.title
+            rating.text = movie.imDbRating
+            description.text = movie.year
         }
     }
 

@@ -1,9 +1,8 @@
 package com.kerencev.movieapp.model.repository
 
-import com.kerencev.movieapp.model.entities.Movie
-import com.kerencev.movieapp.model.entities.MoviesList
+import com.kerencev.movieapp.data.entities.MovieApi
 
 interface Repository {
-    fun getMoviesFromServer(): List<Movie>
-    fun getMoviesFromLocalStorage(): List<MoviesList>
+    fun getMoviesFromServer(category: String): List<MovieApi>?
+    fun getMoviesFromLocalStorage(): List<MovieApi>?
 }
