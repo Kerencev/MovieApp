@@ -56,7 +56,6 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
 
             })
             recyclerView.adapter = adapter
-
             adapter.setData(data[position].listOfMovies)
             adapter.notifyDataSetChanged()
         }
@@ -66,9 +65,7 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
         return data.size
     }
 
-    inner class MoviesListViewHolder(itemView: View, val context: Context) :
-        RecyclerView.ViewHolder(itemView) {
-
+    inner class MoviesListViewHolder(itemView: View, val context: Context) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.title_recycler_list)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.recycler_child);
     }

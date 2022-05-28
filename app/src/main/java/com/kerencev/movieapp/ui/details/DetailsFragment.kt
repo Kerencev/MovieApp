@@ -48,7 +48,6 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-
         const val BUNDLE_MOVIE = "BUNDLE_MOVIE"
 
         fun newInstance(bundle: Bundle): DetailsFragment {

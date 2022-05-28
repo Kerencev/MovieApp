@@ -13,8 +13,8 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.model.entities.Movie
 import com.kerencev.movieapp.ui.main.MainFragment
 
-class MoviesAdapter(private val itemClickListener: MainFragment.OnItemViewClickListener)
-    : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+class MoviesAdapter(private val itemClickListener: MainFragment.OnItemViewClickListener) :
+    RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
     private var data: ArrayList<Movie> = ArrayList()
 
@@ -23,13 +23,11 @@ class MoviesAdapter(private val itemClickListener: MainFragment.OnItemViewClickL
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val itemView: View =
             LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
-
         return MovieViewHolder(itemView = itemView, context = parent.context)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = data.get(position)
-
+        val movie = data[position]
         with(holder) {
             title.text = movie.title
             genre.text = movie.genre
@@ -38,7 +36,6 @@ class MoviesAdapter(private val itemClickListener: MainFragment.OnItemViewClickL
             image.setImageResource(movie.poster)
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }
-
         setRightBackgroundForRating(movie, holder)
     }
 
@@ -54,9 +51,7 @@ class MoviesAdapter(private val itemClickListener: MainFragment.OnItemViewClickL
         return data.size
     }
 
-    inner class MovieViewHolder(itemView: View, context: Context) :
-        RecyclerView.ViewHolder(itemView) {
-
+    inner class MovieViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
         val title: TextView = itemView.findViewById(R.id.title)
         val genre: TextView = itemView.findViewById(R.id.genre)

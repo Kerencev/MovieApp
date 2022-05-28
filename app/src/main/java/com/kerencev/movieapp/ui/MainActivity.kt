@@ -1,7 +1,8 @@
-package com.kerencev.movieapp
+package com.kerencev.movieapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.kerencev.movieapp.R
 import com.kerencev.movieapp.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
