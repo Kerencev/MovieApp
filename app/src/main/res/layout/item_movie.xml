@@ -1,74 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_card"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/height_image_movie"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/card_elevation"
-    android:animateLayoutChanges="true"
-    app:cardCornerRadius="@dimen/padding_recycler"
-    app:cardElevation="@dimen/card_elevation">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/root_card"
+        android:layout_width="@dimen/width_card_item"
+        android:layout_height="@dimen/height_card_item"
+        app:cardCornerRadius="@dimen/card_elevation"
+        app:cardElevation="@dimen/corners_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:layout_gravity="center"
             android:id="@+id/image"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/height_image_movie"
+            android:layout_width="@dimen/width_image_item"
+            android:layout_height="@dimen/height_image_item"
             android:contentDescription="@string/image_film"
-            android:src="@drawable/movie"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/movie" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/card_elevation"
-            android:singleLine="true"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/image"
-            app:layout_constraintStart_toStartOf="@id/image"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            tools:text="Во все тяжкие" />
+    </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/year"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/padding_recycler"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="2020" />
 
-        <TextView
-            android:id="@+id/rating"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/corners_radius"
-            android:background="@drawable/background_rating_green"
-            android:paddingHorizontal="@dimen/card_elevation"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="8.0" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/root_card"
+        app:layout_constraintStart_toStartOf="@id/root_card"
+        app:layout_constraintTop_toBottomOf="@id/root_card"
+        tools:text="Red dead redemption" />
 
-        <TextView
-            android:id="@+id/genre"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="@id/title"
-            app:layout_constraintStart_toEndOf="@id/year"
-            app:layout_constraintTop_toTopOf="@id/year"
-            tools:text="Фантастика"
-            android:layout_marginStart="@dimen/card_elevation"/>
+    <TextView
+        android:id="@+id/year"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="2020" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_elevation"
+        android:background="@drawable/background_rating_green"
+        android:paddingHorizontal="@dimen/card_elevation"
+        android:textColor="@color/white"
+        android:translationZ="@dimen/corners_radius"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="8.0" />
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

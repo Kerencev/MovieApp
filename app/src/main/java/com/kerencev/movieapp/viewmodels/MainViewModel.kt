@@ -3,9 +3,12 @@ package com.kerencev.movieapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kerencev.movieapp.data.entities.MovieApi
+import androidx.lifecycle.viewModelScope
+import com.kerencev.movieapp.data.entities.list.MovieApi
 import com.kerencev.movieapp.model.AppState
 import com.kerencev.movieapp.model.repository.Repository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<AppState>()
@@ -15,19 +18,19 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 
     private fun getDataFromServer() {
         localLiveData.value = AppState.Loading
-        Thread {
+        viewModelScope.launch(Dispatchers.IO) {
             val mostPopular = repository.getMoviesFromServer("MostPopularMovies")
             val top250 = repository.getMoviesFromServer("Top250Movies")
             val comingSoon = repository.getMoviesFromServer("ComingSoon")
 
             if (checkNullMovies(mostPopular, top250, comingSoon)) {
                 localLiveData.postValue(AppState.Error)
-                return@Thread
+                return@launch
             }
 
             val list = listOf(mostPopular, top250, comingSoon)
-            localLiveData.postValue(AppState.Success(list))
-        }.start()
+            localLiveData.postValue(AppState.SuccessLoadMovieApiList(list))
+        }
     }
 
     /**
@@ -40,5 +43,12 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
             }
         }
         return false
+    }
+
+    private fun getDataFromLocalStorage() {
+        localLiveData.value = AppState.Loading
+        val result1 = repository.getMoviesFromLocalStorage()
+        val result = listOf(result1, result1, result1)
+        localLiveData.postValue(AppState.SuccessLoadMovieApiList(result))
     }
 }

@@ -1,16 +1,18 @@
 package com.kerencev.movieapp.views.adapters
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.MovieApi
-import com.squareup.picasso.Picasso
+import com.kerencev.movieapp.data.entities.list.MovieApi
+import kotlinx.coroutines.*
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
@@ -31,7 +33,12 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             title.text = movie.title
             year.text = movie.year
             rating.text = movie.imDbRating
-            Picasso.get().load(movie.image).into(image)
+            GlobalScope.launch(Dispatchers.Main) {
+                Glide
+                    .with(context)
+                    .load(movie.image)
+                    .into(image);
+            }
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }
         setRightBackgroundForRating(movie, holder)
@@ -54,7 +61,7 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
         return data.size
     }
 
-    inner class MovieViewHolder(itemView: View, context: Context) :
+    inner class MovieViewHolder(itemView: View, val context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
         val title: TextView = itemView.findViewById(R.id.title)

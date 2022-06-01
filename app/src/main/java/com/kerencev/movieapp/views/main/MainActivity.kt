@@ -3,7 +3,6 @@ package com.kerencev.movieapp.views.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.views.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
                 .commitNow()
         }
     }
