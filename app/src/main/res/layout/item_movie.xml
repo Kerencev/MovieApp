@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:id="@+id/root_card"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/height_image_movie"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/card_elevation"
+    android:animateLayoutChanges="true"
     app:cardCornerRadius="@dimen/padding_recycler"
     app:cardElevation="@dimen/card_elevation">
 
@@ -15,26 +18,56 @@
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_image_movie"
+            android:contentDescription="@string/image_film"
             android:src="@drawable/movie"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Во все тяжкие"
-            app:layout_constraintTop_toBottomOf="@id/image"
+            android:layout_marginHorizontal="@dimen/card_elevation"
+            android:singleLine="true"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/image"
             app:layout_constraintStart_toStartOf="@id/image"
-            android:layout_marginStart="@dimen/card_elevation"
-            android:textSize="@dimen/title_text_size"/>
+            app:layout_constraintTop_toBottomOf="@id/image"
+            tools:text="Во все тяжкие" />
 
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/padding_recycler"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="2020" />
 
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/corners_radius"
+            android:background="@drawable/background_rating_green"
+            android:paddingHorizontal="@dimen/card_elevation"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8.0" />
 
-
-
-
+        <TextView
+            android:id="@+id/genre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="@id/title"
+            app:layout_constraintStart_toEndOf="@id/year"
+            app:layout_constraintTop_toTopOf="@id/year"
+            tools:text="Фантастика"
+            android:layout_marginStart="@dimen/card_elevation"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
