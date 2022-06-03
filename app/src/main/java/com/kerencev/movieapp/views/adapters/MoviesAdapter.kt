@@ -1,7 +1,6 @@
 package com.kerencev.movieapp.views.adapters
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.list.MovieApi
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {

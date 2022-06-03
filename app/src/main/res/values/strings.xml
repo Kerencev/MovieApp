@@ -8,4 +8,5 @@
     <string name="top250">Top 250 IMDb</string>
     <string name="coming_soon">Coming soon</string>
     <string name="api_most_popular">MostPopularMovies</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

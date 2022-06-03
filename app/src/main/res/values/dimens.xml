@@ -15,4 +15,5 @@
     <dimen name="card_elevation_image_details">16dp</dimen>
     <dimen name="padding_details_fragment">4dp</dimen>
     <dimen name="text_size_movie_details">12sp</dimen>
+    <dimen name="something_wrong_text_size">24sp</dimen>
 </resources>

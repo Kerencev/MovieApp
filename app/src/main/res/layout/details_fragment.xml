@@ -31,7 +31,7 @@
             android:layout_height="308dp"
             android:layout_gravity="center"
             android:contentDescription="@string/poster_film"
-            tools:src="@drawable/criminal" />
+            tools:src="@drawable/movie" />
 
     </com.google.android.material.card.MaterialCardView>
 
