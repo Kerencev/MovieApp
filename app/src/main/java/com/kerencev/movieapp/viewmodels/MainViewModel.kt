@@ -21,15 +21,16 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         localLiveData.value = MainState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val mostPopular = repository.getMoviesFromServer("MostPopularMovies")
-            val top250 = repository.getMoviesFromServer("Top250Movies")
-            val comingSoon = repository.getMoviesFromServer("ComingSoon")
+//            val top250 = repository.getMoviesFromServer("Top250Movies")
+//            val comingSoon = repository.getMoviesFromServer("ComingSoon")
 
-            if (checkNullMovies(mostPopular, top250, comingSoon)) {
-                localLiveData.postValue(MainState.Error)
-                return@launch
-            }
+//            if (checkNullMovies(mostPopular, top250, comingSoon)) {
+//                localLiveData.postValue(MainState.Error)
+//                return@launch
+//            }
 
-            val list = listOf(mostPopular, top250, comingSoon)
+//            val list = listOf(mostPopular, top250, comingSoon)
+            val list = listOf(mostPopular)
             localLiveData.postValue(MainState.Success(list))
         }
     }

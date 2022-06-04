@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.list.MovieApi
+import com.kerencev.movieapp.services.GetMovieIdService
 import com.kerencev.movieapp.views.details.DetailsFragment
 import com.kerencev.movieapp.views.main.MainFragment
 
@@ -42,6 +43,8 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
                 LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false)
             val adapter = MoviesAdapter(object : OnItemViewClickListener {
                 override fun onItemViewClick(movie: MovieApi) {
+                    //TODO Стартуем сервис для загрузки данных
+                    movie.id?.let { GetMovieIdService.start(context, it) }
                     fragmentManager?.let { manager ->
                         val bundle = Bundle().apply {
                             putString(DetailsFragment.BUNDLE_MOVIE, movie.id)

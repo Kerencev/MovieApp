@@ -1,6 +1,7 @@
 package com.kerencev.movieapp.views.details
 
 import android.annotation.SuppressLint
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
+import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel

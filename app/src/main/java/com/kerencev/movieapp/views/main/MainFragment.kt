@@ -14,6 +14,7 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.list.MovieApi
 import com.kerencev.movieapp.databinding.MainFragmentBinding
 import com.kerencev.movieapp.model.appstate.MainState
+import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR
 import com.kerencev.movieapp.model.receivers.NetworkChangeBR
 import com.kerencev.movieapp.viewmodels.MainViewModel
 import com.kerencev.movieapp.views.adapters.MoviesListAdapter
@@ -24,11 +25,13 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MoviesListAdapter
-    private val receiver = NetworkChangeBR()
+    private val receiverNetworkChange = NetworkChangeBR()
+    private val receiverLoadMovieDetails = LoadMovieDetailsBR()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.registerReceiver(receiver, IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
+        activity?.registerReceiver(receiverNetworkChange, IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
+        activity?.registerReceiver(receiverLoadMovieDetails, IntentFilter("com.kerencev.movieapp.load.movie.details"))
     }
 
     override fun onCreateView(
@@ -85,11 +88,12 @@ class MainFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        activity?.unregisterReceiver(receiver)
+        activity?.unregisterReceiver(receiverNetworkChange)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        activity?.unregisterReceiver(receiverLoadMovieDetails)
     }
 }
