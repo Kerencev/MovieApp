@@ -16,11 +16,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_gravity="center"
             android:id="@+id/image"
-            android:layout_width="@dimen/width_image_item"
-            android:layout_height="@dimen/height_image_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:contentDescription="@string/image_film"
+            android:scaleType="fitXY"
             android:src="@drawable/movie" />
 
     </com.google.android.material.card.MaterialCardView>
