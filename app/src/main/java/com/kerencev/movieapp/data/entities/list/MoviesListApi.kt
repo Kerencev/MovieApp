@@ -1,4 +1,4 @@
-package com.kerencev.movieapp.data.entities
+package com.kerencev.movieapp.data.entities.list
 
 /**
  * Класс для записи ответа с сервера по запросу списка фильмов

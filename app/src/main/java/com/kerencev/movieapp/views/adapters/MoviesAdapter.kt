@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.MovieApi
-import com.squareup.picasso.Picasso
+import com.kerencev.movieapp.data.entities.list.MovieApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
@@ -31,7 +34,12 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             title.text = movie.title
             year.text = movie.year
             rating.text = movie.imDbRating
-            Picasso.get().load(movie.image).into(image)
+            GlobalScope.launch(Dispatchers.Main) {
+                image.load(movie.image) {
+                    crossfade(true)
+                    placeholder(R.drawable.movie)
+                }
+            }
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }
         setRightBackgroundForRating(movie, holder)
@@ -54,7 +62,7 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
         return data.size
     }
 
-    inner class MovieViewHolder(itemView: View, context: Context) :
+    inner class MovieViewHolder(itemView: View, val context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
         val title: TextView = itemView.findViewById(R.id.title)

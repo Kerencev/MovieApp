@@ -1,9 +1,9 @@
-package com.kerencev.movieapp.data
+package com.kerencev.movieapp.data.loaders
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
-import com.kerencev.movieapp.data.entities.MoviesListApi
+import com.kerencev.movieapp.data.entities.list.MoviesListApi
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -12,9 +12,15 @@ import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
+const val API_KEY = "k_62zj7tzu"
+
+/**
+ * Класс для загрузки списка фильмов по категориям через API
+ */
+
 object MovieLoader {
     fun loadMovies(category: String): MoviesListApi? {
-        val uri = URL("https://imdb-api.com/en/API/$category/k_62zj7tzu")
+        val uri = URL("https://imdb-api.com/en/API/$category/$API_KEY")
         lateinit var urlConnection: HttpsURLConnection
         return try {
             urlConnection = uri.openConnection() as HttpsURLConnection

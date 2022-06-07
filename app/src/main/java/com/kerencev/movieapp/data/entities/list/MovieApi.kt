@@ -1,10 +1,10 @@
-package com.kerencev.movieapp.data.entities
+package com.kerencev.movieapp.data.entities.list
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /**
- * Класс для записи данных конкретного фильма
+ * Класс для записи данных конкретного фильма и отображения в списке
  */
 @Parcelize
 data class MovieApi(

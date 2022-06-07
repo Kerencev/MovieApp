@@ -10,8 +10,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.MovieApi
+import com.kerencev.movieapp.data.entities.list.MovieApi
+import com.kerencev.movieapp.services.GetMovieIdService
 import com.kerencev.movieapp.views.details.DetailsFragment
+import com.kerencev.movieapp.views.main.MainFragment
 
 class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
     RecyclerView.Adapter<MoviesListAdapter.MoviesListViewHolder>() {
@@ -43,15 +45,16 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
                 override fun onItemViewClick(movie: MovieApi) {
                     fragmentManager?.let { manager ->
                         val bundle = Bundle().apply {
-                            putParcelable(DetailsFragment.BUNDLE_MOVIE, movie)
+                            putString(DetailsFragment.BUNDLE_MOVIE, movie.id)
                         }
+                        val mainFragment = manager.findFragmentByTag(MainFragment.MAIN_FRAGMENT_TAG)
                         manager.beginTransaction()
+                            .hide(mainFragment!!)
                             .add(R.id.container, DetailsFragment.newInstance(bundle))
                             .addToBackStack("")
                             .commitAllowingStateLoss()
                     }
                 }
-
             })
             recyclerView.adapter = adapter
             adapter.setData(data[position])
