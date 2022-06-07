@@ -43,8 +43,6 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
                 LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false)
             val adapter = MoviesAdapter(object : OnItemViewClickListener {
                 override fun onItemViewClick(movie: MovieApi) {
-                    //TODO Стартуем сервис для загрузки данных
-                    movie.id?.let { GetMovieIdService.start(context, it) }
                     fragmentManager?.let { manager ->
                         val bundle = Bundle().apply {
                             putString(DetailsFragment.BUNDLE_MOVIE, movie.id)

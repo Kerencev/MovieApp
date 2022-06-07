@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.list.MovieApi
@@ -35,10 +35,10 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             year.text = movie.year
             rating.text = movie.imDbRating
             GlobalScope.launch(Dispatchers.Main) {
-                Glide
-                    .with(context)
-                    .load(movie.image)
-                    .into(image);
+                image.load(movie.image) {
+                    crossfade(true)
+                    placeholder(R.drawable.movie)
+                }
             }
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }

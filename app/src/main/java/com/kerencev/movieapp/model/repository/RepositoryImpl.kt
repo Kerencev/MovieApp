@@ -2,18 +2,23 @@ package com.kerencev.movieapp.model.repository
 
 import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.entities.list.MovieApi
-import com.kerencev.movieapp.data.loaders.MovieDetailsLoader
-import com.kerencev.movieapp.data.loaders.MovieLoader
+import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
 
 class RepositoryImpl : Repository {
     override fun getMoviesFromServer(category: String): List<MovieApi>? {
-        val dto = MovieLoader.loadMovies(category)
-        return dto?.items
+        return when (val dto = MovieLoaderRetrofit.create().getMovies(category).execute().body()) {
+            null -> null
+            else -> dto.items
+        }
     }
 
     override fun getMovieDetailsFromServer(id: String): MovieDetailsApi? {
-        return MovieDetailsLoader.loadDetails(id)
+        return when (val dto = MovieLoaderRetrofit.create().getMovieDetails(id).execute().body()) {
+            null -> null
+            else -> dto
+        }
     }
+
 
     override fun getMoviesFromLocalStorage(): List<MovieApi> {
         val list = listOf(
@@ -32,9 +37,7 @@ class RepositoryImpl : Repository {
             )
         )
         val result = mutableListOf<MovieApi>()
-        for (i in 1..20) {
-            result.addAll(list)
-        }
+        repeat(20) { result.addAll(list) }
         return result
     }
 }

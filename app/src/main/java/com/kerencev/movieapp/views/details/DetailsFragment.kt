@@ -1,21 +1,19 @@
 package com.kerencev.movieapp.views.details
 
 import android.annotation.SuppressLint
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
-import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
-import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment() {
@@ -60,7 +58,10 @@ class DetailsFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setAllViewContent(moviesData: MovieDetailsApi?) = with(binding) {
-        Picasso.get().load(moviesData?.image).into(poster)
+        poster.load(moviesData?.image) {
+            crossfade(true)
+            placeholder(R.drawable.movie)
+        }
         title.text = moviesData?.title
         rating.text = "${moviesData?.imDbRating} (${moviesData?.imDbRatingVotes})"
         details.text =

@@ -17,20 +17,21 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_image"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/width_image_details"
+        android:layout_height="@dimen/height_image_details"
         app:cardCornerRadius="@dimen/card_elevation"
-        app:cardElevation="12dp"
+        app:cardElevation="@dimen/padding_recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/poster"
-            android:layout_width="208dp"
-            android:layout_height="308dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/poster_film"
+            android:scaleType="fitXY"
             tools:src="@drawable/movie" />
 
     </com.google.android.material.card.MaterialCardView>
