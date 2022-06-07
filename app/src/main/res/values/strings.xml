@@ -9,4 +9,9 @@
     <string name="coming_soon">Coming soon</string>
     <string name="api_most_popular">MostPopularMovies</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="cast_group">Съёмочная группа</string>
+    <string name="description">Описание</string>
+    <string name="unroll">Развернуть</string>
+    <string name="roll_up">Свернуть</string>
+    <string name="actor">Actor</string>
 </resources>
