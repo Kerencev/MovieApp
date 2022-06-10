@@ -26,38 +26,11 @@
         app:layout_constraintTop_toTopOf="@id/image">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Leonardo DiCaprio" />
 
-        <TextView
-            android:id="@+id/name_character"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="'Cobbas Cobb'" />
-
-        <TextView
-            android:id="@+id/post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/actor" />
-
-        <TextView
-            android:id="@+id/years_old"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="46 y.o" />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/margin_top_divider"
-        android:background="@color/my_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

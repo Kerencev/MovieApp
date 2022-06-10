@@ -14,4 +14,11 @@
     <string name="unroll">Развернуть</string>
     <string name="roll_up">Свернуть</string>
     <string name="actor">Actor</string>
+    <string name="directors">Режиссёры</string>
+    <string name="director">Режиссёр</string>
+    <string name="main">Главная</string>
+    <string name="favourites">Избранное</string>
+    <string name="search">Поиск</string>
+    <string name="history">История</string>
+    <string name="settings">Настройки</string>
 </resources>

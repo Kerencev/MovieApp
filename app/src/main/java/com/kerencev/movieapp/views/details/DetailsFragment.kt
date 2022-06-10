@@ -7,23 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.entities.name.NameData
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
+import com.kerencev.movieapp.model.helpers.FormatActorName
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.roundToInt
 
 class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     private val viewModel: DetailsViewModel by viewModel()
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
+    private val rollUP: String by lazy { resources.getString(R.string.roll_up) }
+    private val unroll: String by lazy { resources.getString(R.string.unroll) }
+    private val limitedActorsListHeight: Float by lazy { resources.getDimension(R.dimen.limited_actors_list_height) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +47,12 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         val dataObserver = Observer<DetailsState> { id?.let { id -> renderData(it, id) } }
         viewModel.liveData.observe(viewLifecycleOwner, dataObserver)
         id?.let { viewModel.getMovieDetails(it) }
+        val nameDataObserver = Observer<List<NameData>> { listNameData ->
+            if (viewModel.liveNameData.value?.size ?: 0 > 0) {
+                renderDirectorsList(listNameData)
+            }
+        }
+        viewModel.liveNameData.observe(viewLifecycleOwner, nameDataObserver)
     }
 
     override fun onDestroyView() {
@@ -65,29 +78,48 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
+    private fun renderDirectorsList(listNameData: List<NameData>?) = with(binding) {
+        listNameData?.forEach { nameData ->
+            launch(Dispatchers.Main) {
+                val view = layoutInflater.inflate(R.layout.item_director, null, false)
+                val directorImage = view.findViewById<ImageView>(R.id.image)
+                val nameView = view.findViewById<TextView>(R.id.tv_name)
+                directorImage.load(nameData.image) {
+                    crossfade(true)
+                    placeholder(R.drawable.movie)
+                }
+                nameView.text = nameData.name
+                linearDirectorsList.addView(view)
+            }
+        }
+    }
+
     private fun setAllClicks() = with(binding) {
         actionUnrollDescription.setOnClickListener {
-            if (description.maxLines == 200) {
-                description.maxLines = 4
-                actionUnrollDescription.setText(R.string.unroll)
-            } else {
-                description.maxLines = 200
-                actionUnrollDescription.setText(R.string.roll_up)
+            when (description.maxLines) {
+                DESCRIPTION_UNLIMITED_HEIGHT -> {
+                    description.maxLines = DESCRIPTION_LIMITED_HEIGHT
+                    actionUnrollDescription.text = unroll
+                }
+                else -> {
+                    description.maxLines = DESCRIPTION_UNLIMITED_HEIGHT
+                    actionUnrollDescription.text = rollUP
+                }
             }
         }
         actionUnrollCastGroup.setOnClickListener {
-            val s = actionUnrollCastGroup.text.toString()
-            if (s.equals("Развернуть")) {
-                val params = linear.layoutParams
+            val actionRollBtn = actionUnrollCastGroup.text.toString()
+            if (actionRollBtn == unroll) {
+                val params = linearActorsList.layoutParams
                 params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                linear.layoutParams = params
-                actionUnrollCastGroup.text = "Свернуть"
-                scroll.smoothScrollTo(0, linear.bottom)
+                linearActorsList.layoutParams = params
+                actionUnrollCastGroup.text = rollUP
+                scroll.smoothScrollTo(0, linearFullActorTitle.top)
             } else {
-                val params = linear.layoutParams
-                params.height = 300
-                linear.layoutParams = params
-                actionUnrollCastGroup.text = "Развернуть"
+                val params = linearActorsList.layoutParams
+                params.height = limitedActorsListHeight.toInt()
+                linearActorsList.layoutParams = params
+                actionUnrollCastGroup.text = unroll
             }
         }
     }
@@ -122,7 +154,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 }
                 name.text = actor.name
                 nameAsCharacter.text = actor.asCharacter
-                linear.addView(view)
+                linearActorsList.addView(view)
             }
         }
     }
@@ -138,6 +170,8 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     companion object {
         const val BUNDLE_MOVIE = "BUNDLE_MOVIE"
+        private const val DESCRIPTION_LIMITED_HEIGHT = 4
+        private const val DESCRIPTION_UNLIMITED_HEIGHT = 1000
 
         fun newInstance(bundle: Bundle): DetailsFragment {
             val fragment = DetailsFragment()

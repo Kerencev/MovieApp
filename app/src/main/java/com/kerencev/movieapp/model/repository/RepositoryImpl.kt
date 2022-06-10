@@ -2,6 +2,7 @@ package com.kerencev.movieapp.model.repository
 
 import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.entities.list.MovieApi
+import com.kerencev.movieapp.data.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
 
 class RepositoryImpl : Repository {
@@ -14,6 +15,13 @@ class RepositoryImpl : Repository {
 
     override fun getMovieDetailsFromServer(id: String): MovieDetailsApi? {
         return when (val dto = MovieLoaderRetrofit.create().getMovieDetails(id).execute().body()) {
+            null -> null
+            else -> dto
+        }
+    }
+
+    override fun getNameDataFromServer(id: String): NameData? {
+        return when (val dto = MovieLoaderRetrofit.create().getNameData(id).execute().body()) {
             null -> null
             else -> dto
         }

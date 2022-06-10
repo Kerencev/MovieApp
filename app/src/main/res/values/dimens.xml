@@ -18,4 +18,8 @@
     <dimen name="padding_details_fragment">4dp</dimen>
     <dimen name="text_size_movie_details">12sp</dimen>
     <dimen name="something_wrong_text_size">24sp</dimen>
+    <dimen name="limited_actors_list_height">300dp</dimen>
+    <dimen name="height_bottom_navigation">58dp</dimen>
+    <dimen name="padding_tv_title">12dp</dimen>
+    <dimen name="margin_top_divider">2dp</dimen>
 </resources>

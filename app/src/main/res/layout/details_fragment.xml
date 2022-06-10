@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scroll"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/card_elevation">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/action_like"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/card_image"
+            app:layout_constraintTop_toTopOf="@id/card_image" />
 
         <ProgressBar
             android:id="@+id/progress_bar_details"
@@ -25,6 +33,7 @@
             android:id="@+id/card_image"
             android:layout_width="@dimen/width_image_details"
             android:layout_height="@dimen/height_image_details"
+            android:layout_marginTop="@dimen/card_elevation"
             app:cardCornerRadius="@dimen/card_elevation"
             app:cardElevation="@dimen/padding_recycler"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +55,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/card_elevation"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textStyle="bold|italic"
@@ -83,6 +93,7 @@
             android:id="@+id/details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/card_elevation"
             android:gravity="center"
             android:textSize="@dimen/text_size_movie_details"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,62 +101,112 @@
             app:layout_constraintTop_toBottomOf="@id/linear_rating"
             tools:text="2021, комедия, семейный\nРоссия, 1h 45min" />
 
-        <TextView
-            android:id="@+id/tv_description"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:background="@color/my_gray"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details" />
+            app:layout_constraintTop_toBottomOf="@id/details">
+
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/description"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+            <TextView
+                android:id="@+id/action_unroll_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/unroll"
+                android:textColor="@color/green" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <TextView
             android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_details_fragment"
+            android:background="@drawable/stroke_background"
+            android:maxLines="4"
+            android:padding="@dimen/card_elevation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description"
-            android:maxLines="4"
+            app:layout_constraintTop_toBottomOf="@id/linear_description"
             tools:text="ndfjsbnjbnsdjkbjkdsfjkljnfdsjnjsfdjkfsdkjknsdfjnjksfdjkjsdfnjknsdjfnfjkndfnjnjfdjknfdjsknjsdfnjknsdfjknjsdnfjknsdjfnjknjdskfnjksdfjnjndsjkfjfdsnjjnsdjfjfdsnjkfdnnkdsfnjbdsfjabjak lk dsfajbdablkjafjafjk k asdjlkf  adsfj das fad hjsdfaj daf k fbjdasbjdbsfjkdasbfjkdsfk hkd sfajk afdjbdasjfdsjfj ja dafjksd f jkadsf" />
 
         <TextView
-            android:id="@+id/action_unroll_description"
+            android:id="@+id/tv_directors"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_description"
-            android:gravity="end"
-            android:text="@string/unroll"/>
-
-        <TextView
-            android:id="@+id/tv_cast_group"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/cast_group"
+            android:layout_marginTop="@dimen/corners_radius"
+            android:background="@color/my_gray"
+            android:padding="@dimen/padding_tv_title"
+            android:text="@string/director"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description" />
 
-        <TextView
-            android:id="@+id/action_unroll_cast_group"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear_directors_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="end"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_cast_group"
-            android:text="@string/unroll"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_directors" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linear"
+            android:id="@+id/linear_full_actor_title"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/corners_radius"
+            android:background="@color/my_gray"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_directors_list">
+
+            <TextView
+                android:id="@+id/tv_cast_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cast_group"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+            <TextView
+                android:id="@+id/action_unroll_cast_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/unroll"
+                android:textColor="@color/green" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear_actors_list"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/limited_actors_list_height"
             android:orientation="vertical"
             app:flow_maxElementsWrap="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_cast_group" />
+            app:layout_constraintTop_toBottomOf="@id/linear_full_actor_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
