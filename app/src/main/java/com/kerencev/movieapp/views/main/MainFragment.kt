@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.databinding.MainFragmentBinding
 import com.kerencev.movieapp.model.appstate.MainState
 import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR

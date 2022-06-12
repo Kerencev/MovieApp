@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.MovieDetailsLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

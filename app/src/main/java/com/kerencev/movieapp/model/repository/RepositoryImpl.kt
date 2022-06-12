@@ -1,11 +1,13 @@
 package com.kerencev.movieapp.model.repository
 
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.entities.list.MovieApi
-import com.kerencev.movieapp.data.entities.name.NameData
+import com.kerencev.movieapp.data.database.DataBase
+import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
 
-class RepositoryImpl : Repository {
+class RepositoryImpl(private val db: DataBase) : Repository {
     override fun getMoviesFromServer(category: String): List<MovieApi>? {
         return when (val dto = MovieLoaderRetrofit.create().getMovies(category).execute().body()) {
             null -> null
@@ -27,7 +29,6 @@ class RepositoryImpl : Repository {
         }
     }
 
-
     override fun getMoviesFromLocalStorage(): List<MovieApi> {
         val list = listOf(
             MovieApi(
@@ -47,5 +48,43 @@ class RepositoryImpl : Repository {
         val result = mutableListOf<MovieApi>()
         repeat(20) { result.addAll(list) }
         return result
+    }
+
+    override fun saveEntity(movie: MovieApi) {
+        db.likedMovieDao().insert(convertMovieApiToLikedMovieEntity(movie))
+    }
+
+    override fun deleteEntity(id: String) {
+        db.likedMovieDao().deleteById(id)
+    }
+
+    override fun getAllLikedMovie(): List<MovieApi> {
+        return convertLikedMovieEntityToMovieApi(db.likedMovieDao().getAll())
+    }
+
+    override fun isLikedMovie(id: String): Boolean {
+        return db.likedMovieDao().exists(id)
+    }
+
+    private fun convertLikedMovieEntityToMovieApi(entityList: List<LikedMovieEntity>): List<MovieApi> {
+        return entityList.map { likedMovieEntity ->
+            MovieApi(
+                id = likedMovieEntity.id,
+                title = likedMovieEntity.title,
+                year = likedMovieEntity.year,
+                imDbRating = likedMovieEntity.rating,
+                image = likedMovieEntity.poster
+                )
+        }
+    }
+
+    private fun convertMovieApiToLikedMovieEntity(movie: MovieApi): LikedMovieEntity {
+        return LikedMovieEntity(
+            id = movie.id!!,
+            poster = movie.image!!,
+            title = movie.title!!,
+            rating = movie.imDbRating ?: "0.0",
+            year = movie.year!!
+        )
     }
 }

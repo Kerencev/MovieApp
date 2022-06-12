@@ -10,8 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.list.MovieApi
-import com.kerencev.movieapp.services.GetMovieIdService
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.views.details.DetailsFragment
 import com.kerencev.movieapp.views.main.MainFragment
 

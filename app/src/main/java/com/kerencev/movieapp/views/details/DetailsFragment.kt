@@ -3,25 +3,27 @@ package com.kerencev.movieapp.views.details
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
-import com.kerencev.movieapp.model.helpers.FormatActorName
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.roundToInt
 
 class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
@@ -44,15 +46,23 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = arguments?.getString(BUNDLE_MOVIE)
+
         val dataObserver = Observer<DetailsState> { id?.let { id -> renderData(it, id) } }
         viewModel.liveData.observe(viewLifecycleOwner, dataObserver)
         id?.let { viewModel.getMovieDetails(it) }
+
         val nameDataObserver = Observer<List<NameData>> { listNameData ->
             if (viewModel.liveNameData.value?.size ?: 0 > 0) {
                 renderDirectorsList(listNameData)
             }
         }
         viewModel.liveNameData.observe(viewLifecycleOwner, nameDataObserver)
+
+        val isLikedMovieObserver = Observer<Boolean> { changeLikeIcon(it) }
+        viewModel.liveDataIsLiked.observe(viewLifecycleOwner, isLikedMovieObserver)
+        id?.let { viewModel.isLikedMovie(it) }
+
+        setToolbarClicks()
     }
 
     override fun onDestroyView() {
@@ -121,6 +131,28 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 linearActorsList.layoutParams = params
                 actionUnrollCastGroup.text = unroll
             }
+        }
+    }
+
+    private fun setToolbarClicks() = with(binding) {
+        toolbar.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener,
+            androidx.appcompat.widget.Toolbar.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                when (item?.itemId) {
+                    R.id.action_like -> viewModel.saveLikedMovieInDataBase()
+                }
+                return true
+            }
+        })
+    }
+
+    private fun changeLikeIcon(isLiked: Boolean?) {
+        when (isLiked) {
+            true -> binding.toolbar.menu.getItem(0).icon = resources.getDrawable(R.drawable.favorite_check)
+            false -> binding.toolbar.menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_baseline_favorite_border_24)
         }
     }
 

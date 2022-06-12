@@ -1,8 +1,8 @@
 package com.kerencev.movieapp.data.loaders
 
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.entities.list.MoviesListApi
-import com.kerencev.movieapp.data.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
+import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

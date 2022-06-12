@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.model.helpers.FormatActorName
 import com.kerencev.movieapp.model.repository.Repository
@@ -13,12 +14,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(private val repository: Repository) : ViewModel() {
+    private var movieData: MovieDetailsApi? = null
     private val localLiveData = MutableLiveData<DetailsState>()
     val liveData: LiveData<DetailsState> get() = localLiveData
     private val localLiveNameData = MutableLiveData<List<NameData>>()
     val liveNameData: LiveData<List<NameData>> get() = localLiveNameData
+    private val localLiveDataIsLiked = MutableLiveData<Boolean>(false)
+    val liveDataIsLiked: MutableLiveData<Boolean> get() = localLiveDataIsLiked
 
     fun getMovieDetails(id: String) = getDataFromServer(id)
+    fun isLikedMovie(id: String) = checkLikedMovieDataBase(id)
+
+    private fun checkLikedMovieDataBase(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            localLiveDataIsLiked.postValue(repository.isLikedMovie(id))
+        }
+    }
 
     private fun getDataFromServer(id: String) {
         localLiveData.value = DetailsState.Loading
@@ -29,6 +40,7 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
                     formatActorsListName(movieDetails)
                     localLiveData.postValue(DetailsState.Success(movieDetails))
                     getNameDataFromServer(getIdDirectorsList(movieDetails))
+                    movieData = movieDetails
                 }
             }
         }
@@ -57,5 +69,26 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
             idList.add(director.id)
         }
         return idList
+    }
+
+    fun saveLikedMovieInDataBase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val isLikedMovie = repository.isLikedMovie(movieData?.id ?: "0")
+            if (isLikedMovie) {
+                movieData?.let { repository.deleteEntity(it.id) }
+                localLiveDataIsLiked.postValue(false)
+            } else {
+                repository.saveEntity(
+                    MovieApi(
+                        id = movieData?.id,
+                        title = movieData?.title,
+                        year = movieData?.year,
+                        image = movieData?.image,
+                        imDbRating = movieData?.imDbRating
+                    )
+                )
+                localLiveDataIsLiked.postValue(true)
+            }
+        }
     }
 }

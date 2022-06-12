@@ -11,14 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/action_like"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/card_image"
-            app:layout_constraintTop_toTopOf="@id/card_image" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:menu="@menu/details_toolbar"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar_details"
@@ -38,7 +46,7 @@
             app:cardElevation="@dimen/padding_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/app_bar">
 
             <ImageView
                 android:id="@+id/poster"
