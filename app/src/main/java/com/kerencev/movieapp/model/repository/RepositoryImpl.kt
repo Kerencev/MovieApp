@@ -2,6 +2,7 @@ package com.kerencev.movieapp.model.repository
 
 import com.kerencev.movieapp.data.database.DataBase
 import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
+import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
@@ -50,11 +51,11 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         return result
     }
 
-    override fun saveEntity(movie: MovieApi) {
+    override fun saveLikedMovieEntity(movie: MovieApi) {
         db.likedMovieDao().insert(convertMovieApiToLikedMovieEntity(movie))
     }
 
-    override fun deleteEntity(id: String) {
+    override fun deleteLikedMovieEntity(id: String) {
         db.likedMovieDao().deleteById(id)
     }
 
@@ -64,6 +65,14 @@ class RepositoryImpl(private val db: DataBase) : Repository {
 
     override fun isLikedMovie(id: String): Boolean {
         return db.likedMovieDao().exists(id)
+    }
+
+    override fun saveNoteEntity(note: NoteEntity) {
+        db.noteDao().insert(note)
+    }
+
+    override fun getNote(id: String): NoteEntity {
+        return db.noteDao().getById(id)
     }
 
     private fun convertLikedMovieEntityToMovieApi(entityList: List<LikedMovieEntity>): List<MovieApi> {

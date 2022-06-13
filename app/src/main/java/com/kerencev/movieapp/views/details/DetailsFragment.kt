@@ -19,6 +19,8 @@ import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
+import com.kerencev.movieapp.viewmodels.NoteViewModel
+import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -28,11 +30,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     private val viewModel: DetailsViewModel by viewModel()
+    private val noteViewModel: NoteViewModel by viewModel()
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
     private val rollUP: String by lazy { resources.getString(R.string.roll_up) }
     private val unroll: String by lazy { resources.getString(R.string.unroll) }
     private val limitedActorsListHeight: Float by lazy { resources.getDimension(R.dimen.limited_actors_list_height) }
+    private var id: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +49,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = arguments?.getString(BUNDLE_MOVIE)
+        id = arguments?.getString(BUNDLE_MOVIE)
 
         val dataObserver = Observer<DetailsState> { id?.let { id -> renderData(it, id) } }
         viewModel.liveData.observe(viewLifecycleOwner, dataObserver)
@@ -143,6 +147,11 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 when (item?.itemId) {
                     R.id.action_like -> viewModel.saveLikedMovieInDataBase()
+                    R.id.action_add_note -> id?.let {
+                        NoteDialogFragment.newInstance(it).show(
+                            parentFragmentManager, ""
+                        )
+                    }
                 }
                 return true
             }

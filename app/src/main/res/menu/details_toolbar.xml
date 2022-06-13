@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_like"
-        android:title="@string/like"
         android:icon="@drawable/ic_baseline_favorite_border_24"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/like"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add_note"
+        android:icon="@drawable/ic_baseline_edit_note_24"
+        android:title="@string/note"
+        app:showAsAction="always" />
 </menu>

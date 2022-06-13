@@ -4,10 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class LikedMovieEntity(
+data class NoteEntity(
     @PrimaryKey(autoGenerate = false) val id: String,
-    val poster: String,
-    val title: String,
-    val rating: String,
-    val year: String
+    val rating: Int,
+    val note: String
 )

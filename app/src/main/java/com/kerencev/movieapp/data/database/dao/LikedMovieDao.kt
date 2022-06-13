@@ -1,4 +1,4 @@
-package com.kerencev.movieapp.data.database
+package com.kerencev.movieapp.data.database.dao
 
 import androidx.room.*
 import com.kerencev.movieapp.data.database.entities.LikedMovieEntity

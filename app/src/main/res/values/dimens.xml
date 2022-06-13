@@ -22,4 +22,9 @@
     <dimen name="height_bottom_navigation">58dp</dimen>
     <dimen name="padding_tv_title">12dp</dimen>
     <dimen name="margin_top_divider">2dp</dimen>
+    <dimen name="margin_top_linear_for_stars">8dp</dimen>
+    <dimen name="padding_dialog_note">8dp</dimen>
+    <dimen name="margin_button_dialog_note">32dp</dimen>
+    <dimen name="margin_top_dialog_button">20dp</dimen>
+    <dimen name="rating_star_size">28dp</dimen>
 </resources>

@@ -75,10 +75,10 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val isLikedMovie = repository.isLikedMovie(movieData?.id ?: "0")
             if (isLikedMovie) {
-                movieData?.let { repository.deleteEntity(it.id) }
+                movieData?.let { repository.deleteLikedMovieEntity(it.id) }
                 localLiveDataIsLiked.postValue(false)
             } else {
-                repository.saveEntity(
+                repository.saveLikedMovieEntity(
                     MovieApi(
                         id = movieData?.id,
                         title = movieData?.title,
