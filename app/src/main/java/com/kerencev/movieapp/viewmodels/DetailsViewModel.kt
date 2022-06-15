@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.model.helpers.FormatActorName
@@ -26,6 +25,7 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
     val noteData: MutableLiveData<NoteEntity?> get() = localNoteData
 
     fun getMovieDetails(id: String) = getDataFromServer(id)
+
     fun isLikedMovie(id: String) = checkLikedMovieDataBase(id)
 
     fun saveLikedMovieInDataBase() {
@@ -35,17 +35,15 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
                 movieData?.let { repository.deleteLikedMovieEntity(it.id) }
                 localLiveDataIsLiked.postValue(false)
             } else {
-                repository.saveLikedMovieEntity(
-                    MovieApi(
-                        id = movieData?.id,
-                        title = movieData?.title,
-                        year = movieData?.year,
-                        image = movieData?.image,
-                        imDbRating = movieData?.imDbRating
-                    )
-                )
+                movieData?.let { repository.saveLikedMovieEntity(it) }
                 localLiveDataIsLiked.postValue(true)
             }
+        }
+    }
+
+    private fun saveHistory(movie: MovieDetailsApi) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveHistory(movie)
         }
     }
 
@@ -72,6 +70,7 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
                     localLiveData.postValue(DetailsState.Success(movieDetails))
                     getNameDataFromServer(getIdDirectorsList(movieDetails))
                     movieData = movieDetails
+                    saveHistory(movieDetails)
                 }
             }
         }

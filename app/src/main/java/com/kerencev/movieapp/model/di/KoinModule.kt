@@ -4,10 +4,7 @@ import androidx.room.Room
 import com.kerencev.movieapp.data.database.DataBase
 import com.kerencev.movieapp.model.repository.Repository
 import com.kerencev.movieapp.model.repository.RepositoryImpl
-import com.kerencev.movieapp.viewmodels.DetailsViewModel
-import com.kerencev.movieapp.viewmodels.FavoritesViewModel
-import com.kerencev.movieapp.viewmodels.MainViewModel
-import com.kerencev.movieapp.viewmodels.NoteViewModel
+import com.kerencev.movieapp.viewmodels.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,4 +23,5 @@ val appModule = module {
     viewModel { DetailsViewModel(get()) }
     viewModel { FavoritesViewModel(get()) }
     viewModel { NoteViewModel(get()) }
+    viewModel { HistoryViewModel(get()) }
 }

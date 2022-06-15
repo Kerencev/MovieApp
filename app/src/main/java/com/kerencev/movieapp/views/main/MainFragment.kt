@@ -30,8 +30,14 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.registerReceiver(receiverNetworkChange, IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
-        activity?.registerReceiver(receiverLoadMovieDetails, IntentFilter("com.kerencev.movieapp.load.movie.details"))
+        activity?.registerReceiver(
+            receiverNetworkChange,
+            IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+        )
+        activity?.registerReceiver(
+            receiverLoadMovieDetails,
+            IntentFilter("com.kerencev.movieapp.load.movie.details")
+        )
     }
 
     override fun onCreateView(
@@ -55,7 +61,6 @@ class MainFragment : Fragment() {
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
-
         adapter = MoviesListAdapter(fragmentManager = parentFragmentManager)
         recyclerView.adapter = adapter
     }

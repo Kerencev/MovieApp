@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.MainActivityBinding
 import com.kerencev.movieapp.views.favorites.FavoritesFragment
+import com.kerencev.movieapp.views.history.HistoryFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +35,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.main -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
+                        .commitAllowingStateLoss()
+                }
+                R.id.history -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, HistoryFragment())
                         .commitAllowingStateLoss()
                 }
             }

@@ -19,8 +19,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-//TODO Сделать так, что при отображении звёзд, если рейтинг уже был по клику на сохранение сохранялся актуальный рейтинг
-
 class NoteDialogFragment : DialogFragment(), CoroutineScope by MainScope() {
     private val noteViewModel: NoteViewModel by viewModel()
     private lateinit var editText: AppCompatEditText
@@ -38,7 +36,6 @@ class NoteDialogFragment : DialogFragment(), CoroutineScope by MainScope() {
 
         btnSave.setOnClickListener {
             id?.let { id ->
-                //TODO разобраться где запускат корутины, что бы отображать рейтинг в DetailsFragment
                 launch(Dispatchers.IO) {
                     noteViewModel.saveNoteInDataBase(id, editText.text.toString())
                     setFragmentResult(id)
@@ -125,7 +122,6 @@ class NoteDialogFragment : DialogFragment(), CoroutineScope by MainScope() {
         const val BUNDLE_ID = "BUNDLE_ID"
         const val RESULT_SAVED_RATING = "RESULT_SAVED_RATING"
         const val BUNDLE_NOTE_ID = "BUNDLE_ID"
-
 
         fun newInstance(id: String): NoteDialogFragment {
             val fragment = NoteDialogFragment()

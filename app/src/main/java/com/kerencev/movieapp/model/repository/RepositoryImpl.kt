@@ -1,12 +1,14 @@
 package com.kerencev.movieapp.model.repository
 
 import com.kerencev.movieapp.data.database.DataBase
+import com.kerencev.movieapp.data.database.entities.HistoryEntity
 import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
+import com.kerencev.movieapp.model.helpers.MyDate
 
 class RepositoryImpl(private val db: DataBase) : Repository {
     override fun getMoviesFromServer(category: String): List<MovieApi>? {
@@ -51,8 +53,8 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         return result
     }
 
-    override fun saveLikedMovieEntity(movie: MovieApi) {
-        db.likedMovieDao().insert(convertMovieApiToLikedMovieEntity(movie))
+    override fun saveLikedMovieEntity(movie: MovieDetailsApi) {
+        db.likedMovieDao().insert(convertMovieDetailsApiToLikedMovieEntity(movie))
     }
 
     override fun deleteLikedMovieEntity(id: String) {
@@ -75,6 +77,18 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         return db.noteDao().getById(id)
     }
 
+    override fun saveHistory(movie: MovieDetailsApi) {
+        db.historyDao().insert(convertMovieDetailsApiToHistoryEntity(movie))
+    }
+
+    override fun getAllHistory(): List<HistoryEntity> {
+        return db.historyDao().getAll()
+    }
+
+    override fun clearHistory() {
+        db.historyDao().deleteAll()
+    }
+
     private fun convertLikedMovieEntityToMovieApi(entityList: List<LikedMovieEntity>): List<MovieApi> {
         return entityList.map { likedMovieEntity ->
             MovieApi(
@@ -94,6 +108,28 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             title = movie.title!!,
             rating = movie.imDbRating ?: "0.0",
             year = movie.year!!
+        )
+    }
+
+    private fun convertMovieDetailsApiToHistoryEntity(movie: MovieDetailsApi): HistoryEntity {
+        return HistoryEntity(
+            id = movie.id,
+            poster = movie.image,
+            title = movie.title,
+            rating = movie.imDbRating,
+            year = movie.year,
+            date = MyDate.getDate(),
+            createdAt = System.currentTimeMillis()
+        )
+    }
+
+    private fun convertMovieDetailsApiToLikedMovieEntity(movie: MovieDetailsApi): LikedMovieEntity {
+        return LikedMovieEntity(
+            id = movie.id,
+            poster = movie.image,
+            title = movie.title,
+            rating = movie.imDbRating,
+            year = movie.year
         )
     }
 }

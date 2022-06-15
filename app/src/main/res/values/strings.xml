@@ -29,4 +29,6 @@
     <string name="cancel">Отмена</string>
     <string name="rating">Оценка</string>
     <string name="my_rating">Мой рейтинг</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="empty">Пусто</string>
 </resources>

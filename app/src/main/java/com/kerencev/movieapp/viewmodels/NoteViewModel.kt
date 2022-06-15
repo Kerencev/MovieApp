@@ -25,15 +25,12 @@ class NoteViewModel(private val repository: Repository) : ViewModel() {
         if (rating == 0 && note.isEmpty()) {
             return
         }
-        //TODO разобраться где запускат корутины, что бы отображать рейтинг в DetailsFragment
-//        viewModelScope.launch(Dispatchers.IO) {
-            val data = NoteEntity(
-                id = id,
-                rating = rating,
-                note = note
-            )
-            repository.saveNoteEntity(data)
-//        }
+        val data = NoteEntity(
+            id = id,
+            rating = rating,
+            note = note
+        )
+        repository.saveNoteEntity(data)
     }
 
     fun getNote(id: String) {
