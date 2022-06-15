@@ -53,7 +53,6 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
         }
     }
 
-
     override fun getItemCount(): Int {
         return data.size
     }

@@ -14,12 +14,12 @@ import androidx.lifecycle.Observer
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
+import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
-import com.kerencev.movieapp.viewmodels.NoteViewModel
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     private val viewModel: DetailsViewModel by viewModel()
-    private val noteViewModel: NoteViewModel by viewModel()
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
     private val rollUP: String by lazy { resources.getString(R.string.roll_up) }
@@ -50,28 +49,58 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         id = arguments?.getString(BUNDLE_MOVIE)
-
-        val dataObserver = Observer<DetailsState> { id?.let { id -> renderData(it, id) } }
-        viewModel.liveData.observe(viewLifecycleOwner, dataObserver)
-        id?.let { viewModel.getMovieDetails(it) }
-
-        val nameDataObserver = Observer<List<NameData>> { listNameData ->
-            if (viewModel.liveNameData.value?.size ?: 0 > 0) {
-                renderDirectorsList(listNameData)
-            }
-        }
-        viewModel.liveNameData.observe(viewLifecycleOwner, nameDataObserver)
-
-        val isLikedMovieObserver = Observer<Boolean> { changeLikeIcon(it) }
-        viewModel.liveDataIsLiked.observe(viewLifecycleOwner, isLikedMovieObserver)
-        id?.let { viewModel.isLikedMovie(it) }
-
+        initMainDataObserver()
+        initDirectorsDataObserver()
+        initLikedMovieDataObserver()
+        initUserRatingDataObserver()
+        initListenerOnChangeUserRating()
         setToolbarClicks()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initLikedMovieDataObserver() {
+        val isLikedMovieObserver = Observer<Boolean> { changeLikeIcon(it) }
+        viewModel.liveDataIsLiked.observe(viewLifecycleOwner, isLikedMovieObserver)
+        id?.let { viewModel.isLikedMovie(it) }
+    }
+
+    private fun initMainDataObserver() {
+        val dataObserver = Observer<DetailsState> { id?.let { id -> renderData(it, id) } }
+        viewModel.liveData.observe(viewLifecycleOwner, dataObserver)
+        id?.let { viewModel.getMovieDetails(it) }
+    }
+
+    private fun initDirectorsDataObserver() {
+        val nameDataObserver = Observer<List<NameData>> { listNameData ->
+            if (viewModel.liveNameData.value?.size ?: 0 > 0) {
+                renderDirectorsList(listNameData)
+            }
+        }
+        viewModel.liveNameData.observe(viewLifecycleOwner, nameDataObserver)
+    }
+
+    private fun initUserRatingDataObserver() {
+        val noteObserver = Observer<NoteEntity?> { renderRatingView(it) }
+        viewModel.noteData.observe(viewLifecycleOwner, noteObserver)
+        id?.let { viewModel.getNote(it) }
+    }
+
+    private fun initListenerOnChangeUserRating() {
+        parentFragmentManager.setFragmentResultListener(
+            NoteDialogFragment.RESULT_SAVED_RATING,
+            viewLifecycleOwner
+        ) { requestKey, result ->
+            viewModel.getNote(
+                result.getString(
+                    NoteDialogFragment.BUNDLE_NOTE_ID,
+                    ""
+                )
+            )
+        }
     }
 
     private fun renderData(detailsState: DetailsState, id: String) = with(binding) {
@@ -89,6 +118,38 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 progressBarDetails.visibility = View.GONE
                 setErrorInfo(id)
             }
+        }
+    }
+
+    private fun renderRatingView(note: NoteEntity?) = with(binding) {
+        if (note == null) {
+            return
+        }
+        when (note.rating) {
+            0 -> userRating.visibility = View.GONE
+            else -> {
+                userRating.visibility = View.VISIBLE
+                userRating.text = note.rating.toString()
+                changeUserRatingTextColor(note.rating)
+            }
+        }
+        when {
+            note.note.isEmpty() -> userNote.visibility = View.GONE
+            else -> {
+                userNote.visibility = View.VISIBLE
+                userNote.text = note.note
+            }
+        }
+    }
+
+    private fun changeUserRatingTextColor(rating: Int) = with(binding) {
+        when {
+            rating == 0 -> {
+                userRating.setTextColor(resources.getColor(R.color.black))
+                return
+            }
+            rating < 5 -> userRating.setTextColor(resources.getColor(R.color.red))
+            else -> userRating.setTextColor(resources.getColor(R.color.green))
         }
     }
 
@@ -136,22 +197,24 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 actionUnrollCastGroup.text = unroll
             }
         }
+        cardUserRating.setOnClickListener {
+            id?.let { id ->
+                NoteDialogFragment.newInstance(id).show(
+                    parentFragmentManager, ""
+                )
+            }
+        }
     }
 
     private fun setToolbarClicks() = with(binding) {
         toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
-        toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener,
+        toolbar.setOnMenuItemClickListener(object : Toolbar.OnMenuItemClickListener,
             androidx.appcompat.widget.Toolbar.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 when (item?.itemId) {
                     R.id.action_like -> viewModel.saveLikedMovieInDataBase()
-                    R.id.action_add_note -> id?.let {
-                        NoteDialogFragment.newInstance(it).show(
-                            parentFragmentManager, ""
-                        )
-                    }
                 }
                 return true
             }
@@ -160,8 +223,10 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     private fun changeLikeIcon(isLiked: Boolean?) {
         when (isLiked) {
-            true -> binding.toolbar.menu.getItem(0).icon = resources.getDrawable(R.drawable.favorite_check)
-            false -> binding.toolbar.menu.getItem(0).icon = resources.getDrawable(R.drawable.ic_baseline_favorite_border_24)
+            true -> binding.toolbar.menu.getItem(0).icon =
+                resources.getDrawable(R.drawable.favorite_check)
+            false -> binding.toolbar.menu.getItem(0).icon =
+                resources.getDrawable(R.drawable.ic_baseline_favorite_border_24)
         }
     }
 

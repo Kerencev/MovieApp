@@ -11,11 +11,17 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
-import com.kerencev.movieapp.model.appstate.DetailsState
+import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.viewmodels.NoteViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NoteDialogFragment : DialogFragment() {
+//TODO Сделать так, что при отображении звёзд, если рейтинг уже был по клику на сохранение сохранялся актуальный рейтинг
+
+class NoteDialogFragment : DialogFragment(), CoroutineScope by MainScope() {
     private val noteViewModel: NoteViewModel by viewModel()
     private lateinit var editText: AppCompatEditText
     private lateinit var arrOfStars: Array<ImageView?>
@@ -28,10 +34,16 @@ class NoteDialogFragment : DialogFragment() {
         val btnCancel = customDialog.findViewById<TextView>(R.id.action_cancel)
         arrOfStars = arrayOfNulls(10)
         initArrOfStars(arrOfStars, customDialog)
-        setStarsClickListener(arrOfStars)
+        setStarsClickListener()
 
         btnSave.setOnClickListener {
-            id?.let { id -> noteViewModel.saveNoteInDataBase(id, editText.text.toString()) }
+            id?.let { id ->
+                //TODO разобраться где запускат корутины, что бы отображать рейтинг в DetailsFragment
+                launch(Dispatchers.IO) {
+                    noteViewModel.saveNoteInDataBase(id, editText.text.toString())
+                    setFragmentResult(id)
+                }
+            }
             dismiss()
         }
         btnCancel.setOnClickListener { dismiss() }
@@ -43,6 +55,12 @@ class NoteDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(requireContext())
             .setView(customDialog)
         return builder.create()
+    }
+
+    private fun setFragmentResult(id: String) {
+        val bundle = Bundle()
+        bundle.putString(BUNDLE_NOTE_ID, id)
+        parentFragmentManager.setFragmentResult(RESULT_SAVED_RATING, bundle)
     }
 
     private fun renderData(noteEntity: NoteEntity?) {
@@ -57,124 +75,36 @@ class NoteDialogFragment : DialogFragment() {
         }
     }
 
-    private fun setStarsClickListener(arrOfStars: Array<ImageView?>) {
+    private fun setStarsClickListener() {
         arrOfStars[0]?.setOnClickListener {
-            noteViewModel.setRating(1)
-            changeColorOfStars(0)
+            when {
+                noteViewModel.getRating() == 0 -> {
+                    noteViewModel.setRating(1)
+                    changeColorOfStars(0)
+                }
+                else -> {
+                    noteViewModel.setRating(0)
+                    arrOfStars.forEach {
+                        it?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
+                    }
+
+                }
+            }
         }
-        arrOfStars[1]?.setOnClickListener {
-            noteViewModel.setRating(2)
-            changeColorOfStars(1)
-        }
-        arrOfStars[2]?.setOnClickListener {
-            noteViewModel.setRating(3)
-            changeColorOfStars(2)
-        }
-        arrOfStars[3]?.setOnClickListener {
-            noteViewModel.setRating(4)
-            changeColorOfStars(3)
-        }
-        arrOfStars[4]?.setOnClickListener {
-            noteViewModel.setRating(5)
-            changeColorOfStars(4)
-        }
-        arrOfStars[5]?.setOnClickListener {
-            noteViewModel.setRating(6)
-            changeColorOfStars(5)
-        }
-        arrOfStars[6]?.setOnClickListener {
-            noteViewModel.setRating(7)
-            changeColorOfStars(6)
-        }
-        arrOfStars[7]?.setOnClickListener {
-            noteViewModel.setRating(8)
-            changeColorOfStars(7)
-        }
-        arrOfStars[8]?.setOnClickListener {
-            noteViewModel.setRating(9)
-            changeColorOfStars(8)
-        }
-        arrOfStars[9]?.setOnClickListener {
-            noteViewModel.setRating(10)
-            changeColorOfStars(9)
+        for (i in 1 until arrOfStars.size) {
+            arrOfStars[i]?.setOnClickListener {
+                noteViewModel.setRating(i + 1)
+                changeColorOfStars(i)
+            }
         }
     }
 
     private fun changeColorOfStars(count: Int) {
-        when (count) {
-            0 -> {
-                arrOfStars[0]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                for (i in 1..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            1 -> {
-                arrOfStars[0]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                arrOfStars[1]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                for (i in 2..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            2 -> {
-                for (i in 0..2) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                for (i in 3..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            3 -> {
-                for (i in 0..3) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                for (i in 4..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            4 -> {
-                for (i in 0..4) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                for (i in 5..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            5 -> {
-                for (i in 0..5) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                for (i in 6..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            6 -> {
-                for (i in 0..6) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                for (i in 7..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            7 -> {
-                for (i in 0..7) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                for (i in 8..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-                }
-            }
-            8 -> {
-                for (i in 0..8) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-                arrOfStars[9]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
-
-            }
-            9 -> {
-                for (i in 0..9) {
-                    arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
-                }
-            }
+        for (i in 0..count) {
+            arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_24))
+        }
+        for (i in count + 1 until arrOfStars.size) {
+            arrOfStars[i]?.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_star_border_24))
         }
     }
 
@@ -193,6 +123,9 @@ class NoteDialogFragment : DialogFragment() {
 
     companion object {
         const val BUNDLE_ID = "BUNDLE_ID"
+        const val RESULT_SAVED_RATING = "RESULT_SAVED_RATING"
+        const val BUNDLE_NOTE_ID = "BUNDLE_ID"
+
 
         fun newInstance(id: String): NoteDialogFragment {
             val fragment = NoteDialogFragment()
