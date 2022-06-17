@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.MainActivityBinding
+import com.kerencev.movieapp.views.contacts.ContactsFragment
 import com.kerencev.movieapp.views.favorites.FavoritesFragment
 import com.kerencev.movieapp.views.history.HistoryFragment
 
@@ -40,6 +41,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.history -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.container, HistoryFragment())
+                        .commitAllowingStateLoss()
+                }
+                R.id.search -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, ContactsFragment())
                         .commitAllowingStateLoss()
                 }
             }
