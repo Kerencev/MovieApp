@@ -16,8 +16,8 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<MainState>()
     val liveData: LiveData<MainState> get() = localLiveData
 
-    fun getMovies() = getDataFromServer()
-//    fun getMovies() = getDataFromLocalStorage()
+//    fun getMovies() = getDataFromServer()
+    fun getMovies() = getDataFromLocalStorage()
 
     private fun getDataFromServer() {
         localLiveData.value = MainState.Loading

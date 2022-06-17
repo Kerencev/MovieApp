@@ -65,7 +65,7 @@ class HistoryAdapter(private val itemClickListener: OnItemHistoryClickListener) 
     }
 
     fun setData(movies: List<HistoryEntity>) {
-        data.addAll(movies)
+        data = movies as MutableList<HistoryEntity>
         notifyDataSetChanged()
     }
 }

@@ -24,80 +24,88 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
     private val localNoteData = MutableLiveData<NoteEntity?>()
     val noteData: MutableLiveData<NoteEntity?> get() = localNoteData
 
-    fun getMovieDetails(id: String) = getDataFromServer(id)
+    //    fun getMovieDetails(id: String) = getDataFromServer(id)
+    fun getMovieDetails(id: String) = getDataFromLocalStorage()
 
-    fun isLikedMovie(id: String) = checkLikedMovieDataBase(id)
+    private fun getDataFromLocalStorage() {
+        val movieDetails = repository.getMovieDetailsFromLocalStorage()
+        localLiveData.postValue(DetailsState.Success(movieDetails))
+        movieData = movieDetails
+        saveHistory(movieDetails)
+    }
 
-    fun saveLikedMovieInDataBase() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val isLikedMovie = repository.isLikedMovie(movieData?.id ?: "0")
-            if (isLikedMovie) {
-                movieData?.let { repository.deleteLikedMovieEntity(it.id) }
-                localLiveDataIsLiked.postValue(false)
-            } else {
-                movieData?.let { repository.saveLikedMovieEntity(it) }
-                localLiveDataIsLiked.postValue(true)
+fun isLikedMovie(id: String) = checkLikedMovieDataBase(id)
+
+fun saveLikedMovieInDataBase() {
+    viewModelScope.launch(Dispatchers.IO) {
+        val isLikedMovie = repository.isLikedMovie(movieData?.id ?: "0")
+        if (isLikedMovie) {
+            movieData?.let { it.id?.let { it1 -> repository.deleteLikedMovieEntity(it1) } }
+            localLiveDataIsLiked.postValue(false)
+        } else {
+            movieData?.let { repository.saveLikedMovieEntity(it) }
+            localLiveDataIsLiked.postValue(true)
+        }
+    }
+}
+
+private fun saveHistory(movie: MovieDetailsApi) {
+    viewModelScope.launch(Dispatchers.IO) {
+        repository.saveHistory(movie)
+    }
+}
+
+fun getNote(id: String) {
+    viewModelScope.launch(Dispatchers.IO) {
+        val data = repository.getNote(id)
+        localNoteData.postValue(data)
+    }
+}
+
+private fun checkLikedMovieDataBase(id: String) {
+    viewModelScope.launch(Dispatchers.IO) {
+        localLiveDataIsLiked.postValue(repository.isLikedMovie(id))
+    }
+}
+
+private fun getDataFromServer(id: String) {
+    localLiveData.value = DetailsState.Loading
+    viewModelScope.launch(Dispatchers.IO) {
+        when (val movieDetails = repository.getMovieDetailsFromServer(id)) {
+            null -> localLiveData.postValue(DetailsState.Error)
+            else -> {
+                formatActorsListName(movieDetails)
+                localLiveData.postValue(DetailsState.Success(movieDetails))
+                getNameDataFromServer(getIdDirectorsList(movieDetails))
+                movieData = movieDetails
+                saveHistory(movieDetails)
             }
         }
     }
+}
 
-    private fun saveHistory(movie: MovieDetailsApi) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveHistory(movie)
+private fun getNameDataFromServer(idList: List<String>) {
+    viewModelScope.launch(Dispatchers.IO) {
+        val result = mutableListOf<NameData>()
+        idList.forEach() { id ->
+            val nameData = repository.getNameDataFromServer(id)
+            nameData?.let { result.add(it) }
         }
+        localLiveNameData.postValue(result)
     }
+}
 
-    fun getNote(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = repository.getNote(id)
-            localNoteData.postValue(data)
-        }
+private fun formatActorsListName(movieDetails: MovieDetailsApi) {
+    movieDetails.actorList?.forEach() { actor ->
+        actor.asCharacter = actor.asCharacter?.let { FormatActorName.getName(it) }
     }
+}
 
-    private fun checkLikedMovieDataBase(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            localLiveDataIsLiked.postValue(repository.isLikedMovie(id))
-        }
+private fun getIdDirectorsList(moviesData: MovieDetailsApi): List<String> {
+    val idList = mutableListOf<String>()
+    moviesData.directorList?.forEach() { director ->
+        director.id?.let { idList.add(it) }
     }
-
-    private fun getDataFromServer(id: String) {
-        localLiveData.value = DetailsState.Loading
-        viewModelScope.launch(Dispatchers.IO) {
-            when (val movieDetails = repository.getMovieDetailsFromServer(id)) {
-                null -> localLiveData.postValue(DetailsState.Error)
-                else -> {
-                    formatActorsListName(movieDetails)
-                    localLiveData.postValue(DetailsState.Success(movieDetails))
-                    getNameDataFromServer(getIdDirectorsList(movieDetails))
-                    movieData = movieDetails
-                    saveHistory(movieDetails)
-                }
-            }
-        }
-    }
-
-    private fun getNameDataFromServer(idList: List<String>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = mutableListOf<NameData>()
-            idList.forEach() { id ->
-                val nameData = repository.getNameDataFromServer(id)
-                nameData?.let { result.add(it) }
-            }
-            localLiveNameData.postValue(result)
-        }
-    }
-
-    private fun formatActorsListName(movieDetails: MovieDetailsApi) {
-        movieDetails.actorList.forEach() { actor ->
-            actor.asCharacter = FormatActorName.getName(actor.asCharacter)
-        }
-    }
-
-    private fun getIdDirectorsList(moviesData: MovieDetailsApi): List<String> {
-        val idList = mutableListOf<String>()
-        moviesData.directorList.forEach() { director ->
-            idList.add(director.id)
-        }
-        return idList
-    }
+    return idList
+}
 }

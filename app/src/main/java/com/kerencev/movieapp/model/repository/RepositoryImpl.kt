@@ -8,6 +8,7 @@ import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
+import com.kerencev.movieapp.data.loaders.entities.details.Actor
 import com.kerencev.movieapp.model.helpers.MyDate
 
 class RepositoryImpl(private val db: DataBase) : Repository {
@@ -23,6 +24,21 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             null -> null
             else -> dto
         }
+    }
+
+    override fun getMovieDetailsFromLocalStorage(): MovieDetailsApi {
+        return MovieDetailsApi(
+            null, null, null, null, null,
+            null, null, null, null, null,
+            null, null, null, null, null,
+            null, "8.0", null, null, null,
+            null, null, null, null, null,
+            null, null, null, null, null,
+            null, null, null, null, null,
+            null, null, null, "Red Dead Redemption", null,
+            null, null, null, null, null,
+            null, "2015"
+            )
     }
 
     override fun getNameDataFromServer(id: String): NameData? {
@@ -111,25 +127,48 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         )
     }
 
+    //TODO Убрать лишнее в нижних конвертерах(добавил условия для проверки с заглушками)
     private fun convertMovieDetailsApiToHistoryEntity(movie: MovieDetailsApi): HistoryEntity {
-        return HistoryEntity(
-            id = movie.id,
-            poster = movie.image,
-            title = movie.title,
-            rating = movie.imDbRating,
-            year = movie.year,
-            date = MyDate.getDate(),
-            createdAt = System.currentTimeMillis()
-        )
+        if (movie.id != null) {
+            return HistoryEntity(
+                id = movie.id,
+                poster = movie.image!!,
+                title = movie.title!!,
+                rating = movie.imDbRating!!,
+                year = movie.year!!,
+                date = MyDate.getDate(),
+                createdAt = System.currentTimeMillis()
+            )
+        } else {
+            return HistoryEntity(
+                id = "1",
+                poster = "movie.image",
+                title = movie.title!!,
+                rating = movie.imDbRating!!,
+                year = movie.year!!,
+                date = MyDate.getDate(),
+                createdAt = System.currentTimeMillis()
+            )
+        }
     }
 
     private fun convertMovieDetailsApiToLikedMovieEntity(movie: MovieDetailsApi): LikedMovieEntity {
-        return LikedMovieEntity(
-            id = movie.id,
-            poster = movie.image,
-            title = movie.title,
-            rating = movie.imDbRating,
-            year = movie.year
-        )
+        if (movie.id != null) {
+            return LikedMovieEntity(
+                id = movie.id,
+                poster = movie.image!!,
+                title = movie.title!!,
+                rating = movie.imDbRating!!,
+                year = movie.year!!
+            )
+        } else {
+            return LikedMovieEntity(
+                id = "1",
+                poster = "movie.image!!",
+                title = movie.title!!,
+                rating = movie.imDbRating!!,
+                year = movie.year!!
+            )
+        }
     }
 }

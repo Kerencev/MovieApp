@@ -37,7 +37,7 @@ class NoteViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val data = repository.getNote(id)
             localNoteData.postValue(data)
-            rating = data.rating
+            data?.let { rating = it.rating }
         }
     }
 }
