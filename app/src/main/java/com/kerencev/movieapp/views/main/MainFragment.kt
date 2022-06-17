@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.databinding.MainFragmentBinding
 import com.kerencev.movieapp.model.appstate.MainState
 import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR
@@ -30,8 +30,14 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.registerReceiver(receiverNetworkChange, IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
-        activity?.registerReceiver(receiverLoadMovieDetails, IntentFilter("com.kerencev.movieapp.load.movie.details"))
+        activity?.registerReceiver(
+            receiverNetworkChange,
+            IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+        )
+        activity?.registerReceiver(
+            receiverLoadMovieDetails,
+            IntentFilter("com.kerencev.movieapp.load.movie.details")
+        )
     }
 
     override fun onCreateView(
@@ -55,7 +61,6 @@ class MainFragment : Fragment() {
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
-
         adapter = MoviesListAdapter(fragmentManager = parentFragmentManager)
         recyclerView.adapter = adapter
     }

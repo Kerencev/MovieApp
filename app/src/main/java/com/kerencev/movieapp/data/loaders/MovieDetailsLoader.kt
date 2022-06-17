@@ -3,7 +3,7 @@ package com.kerencev.movieapp.data.loaders
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL

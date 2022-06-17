@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_dialog_note">
+
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/rating"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear_for_stars"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_linear_for_stars"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_note">
+
+            <ImageView
+                android:id="@+id/star1"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star2"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star3"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star4"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star5"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star6"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star7"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star8"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star9"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+            <ImageView
+                android:id="@+id/star10"
+                android:layout_width="@dimen/rating_star_size"
+                android:layout_height="@dimen/rating_star_size"
+                android:src="@drawable/ic_baseline_star_border_24" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_linear_for_stars"
+            android:hint="@string/enter_note"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_note"
+            app:layout_constraintTop_toBottomOf="@id/linear_for_stars" />
+
+        <TextView
+            android:id="@+id/action_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_button_dialog_note"
+            android:layout_marginTop="@dimen/margin_top_dialog_button"
+            android:text="@string/save"
+            android:textColor="@color/green"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text" />
+
+        <TextView
+            android:id="@+id/action_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_button_dialog_note"
+            android:text="@string/cancel"
+            android:textColor="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/action_save" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

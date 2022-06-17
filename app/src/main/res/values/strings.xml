@@ -9,4 +9,26 @@
     <string name="coming_soon">Coming soon</string>
     <string name="api_most_popular">MostPopularMovies</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="cast_group">Съёмочная группа</string>
+    <string name="description">Описание</string>
+    <string name="unroll">Развернуть</string>
+    <string name="roll_up">Свернуть</string>
+    <string name="actor">Actor</string>
+    <string name="directors">Режиссёры</string>
+    <string name="director">Режиссёр</string>
+    <string name="main">Главная</string>
+    <string name="favourites">Избранное</string>
+    <string name="search">Поиск</string>
+    <string name="history">История</string>
+    <string name="settings">Настройки</string>
+    <string name="like">Нравится</string>
+    <string name="note">Заметка</string>
+    <string name="note_about_movie">Заметка о фильме</string>
+    <string name="enter_note">Введите заметку</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="rating">Оценка</string>
+    <string name="my_rating">Мой рейтинг</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="empty">Пусто</string>
 </resources>

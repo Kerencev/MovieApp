@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kerencev.movieapp.data.entities.list.MovieApi
+import com.kerencev.movieapp.data.database.entities.HistoryEntity
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.model.appstate.MainState
+import com.kerencev.movieapp.model.helpers.MyDate
 import com.kerencev.movieapp.model.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,14 +16,14 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<MainState>()
     val liveData: LiveData<MainState> get() = localLiveData
 
-    fun getMovies() = getDataFromServer()
-//    fun getMovies() = getDataFromLocalStorage()
+//    fun getMovies() = getDataFromServer()
+    fun getMovies() = getDataFromLocalStorage()
 
     private fun getDataFromServer() {
         localLiveData.value = MainState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-//            val mostPopular = repository.getMoviesFromServer("MostPopularMovies")
-            val top250 = repository.getMoviesFromServer("Top250Movies")
+            val mostPopular = repository.getMoviesFromServer("MostPopularMovies")
+//            val top250 = repository.getMoviesFromServer("Top250Movies")
 //            val comingSoon = repository.getMoviesFromServer("ComingSoon")
 
 //            if (checkNullMovies(mostPopular, top250, comingSoon)) {
@@ -29,7 +31,8 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 //                return@launch
 //            }
 
-            val list = listOf(top250)
+//            val list = listOf(mostPopular, top250, comingSoon)
+            val list = listOf(mostPopular)
             localLiveData.postValue(MainState.Success(list))
         }
     }

@@ -1,7 +1,8 @@
 package com.kerencev.movieapp.data.loaders
 
-import com.kerencev.movieapp.data.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.entities.list.MoviesListApi
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
+import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,8 +17,12 @@ interface MovieLoaderRetrofit {
     @GET("/ru/API/{category}/$API_KEY")
     fun getMovies(@Path ("category") category: String) : Call<MoviesListApi>
 
+    @GET("/ru/API/Name/$API_KEY/{id}")
+    fun getNameData(@Path ("id") id: String) : Call<NameData>
+
     companion object {
         private const val API_KEY = "k_62zj7tzu"
+//        private const val API_KEY = "k_aled87g3"
         private const val BASE_URL = "https://imdb-api.com/"
 
         fun create() : MovieLoaderRetrofit {
