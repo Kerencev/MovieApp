@@ -32,4 +32,5 @@
     <dimen name="margin_horizontal_item_history">12dp</dimen>
     <dimen name="width_item_history_image">80dp</dimen>
     <dimen name="height_item_history_image">120dp</dimen>
+    <dimen name="padding_settings_fragment_linear">12dp</dimen>
 </resources>

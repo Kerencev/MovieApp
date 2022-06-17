@@ -60,6 +60,8 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
 
     fun setData(movies: List<MovieApi>) = data.addAll(movies)
 
+    /*TODO Разобраться почему адаптер неправильно отрисовывает цвет и иногда рейтинг пропадает
+        Возможно добавлять нужный цвет объекту MovieApi*/
     private fun setRightBackgroundForRating(movie: MovieApi, holder: MovieViewHolder) {
         if (movie.imDbRating?.length == 0) {
             holder.rating.visibility = View.GONE

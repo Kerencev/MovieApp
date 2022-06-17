@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kerencev.movieapp.data.database.entities.HistoryEntity
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.model.appstate.MainState
-import com.kerencev.movieapp.model.helpers.MyDate
 import com.kerencev.movieapp.model.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,8 +14,8 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<MainState>()
     val liveData: LiveData<MainState> get() = localLiveData
 
-//    fun getMovies() = getDataFromServer()
-    fun getMovies() = getDataFromLocalStorage()
+    fun getMovies() = getDataFromServer()
+//    fun getMovies() = getDataFromLocalStorage()
 
     private fun getDataFromServer() {
         localLiveData.value = MainState.Loading

@@ -31,4 +31,5 @@
     <string name="my_rating">Мой рейтинг</string>
     <string name="clear_history">Очистить историю</string>
     <string name="empty">Пусто</string>
+    <string name="save_history_of_watches">Сохранять историю просмотров</string>
 </resources>

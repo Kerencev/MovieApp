@@ -10,6 +10,7 @@
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.133" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.133" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/stroke_background.xml" value="0.1455" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/contacts_fragment.xml" value="0.1" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/details_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/dialig_fragment_note.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/favorites_fragment.xml" value="0.25416666666666665" />
@@ -22,6 +23,7 @@
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/item_movies_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/main_activity.xml" value="0.264" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/main_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/settings_fragment.xml" value="0.264" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/menu/details_toolbar.xml" value="0.25416666666666665" />
       </map>

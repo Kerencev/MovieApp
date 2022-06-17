@@ -1,6 +1,7 @@
 package com.kerencev.movieapp.views.details
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -19,8 +20,10 @@ import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
+import com.kerencev.movieapp.model.extensions.showToast
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
+import com.kerencev.movieapp.views.settings.IS_SAVE_HISTORY_KEY
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -36,6 +39,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     private val unroll: String by lazy { resources.getString(R.string.unroll) }
     private val limitedActorsListHeight: Float by lazy { resources.getDimension(R.dimen.limited_actors_list_height) }
     private var id: String? = null
+    private var isSaveHistory = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +52,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isSaveHistory = getIsSaveHistoryFromPref()
         id = arguments?.getString(BUNDLE_MOVIE)
         initMainDataObserver()
         initDirectorsDataObserver()
@@ -71,7 +76,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     private fun initMainDataObserver() {
         val dataObserver = Observer<DetailsState> { id?.let { id -> renderData(it, id) } }
         viewModel.liveData.observe(viewLifecycleOwner, dataObserver)
-        id?.let { viewModel.getMovieDetails(it) }
+        id?.let { viewModel.getMovieDetails(it, isSaveHistory) }
     }
 
     private fun initDirectorsDataObserver() {
@@ -270,8 +275,14 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         imageStar.visibility = View.INVISIBLE
         Snackbar
             .make(details, "Error", Snackbar.LENGTH_INDEFINITE)
-            .setAction("Reload") { viewModel.getMovieDetails(id) }
+            .setAction("Reload") { viewModel.getMovieDetails(id, isSaveHistory) }
             .show()
+    }
+
+    private fun getIsSaveHistoryFromPref(): Boolean {
+        return activity?.getSharedPreferences("settings", Context.MODE_PRIVATE)?.getBoolean(
+            IS_SAVE_HISTORY_KEY, true
+        ) ?: true
     }
 
     companion object {
