@@ -60,12 +60,32 @@
             android:layout_height="wrap_content"
             tools:text="1996" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_item_history"
+            android:layout_marginVertical="@dimen/corners_radius"/>
+
+        <TextView
+            android:id="@+id/tv_my_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/my_rating_"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_my_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/my_gray"
+        android:background="@color/title_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_image" />

@@ -18,5 +18,7 @@ data class MovieApi(
     val year: String?,
     val imDbRating: String?,
     val image: String?,
-    var colorOfRating: String = COLOR_RATING_GREEN
+    var colorOfRating: String = COLOR_RATING_GREEN,
+    var myRating: Int? = null,
+    var myNote: String? = null
 ) : Parcelable

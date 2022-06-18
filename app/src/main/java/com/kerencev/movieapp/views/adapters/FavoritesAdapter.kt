@@ -1,5 +1,6 @@
 package com.kerencev.movieapp.views.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,8 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
         val rating: TextView = itemView.findViewById(R.id.rating)
         val root: ConstraintLayout = itemView.findViewById(R.id.root)
         val cardImage: MaterialCardView = itemView.findViewById(R.id.card_image)
+        val tvMyRating: TextView = itemView.findViewById(R.id.tv_my_rating)
+        val tvMyNote: TextView = itemView.findViewById(R.id.tv_my_note)
     }
 
     interface OnItemFavoriteClickListener {
@@ -44,6 +47,7 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
         return FavoriteViewHolder(itemView = itemView, context = parent.context)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val movie = data[position]
         with(holder) {
@@ -60,6 +64,14 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
             root.setOnClickListener {
                 itemClickListener.onItemViewClick(movie)
                 cardImage.setOnClickListener { }
+            }
+            movie.myRating?.let { rating ->
+                tvMyRating.visibility = View.VISIBLE
+                tvMyRating.text = tvMyRating.text.toString() + " " + rating
+            }
+            movie.myNote?.let { myNote ->
+                tvMyNote.visibility = View.VISIBLE
+                tvMyNote.text = myNote
             }
         }
     }

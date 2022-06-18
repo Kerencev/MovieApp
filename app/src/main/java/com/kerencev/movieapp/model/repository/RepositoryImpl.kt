@@ -80,7 +80,7 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         db.likedMovieDao().deleteById(id)
     }
 
-    override fun getAllLikedMovie(): List<MovieApi> {
+    override fun getAllLikedMovie(): List<MovieApi>? {
         return convertLikedMovieEntityToMovieApi(db.likedMovieDao().getAll())
     }
 
@@ -92,7 +92,7 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         db.noteDao().insert(note)
     }
 
-    override fun getNote(id: String): NoteEntity {
+    override fun getNote(id: String): NoteEntity? {
         return db.noteDao().getById(id)
     }
 

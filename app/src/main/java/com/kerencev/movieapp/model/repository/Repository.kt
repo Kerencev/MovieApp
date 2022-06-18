@@ -14,10 +14,10 @@ interface Repository {
     fun getMoviesFromLocalStorage(): List<MovieApi>
     fun saveLikedMovieEntity(movie: MovieDetailsApi)
     fun deleteLikedMovieEntity(id: String)
-    fun getAllLikedMovie(): List<MovieApi>
+    fun getAllLikedMovie(): List<MovieApi>?
     fun isLikedMovie(id: String): Boolean
     fun saveNoteEntity(note: NoteEntity)
-    fun getNote(id: String): NoteEntity
+    fun getNote(id: String): NoteEntity?
     fun saveHistory(movie: MovieDetailsApi)
     fun getAllHistory(): List<HistoryEntity>
     fun clearHistory()

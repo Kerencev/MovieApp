@@ -35,4 +35,5 @@
     <string name="gray">Серый</string>
     <string name="red">Красный</string>
     <string name="green">Зелёный</string>
+    <string name="my_rating_">Мой рейтинг:</string>
 </resources>
