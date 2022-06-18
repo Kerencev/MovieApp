@@ -4,19 +4,22 @@ import com.kerencev.movieapp.data.database.DataBase
 import com.kerencev.movieapp.data.database.entities.HistoryEntity
 import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
-import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
-import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
-import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
-import com.kerencev.movieapp.data.loaders.entities.details.Actor
+import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.list.*
+import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.model.helpers.MyDate
 
 class RepositoryImpl(private val db: DataBase) : Repository {
     override fun getMoviesFromServer(category: String): List<MovieApi>? {
-        return when (val dto = MovieLoaderRetrofit.create().getMovies(category).execute().body()) {
-            null -> null
-            else -> dto.items
+        val dto = MovieLoaderRetrofit.create().getMovies(category).execute().body()
+        dto?.let {
+            dto.items?.forEach { movie ->
+                movie.colorOfRating = setRightColor(movie.imDbRating)
+            }
+            return dto.items
         }
+        return null
     }
 
     override fun getMovieDetailsFromServer(id: String): MovieDetailsApi? {
@@ -38,7 +41,7 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             null, null, null, "Red Dead Redemption", null,
             null, null, null, null, null,
             null, "2015"
-            )
+        )
     }
 
     override fun getNameDataFromServer(id: String): NameData? {
@@ -112,8 +115,9 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 title = likedMovieEntity.title,
                 year = likedMovieEntity.year,
                 imDbRating = likedMovieEntity.rating,
-                image = likedMovieEntity.poster
-                )
+                image = likedMovieEntity.poster,
+                colorOfRating = likedMovieEntity.colorOfRating
+            )
         }
     }
 
@@ -123,7 +127,8 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             poster = movie.image!!,
             title = movie.title!!,
             rating = movie.imDbRating ?: "0.0",
-            year = movie.year!!
+            year = movie.year!!,
+            colorOfRating = movie.colorOfRating
         )
     }
 
@@ -137,7 +142,8 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 rating = movie.imDbRating!!,
                 year = movie.year!!,
                 date = MyDate.getDate(),
-                createdAt = System.currentTimeMillis()
+                createdAt = System.currentTimeMillis(),
+                colorOfRating = setRightColor(movie.imDbRating)
             )
         } else {
             return HistoryEntity(
@@ -147,7 +153,8 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 rating = movie.imDbRating!!,
                 year = movie.year!!,
                 date = MyDate.getDate(),
-                createdAt = System.currentTimeMillis()
+                createdAt = System.currentTimeMillis(),
+                colorOfRating = setRightColor(movie.imDbRating)
             )
         }
     }
@@ -159,7 +166,8 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 poster = movie.image!!,
                 title = movie.title!!,
                 rating = movie.imDbRating!!,
-                year = movie.year!!
+                year = movie.year!!,
+                colorOfRating = setRightColor(movie.imDbRating)
             )
         } else {
             return LikedMovieEntity(
@@ -167,8 +175,24 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 poster = "movie.image!!",
                 title = movie.title!!,
                 rating = movie.imDbRating!!,
-                year = movie.year!!
+                year = movie.year!!,
+                colorOfRating = setRightColor(movie.imDbRating)
             )
         }
+    }
+
+    private fun setRightColor(rating: String?): String {
+        if (rating?.isEmpty() == true) {
+            return COLOR_NULL
+        }
+        val ratingDouble = rating?.toDouble()
+        if (ratingDouble == null || ratingDouble == 0.0) {
+            return COLOR_NULL
+        }
+        when {
+            ratingDouble < 5.0 -> return COLOR_RATING_RED
+            ratingDouble < 7.0 -> return COLOR_RATING_GRAY
+        }
+        return COLOR_RATING_GREEN
     }
 }

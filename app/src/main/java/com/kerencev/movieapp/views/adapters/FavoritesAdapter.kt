@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -19,6 +19,16 @@ import kotlinx.coroutines.launch
 
 class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListener) :
     RecyclerView.Adapter<FavoritesAdapter.FavoriteViewHolder>(), CoroutineScope by MainScope() {
+
+    inner class FavoriteViewHolder(itemView: View, val context: Context) :
+        RecyclerView.ViewHolder(itemView) {
+        val image: ImageView = itemView.findViewById(R.id.poster)
+        val title: TextView = itemView.findViewById(R.id.title)
+        val year: TextView = itemView.findViewById(R.id.year)
+        val rating: TextView = itemView.findViewById(R.id.rating)
+        val root: ConstraintLayout = itemView.findViewById(R.id.root)
+        val cardImage: MaterialCardView = itemView.findViewById(R.id.card_image)
+    }
 
     interface OnItemFavoriteClickListener {
         fun onItemViewClick(movie: MovieApi)
@@ -44,6 +54,7 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
                 }
             }
             rating.text = movie.imDbRating
+            setRightBackgroundForRating(movie.colorOfRating, holder)
             title.text = movie.title
             year.text = movie.year
             root.setOnClickListener {
@@ -57,13 +68,12 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
         return data.size
     }
 
-    inner class FavoriteViewHolder(itemView: View, val context: Context) :
-        RecyclerView.ViewHolder(itemView) {
-        val image: ImageView = itemView.findViewById(R.id.poster)
-        val title: TextView = itemView.findViewById(R.id.title)
-        val year: TextView = itemView.findViewById(R.id.year)
-        val rating: TextView = itemView.findViewById(R.id.rating)
-        val root: ConstraintLayout = itemView.findViewById(R.id.root)
-        val cardImage: MaterialCardView = itemView.findViewById(R.id.card_image)
+    private fun setRightBackgroundForRating(color: String, holder: FavoriteViewHolder) {
+        when (color) {
+            COLOR_NULL -> holder.rating.visibility = View.GONE
+            COLOR_RATING_GREEN -> holder.rating.setBackgroundResource(R.drawable.background_rating_green)
+            COLOR_RATING_GRAY -> holder.rating.setBackgroundResource(R.drawable.background_rating_gray)
+            COLOR_RATING_RED -> holder.rating.setBackgroundResource(R.drawable.background_rating_red)
+        }
     }
 }

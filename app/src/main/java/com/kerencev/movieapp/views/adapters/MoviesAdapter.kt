@@ -14,7 +14,7 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.list.*
 import kotlinx.coroutines.*
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
@@ -51,7 +51,7 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             }
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }
-        setRightBackgroundForRating(movie, holder)
+        setRightBackgroundForRating(movie.colorOfRating, holder)
     }
 
     override fun getItemCount(): Int {
@@ -60,18 +60,12 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
 
     fun setData(movies: List<MovieApi>) = data.addAll(movies)
 
-    /*TODO Разобраться почему адаптер неправильно отрисовывает цвет и иногда рейтинг пропадает
-        Возможно добавлять нужный цвет объекту MovieApi*/
-    private fun setRightBackgroundForRating(movie: MovieApi, holder: MovieViewHolder) {
-        if (movie.imDbRating?.length == 0) {
-            holder.rating.visibility = View.GONE
-            return
-        }
-        val rating = movie.imDbRating?.toDouble()
-        when {
-            rating == null -> holder.rating.visibility = View.GONE
-            rating < 5 -> holder.rating.setBackgroundResource(R.drawable.background_rating_red)
-            rating < 7 -> holder.rating.setBackgroundResource(R.drawable.background_rating_gray)
+    private fun setRightBackgroundForRating(color: String, holder: MovieViewHolder) {
+        when (color) {
+            COLOR_NULL -> holder.rating.visibility = View.GONE
+            COLOR_RATING_GREEN -> holder.rating.setBackgroundResource(R.drawable.background_rating_green)
+            COLOR_RATING_GRAY -> holder.rating.setBackgroundResource(R.drawable.background_rating_gray)
+            COLOR_RATING_RED -> holder.rating.setBackgroundResource(R.drawable.background_rating_red)
         }
     }
 

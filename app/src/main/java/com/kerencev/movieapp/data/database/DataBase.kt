@@ -9,7 +9,7 @@ import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 
 @androidx.room.Database(
-    version = 6,
+    version = 7,
     exportSchema = true,
     entities = [
         LikedMovieEntity::class,

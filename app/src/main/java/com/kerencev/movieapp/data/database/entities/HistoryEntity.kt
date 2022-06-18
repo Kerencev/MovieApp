@@ -12,6 +12,8 @@ data class HistoryEntity(
     val rating: String,
     val year: String,
     val date: String,
+    @ColumnInfo(name = "color_of_rating")
+    val colorOfRating: String,
     @ColumnInfo(name = "created_at")
     val createdAt: Long
 )

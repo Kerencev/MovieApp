@@ -32,4 +32,7 @@
     <string name="clear_history">Очистить историю</string>
     <string name="empty">Пусто</string>
     <string name="save_history_of_watches">Сохранять историю просмотров</string>
+    <string name="gray">Серый</string>
+    <string name="red">Красный</string>
+    <string name="green">Зелёный</string>
 </resources>

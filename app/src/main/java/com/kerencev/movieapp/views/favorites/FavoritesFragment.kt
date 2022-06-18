@@ -33,7 +33,7 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = FavoritesAdapter(object : FavoritesAdapter.OnItemFavoriteClickListener{
+        adapter = FavoritesAdapter(object : FavoritesAdapter.OnItemFavoriteClickListener {
             override fun onItemViewClick(movie: MovieApi) {
                 parentFragmentManager.let { manager ->
                     val bundle = Bundle().apply {
@@ -57,15 +57,12 @@ class FavoritesFragment : Fragment() {
         when (favoritesState) {
             is FavoritesState.Success -> {
                 val moviesData = favoritesState.moviesData
-                progressBar.visibility = View.GONE
                 adapter.setData(moviesData)
                 adapter.notifyDataSetChanged()
             }
             is FavoritesState.Loading -> {
-                progressBar.visibility = View.VISIBLE
             }
             is FavoritesState.Error -> {
-                progressBar.visibility = View.GONE
                 Snackbar
                     .make(main, "Error", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Reload") { viewModel.getFavoritesMovieFromDataBase() }

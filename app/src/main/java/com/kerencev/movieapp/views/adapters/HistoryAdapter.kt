@@ -11,6 +11,10 @@ import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.HistoryEntity
+import com.kerencev.movieapp.data.loaders.entities.list.COLOR_NULL
+import com.kerencev.movieapp.data.loaders.entities.list.COLOR_RATING_GRAY
+import com.kerencev.movieapp.data.loaders.entities.list.COLOR_RATING_GREEN
+import com.kerencev.movieapp.data.loaders.entities.list.COLOR_RATING_RED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -53,6 +57,7 @@ class HistoryAdapter(private val itemClickListener: OnItemHistoryClickListener) 
             title.text = movie.title
             year.text = movie.year
             rating.text = movie.rating
+            setRightBackgroundForRating(movie.colorOfRating, holder)
             date.text = movie.date
             rootCard.setOnClickListener {
                 itemClickListener.onItemViewClick(movie)
@@ -67,5 +72,14 @@ class HistoryAdapter(private val itemClickListener: OnItemHistoryClickListener) 
     fun setData(movies: List<HistoryEntity>) {
         data = movies as MutableList<HistoryEntity>
         notifyDataSetChanged()
+    }
+
+    private fun setRightBackgroundForRating(color: String, holder: HistoryViewHolder) {
+        when (color) {
+            COLOR_NULL -> holder.rating.visibility = View.GONE
+            COLOR_RATING_GREEN -> holder.rating.setBackgroundResource(R.drawable.background_rating_green)
+            COLOR_RATING_GRAY -> holder.rating.setBackgroundResource(R.drawable.background_rating_gray)
+            COLOR_RATING_RED -> holder.rating.setBackgroundResource(R.drawable.background_rating_red)
+        }
     }
 }

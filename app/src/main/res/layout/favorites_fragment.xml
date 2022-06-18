@@ -6,25 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/recycler"
-        app:layout_constraintEnd_toEndOf="@+id/recycler"
-        app:layout_constraintStart_toStartOf="@+id/recycler"
-        app:layout_constraintTop_toTopOf="@+id/recycler" />
+        android:layout_height="@dimen/height_bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/toolbar"
+            app:title="@string/favourites" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:padding="@dimen/padding_recycler"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
         tools:listitem="@layout/item_movie" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
