@@ -33,4 +33,6 @@
     <dimen name="width_item_history_image">80dp</dimen>
     <dimen name="height_item_history_image">120dp</dimen>
     <dimen name="padding_settings_fragment_linear">12dp</dimen>
+    <dimen name="padding_start_linear_person_fragment">12dp</dimen>
+    <dimen name="margin_summary_text">4dp</dimen>
 </resources>

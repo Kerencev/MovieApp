@@ -36,4 +36,10 @@
     <string name="red">Красный</string>
     <string name="green">Зелёный</string>
     <string name="my_rating_">Мой рейтинг:</string>
+    <string name="career">Карьера</string>
+    <string name="birth_date">Дата рождения</string>
+    <string name="height">Рост</string>
+    <string name="awards">Награды</string>
+    <string name="movies_featuring">Фильмы с участием</string>
+    <string name="summary">Резюме</string>
 </resources>
