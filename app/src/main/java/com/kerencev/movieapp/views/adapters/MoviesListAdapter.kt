@@ -22,7 +22,7 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
         fun onItemViewClick(movie: MovieApi)
     }
 
-    private var data = mutableListOf<List<MovieApi>>()
+    private var data = mutableListOf<List<MovieApi>?>()
 
     fun setData(movies: List<List<MovieApi>>) {
         data.addAll(movies)
@@ -57,7 +57,7 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
                 }
             })
             recyclerView.adapter = adapter
-            adapter.setData(data[position])
+            data[position]?.let { adapter.setData(it) }
             adapter.notifyDataSetChanged()
         }
     }

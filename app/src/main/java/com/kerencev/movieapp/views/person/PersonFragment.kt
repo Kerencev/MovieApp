@@ -52,6 +52,9 @@ class PersonFragment : Fragment(), CoroutineScope by MainScope() {
 
         val featuringMovieObserver = Observer<List<MovieApi>> { initRecycler(it) }
         viewModel.featMovieData.observe(viewLifecycleOwner, featuringMovieObserver)
+        binding.toolbar.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     override fun onDestroyView() {

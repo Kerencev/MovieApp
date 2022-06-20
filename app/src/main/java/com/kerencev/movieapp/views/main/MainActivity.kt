@@ -2,6 +2,7 @@ package com.kerencev.movieapp.views.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.MainActivityBinding
 import com.kerencev.movieapp.model.extensions.showToast
@@ -22,13 +23,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
+//                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
 //                .replace(R.id.container, FavoritesFragment())
-//                .replace(R.id.container, PersonFragment.newInstance(ID_NAME_DATA))
+                .replace(R.id.container, PersonFragment.newInstance(ID_NAME_DATA))
                 .commitNow()
         }
-        val tickedId = intent.extras?.getString("tickedId", "0")
-        this.showToast(tickedId.toString())
         setBottomNavigation()
     }
 

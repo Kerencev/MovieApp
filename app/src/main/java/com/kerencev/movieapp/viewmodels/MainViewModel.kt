@@ -9,6 +9,7 @@ import com.kerencev.movieapp.model.appstate.MainState
 import com.kerencev.movieapp.model.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class MainViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<MainState>()
@@ -20,18 +21,23 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     private fun getDataFromServer() {
         localLiveData.value = MainState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            val mostPopular = repository.getMoviesFromServer("MostPopularMovies")
-//            val top250 = repository.getMoviesFromServer("Top250Movies")
-//            val comingSoon = repository.getMoviesFromServer("ComingSoon")
-
-//            if (checkNullMovies(mostPopular, top250, comingSoon)) {
-//                localLiveData.postValue(MainState.Error)
-//                return@launch
-//            }
-
-//            val list = listOf(mostPopular, top250, comingSoon)
-            val list = listOf(mostPopular)
-            localLiveData.postValue(MainState.Success(list))
+            val mostPopular: List<MovieApi>?
+            val top250: List<MovieApi>?
+            val comingSoon: List<MovieApi>?
+            try {
+                mostPopular = repository.getMoviesFromServer("MostPopularMovies")
+//                top250 = repository.getMoviesFromServer("Top250Movies")
+//                comingSoon = repository.getMoviesFromServer("ComingSoon")
+//                if (checkNullMovies(mostPopular, top250, comingSoon)) {
+//                    localLiveData.postValue(MainState.Error)
+//                    return@launch
+//                }
+                val list = listOf(mostPopular)
+//                val list = listOf(mostPopular, top250, comingSoon)
+                localLiveData.postValue(MainState.Success(list))
+            } catch (e: IOException) {
+                localLiveData.postValue(MainState.Error)
+            }
         }
     }
 

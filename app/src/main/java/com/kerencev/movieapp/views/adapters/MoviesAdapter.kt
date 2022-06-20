@@ -9,14 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
-import coil.load
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.*
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import com.bumptech.glide.request.target.Target;
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>(), CoroutineScope by MainScope() {
@@ -45,20 +48,17 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             year.text = movie.year
             rating.text = movie.imDbRating
             movie.image?.let {
-
-                    //Вариант с Coil
-                    image.load(movie.image) {
-                        crossfade(true)
-                        placeholder(R.drawable.movie)
-                    }
-                    //Picasso
-//                    Picasso.get()
-//                        .load(it)
-//                        .placeholder(R.drawable.movie)
-//                        .error(R.drawable.movie)
-//                        .into(image);
-
-            }
+                Glide.with(context)
+                    .load(it)
+                    .apply(
+                        RequestOptions()
+                        .fitCenter()
+                        .format(DecodeFormat.PREFER_ARGB_8888)
+                        .override(Target.SIZE_ORIGINAL))
+                    .placeholder(R.drawable.movie)
+                    .fitCenter()
+                    .into(image)
+            } ?: Glide.with(context).clear(image)
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }
         setRightBackgroundForRating(movie.colorOfRating, holder)

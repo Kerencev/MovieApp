@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
@@ -18,9 +19,13 @@ import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR
 import com.kerencev.movieapp.model.receivers.NetworkChangeBR
 import com.kerencev.movieapp.viewmodels.MainViewModel
 import com.kerencev.movieapp.views.adapters.MoviesListAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), CoroutineScope by MainScope() {
     private val viewModel: MainViewModel by viewModel()
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
@@ -50,19 +55,15 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerList(view)
+        initRecyclerList()
         val observer = Observer<MainState> { renderData(it) }
         viewModel.liveData.observe(viewLifecycleOwner, observer)
         viewModel.getMovies()
     }
 
-    private fun initRecyclerList(view: View) {
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler)
-        val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
+    private fun initRecyclerList() {
         adapter = MoviesListAdapter(fragmentManager = parentFragmentManager)
-        recyclerView.adapter = adapter
+        binding.recycler.adapter = adapter
     }
 
     private fun renderData(mainState: MainState) = with(binding) {
@@ -79,8 +80,12 @@ class MainFragment : Fragment() {
             is MainState.Error -> {
                 progressBar.visibility = View.GONE
                 Snackbar
-                    .make(main, "Error", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getMovies() }
+                    .make(
+                        main,
+                        R.string.data_could_not_be_retrieved_check_your_internet_connection,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                    .setAction(R.string.reload) { viewModel.getMovies() }
                     .show()
             }
         }

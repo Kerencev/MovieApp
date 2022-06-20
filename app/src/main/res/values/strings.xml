@@ -42,4 +42,6 @@
     <string name="awards">Награды</string>
     <string name="movies_featuring">Фильмы с участием</string>
     <string name="summary">Резюме</string>
+    <string name="data_could_not_be_retrieved_check_your_internet_connection">Не удалось получить данные. Проверьте соединение с интернетом</string>
+    <string name="reload">Перезагрузить</string>
 </resources>
