@@ -23,6 +23,7 @@ import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.model.extensions.showToast
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
+import com.kerencev.movieapp.views.person.PersonFragment
 import com.kerencev.movieapp.views.settings.IS_SAVE_HISTORY_KEY
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -255,17 +256,26 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         val actorsList = moviesData?.actorList
         actorsList?.forEach { actor ->
             launch(Dispatchers.Main) {
-                val view = layoutInflater.inflate(R.layout.item_cast_group, null, false)
-                val actorImage = view.findViewById<ImageView>(R.id.image)
-                val name = view.findViewById<TextView>(R.id.name)
-                val nameAsCharacter = view.findViewById<TextView>(R.id.name_character)
+                val root = layoutInflater.inflate(R.layout.item_cast_group, null, false)
+                val actorImage = root.findViewById<ImageView>(R.id.image)
+                val name = root.findViewById<TextView>(R.id.name)
+                val nameAsCharacter = root.findViewById<TextView>(R.id.name_character)
                 actorImage.load(actor.image) {
                     crossfade(true)
                     placeholder(R.drawable.movie)
                 }
                 name.text = actor.name
                 nameAsCharacter.text = actor.asCharacter
-                linearActorsList.addView(view)
+                linearActorsList.addView(root)
+                root.setOnClickListener {
+                    actor.id?.let {
+                        parentFragmentManager.beginTransaction()
+                            .hide(this@DetailsFragment)
+                            .add(R.id.container, PersonFragment.newInstance(actor.id))
+                            .addToBackStack("")
+                            .commitAllowingStateLoss()
+                    }
+                }
             }
         }
     }

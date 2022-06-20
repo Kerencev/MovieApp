@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val repository: Repository) : ViewModel() {
-
     private val localLiveData = MutableLiveData<FavoritesState>()
     val liveData: LiveData<FavoritesState> get() = localLiveData
 

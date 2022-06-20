@@ -15,6 +15,7 @@ import coil.request.SuccessResult
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.*
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
@@ -43,11 +44,20 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             title.text = movie.title
             year.text = movie.year
             rating.text = movie.imDbRating
-            launch(Dispatchers.Main) {
-                image.load(movie.image) {
-                    crossfade(true)
-                    placeholder(R.drawable.movie)
-                }
+            movie.image?.let {
+
+                    //Вариант с Coil
+                    image.load(movie.image) {
+                        crossfade(true)
+                        placeholder(R.drawable.movie)
+                    }
+                    //Picasso
+//                    Picasso.get()
+//                        .load(it)
+//                        .placeholder(R.drawable.movie)
+//                        .error(R.drawable.movie)
+//                        .into(image);
+
             }
             rootCard.setOnClickListener { itemClickListener.onItemViewClick(movie) }
         }

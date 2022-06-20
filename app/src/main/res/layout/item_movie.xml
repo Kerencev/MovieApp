@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:contentDescription="@string/image_film"
             android:scaleType="fitXY"
-            android:src="@drawable/legend" />
+            android:src="@drawable/movie" />
 
     </com.google.android.material.card.MaterialCardView>
 

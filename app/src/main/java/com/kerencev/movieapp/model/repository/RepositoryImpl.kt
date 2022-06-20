@@ -139,7 +139,7 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 id = movie.id,
                 poster = movie.image!!,
                 title = movie.title!!,
-                rating = movie.imDbRating!!,
+                rating = movie.imDbRating ?: "",
                 year = movie.year!!,
                 date = MyDate.getDate(),
                 createdAt = System.currentTimeMillis(),
@@ -165,7 +165,7 @@ class RepositoryImpl(private val db: DataBase) : Repository {
                 id = movie.id,
                 poster = movie.image!!,
                 title = movie.title!!,
-                rating = movie.imDbRating!!,
+                rating = movie.imDbRating ?: "",
                 year = movie.year!!,
                 colorOfRating = setRightColor(movie.imDbRating)
             )

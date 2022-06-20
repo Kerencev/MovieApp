@@ -67,4 +67,6 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.4.2'
     //Preference
     implementation 'androidx.preference:preference:1.2.0'
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
