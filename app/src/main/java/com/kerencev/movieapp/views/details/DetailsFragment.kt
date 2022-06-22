@@ -13,6 +13,7 @@ import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import coil.load
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
@@ -162,15 +163,25 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     private fun renderDirectorsList(listNameData: List<NameData>?) = with(binding) {
         listNameData?.forEach { nameData ->
             launch(Dispatchers.Main) {
-                val view = layoutInflater.inflate(R.layout.item_director, null, false)
-                val directorImage = view.findViewById<ImageView>(R.id.image)
-                val nameView = view.findViewById<TextView>(R.id.tv_name)
+                val root = layoutInflater.inflate(R.layout.item_director, null, false)
+                val directorImage = root.findViewById<ImageView>(R.id.image)
+                val nameView = root.findViewById<TextView>(R.id.tv_name)
                 directorImage.load(nameData.image) {
                     crossfade(true)
                     placeholder(R.drawable.movie)
+                    error(R.drawable.movie)
                 }
                 nameView.text = nameData.name
-                linearDirectorsList.addView(view)
+                linearDirectorsList.addView(root)
+                root.setOnClickListener {
+                    nameData.id?.let {
+                        parentFragmentManager.beginTransaction()
+                            .hide(this@DetailsFragment)
+                            .add(R.id.container, PersonFragment.newInstance(it))
+                            .addToBackStack("")
+                            .commitAllowingStateLoss()
+                    }
+                }
             }
         }
     }
@@ -239,9 +250,12 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     @SuppressLint("SetTextI18n")
     private fun setAllViewContent(moviesData: MovieDetailsApi?) = with(binding) {
         launch(Dispatchers.Main) {
-            poster.load(moviesData?.image) {
-                crossfade(true)
-                placeholder(R.drawable.movie)
+            moviesData?.image?.let {
+                Glide.with(requireContext())
+                    .load(it)
+                    .placeholder(R.drawable.movie)
+                    .fitCenter()
+                    .into(poster)
             }
         }
         title.text = moviesData?.title
@@ -271,7 +285,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                     actor.id?.let {
                         parentFragmentManager.beginTransaction()
                             .hide(this@DetailsFragment)
-                            .add(R.id.container, PersonFragment.newInstance(actor.id))
+                            .add(R.id.container, PersonFragment.newInstance(it))
                             .addToBackStack("")
                             .commitAllowingStateLoss()
                     }

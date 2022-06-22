@@ -13,6 +13,7 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.databinding.PersonFragmentBinding
+import com.kerencev.movieapp.model.extensions.showToast
 import com.kerencev.movieapp.model.helpers.FormatBirthDate
 import com.kerencev.movieapp.model.helpers.FormatHeight
 import com.kerencev.movieapp.viewmodels.PersonViewModel
@@ -73,11 +74,21 @@ class PersonFragment : Fragment(), CoroutineScope by MainScope() {
             else -> {
                 tvName.text = nameData.name
                 tvRole.text = nameData.role
-                tvBirthDate.text = FormatBirthDate.init(nameData.birthDate)
-                tvHeight.text = FormatHeight.init(nameData.height)
                 tvSummary.text = nameData.summary
                 awards.text = nameData.awards
-                loadPortrait(portrait, nameData.image)
+                nameData.image?.let { loadPortrait(portrait, it) }
+                tvBirthDate.text = nameData.birthDate?.let {
+                    when {
+                        it.isEmpty() -> "null"
+                        else -> FormatBirthDate.init(it)
+                    }
+                }
+                tvHeight.text = nameData.height?.let {
+                    when {
+                        it.isEmpty() -> "null"
+                        else -> FormatHeight.init(it)
+                    }
+                }
             }
         }
     }

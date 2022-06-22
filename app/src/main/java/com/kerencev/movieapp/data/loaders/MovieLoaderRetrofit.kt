@@ -21,8 +21,8 @@ interface MovieLoaderRetrofit {
     fun getNameData(@Path ("id") id: String) : Call<NameData>
 
     companion object {
-//        private const val API_KEY = "k_62zj7tzu"
-        private const val API_KEY = "k_aled87g3"
+        private const val API_KEY = "k_62zj7tzu"
+//        private const val API_KEY = "k_aled87g3"
         private const val BASE_URL = "https://imdb-api.com/"
 
         fun create() : MovieLoaderRetrofit {

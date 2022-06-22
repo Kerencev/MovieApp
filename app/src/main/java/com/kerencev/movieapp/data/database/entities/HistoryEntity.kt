@@ -6,7 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class HistoryEntity(
-    @PrimaryKey(autoGenerate = false) val id: String,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "created_at")
+    val createdAt: Long,
+    val id: String,
     val poster: String,
     val title: String,
     val rating: String,
@@ -14,6 +17,4 @@ data class HistoryEntity(
     val date: String,
     @ColumnInfo(name = "color_of_rating")
     val colorOfRating: String,
-    @ColumnInfo(name = "created_at")
-    val createdAt: Long
 )

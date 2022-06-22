@@ -20,6 +20,8 @@ import com.kerencev.movieapp.data.loaders.entities.list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import com.bumptech.glide.request.target.Target;
+import com.kerencev.movieapp.model.extensions.showToast
+import java.lang.RuntimeException
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>(), CoroutineScope by MainScope() {
@@ -50,11 +52,6 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
             movie.image?.let {
                 Glide.with(context)
                     .load(it)
-                    .apply(
-                        RequestOptions()
-                        .fitCenter()
-                        .format(DecodeFormat.PREFER_ARGB_8888)
-                        .override(Target.SIZE_ORIGINAL))
                     .placeholder(R.drawable.movie)
                     .fitCenter()
                     .into(image)

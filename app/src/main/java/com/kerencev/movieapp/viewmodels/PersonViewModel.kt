@@ -27,10 +27,10 @@ class PersonViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private fun postFeatMovieData(knownForList: List<KnownFor>, castMovieList: List<CastMovy>) {
+    private fun postFeatMovieData(knownForList: List<KnownFor>?, castMovieList: List<CastMovy>?) {
         viewModelScope.launch(Dispatchers.IO) {
             val movieApiList: ArrayList<MovieApi> = arrayListOf()
-            knownForList.forEach {
+            knownForList?.forEach {
                 movieApiList.add(
                     MovieApi(
                         id = it.id,
@@ -42,7 +42,7 @@ class PersonViewModel(private val repository: Repository) : ViewModel() {
                     )
                 )
             }
-            castMovieList.forEach {
+            castMovieList?.forEach {
                 movieApiList.add(
                     MovieApi(
                         id = it.id,
