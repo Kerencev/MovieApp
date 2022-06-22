@@ -25,4 +25,5 @@ val appModule = module {
     viewModel { NoteViewModel(get()) }
     viewModel { HistoryViewModel(get()) }
     viewModel { PersonViewModel(get()) }
+    viewModel { SearchViewModel(get()) }
 }

@@ -13,7 +13,6 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.databinding.PersonFragmentBinding
-import com.kerencev.movieapp.model.extensions.showToast
 import com.kerencev.movieapp.model.helpers.FormatBirthDate
 import com.kerencev.movieapp.model.helpers.FormatHeight
 import com.kerencev.movieapp.viewmodels.PersonViewModel

@@ -1,6 +1,5 @@
 package com.kerencev.movieapp.model.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kerencev.movieapp.data.database.DataBase
 import com.kerencev.movieapp.data.database.entities.HistoryEntity
@@ -10,10 +9,8 @@ import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.list.*
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
 import com.kerencev.movieapp.model.helpers.MyDate
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RepositoryImpl(private val db: DataBase) : Repository {
     private val liveData = MutableLiveData<List<MovieApi>?>()
@@ -26,6 +23,10 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             return dto.items
         }
         return null
+    }
+
+    override fun searchMoviesFromServer(title: String): SearchedMovies? {
+        return MovieLoaderRetrofit.create().getSearchedMovies(title).execute().body()
     }
 
     override fun getMovieDetailsFromServer(id: String): MovieDetailsApi? {

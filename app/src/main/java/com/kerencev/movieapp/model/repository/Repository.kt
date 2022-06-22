@@ -5,9 +5,11 @@ import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
 
 interface Repository {
     fun getMoviesFromServer(category: String): List<MovieApi>?
+    fun searchMoviesFromServer(title: String): SearchedMovies?
     fun getMovieDetailsFromServer(id: String): MovieDetailsApi?
     fun getMovieDetailsFromLocalStorage(): MovieDetailsApi
     fun getNameDataFromServer(id: String): NameData?

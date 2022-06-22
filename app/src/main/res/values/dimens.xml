@@ -35,4 +35,6 @@
     <dimen name="padding_settings_fragment_linear">12dp</dimen>
     <dimen name="padding_start_linear_person_fragment">12dp</dimen>
     <dimen name="margin_summary_text">4dp</dimen>
+    <dimen name="width_btn_search">100dp</dimen>
+    <dimen name="margin_search_fragment_edit">8dp</dimen>
 </resources>

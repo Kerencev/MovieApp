@@ -44,4 +44,6 @@
     <string name="summary">Резюме</string>
     <string name="data_could_not_be_retrieved_check_your_internet_connection">Не удалось получить данные. Проверьте соединение с интернетом</string>
     <string name="reload">Перезагрузить</string>
+    <string name="enter_movie_name">Введите название фильма</string>
+    <string name="nothing_was_found_for_your_query">По вашему запросу ничего не найдено</string>
 </resources>
