@@ -1,6 +1,5 @@
 package com.kerencev.movieapp.model.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.kerencev.movieapp.data.database.DataBase
 import com.kerencev.movieapp.data.database.entities.HistoryEntity
 import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
@@ -11,16 +10,19 @@ import com.kerencev.movieapp.data.loaders.entities.list.*
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
 import com.kerencev.movieapp.model.helpers.MyDate
+import com.kerencev.movieapp.viewmodels.CATEGORY_COMING_SOON
+import com.kerencev.movieapp.viewmodels.CATEGORY_MOST_POPULAR
+import com.kerencev.movieapp.viewmodels.CATEGORY_TOP_250
 
 class RepositoryImpl(private val db: DataBase) : Repository {
-    private val liveData = MutableLiveData<List<MovieApi>?>()
-    override fun getMoviesFromServer(category: String): List<MovieApi>? {
+    override fun getMoviesFromServer(category: String): MoviesListApi? {
         val dto = MovieLoaderRetrofit.create().getMovies(category).execute().body()
         dto?.let {
+            dto.title = getTitle(category)
             dto.items?.forEach { movie ->
                 movie.colorOfRating = setRightColor(movie.imDbRating)
             }
-            return dto.items
+            return dto
         }
         return null
     }
@@ -144,10 +146,10 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         if (movie.id != null) {
             return HistoryEntity(
                 id = movie.id,
-                poster = movie.image!!,
-                title = movie.title!!,
+                poster = movie.image ?: "",
+                title = movie.title ?: "Без названия",
                 rating = movie.imDbRating ?: "",
-                year = movie.year!!,
+                year = movie.year ?: "Без даты",
                 date = MyDate.getDate(),
                 createdAt = System.currentTimeMillis(),
                 colorOfRating = setRightColor(movie.imDbRating)
@@ -201,5 +203,14 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             ratingDouble < 7.0 -> return COLOR_RATING_GRAY
         }
         return COLOR_RATING_GREEN
+    }
+
+    private fun getTitle(category: String): String {
+        return when (category) {
+            CATEGORY_TOP_250 ->  "Top 250 IMdb"
+            CATEGORY_MOST_POPULAR ->  "Most Popular"
+            CATEGORY_COMING_SOON ->  "Coming soon"
+            else -> {""}
+        }
     }
 }

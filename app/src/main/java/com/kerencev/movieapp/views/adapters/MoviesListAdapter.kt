@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
-import com.kerencev.movieapp.viewmodels.MainViewModel
+import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.views.details.DetailsFragment
 import com.kerencev.movieapp.views.main.MainFragment
 
@@ -22,10 +22,10 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
         fun onItemViewClick(movie: MovieApi)
     }
 
-    private var data = mutableListOf<List<MovieApi>?>()
+    private var data = ArrayList<MoviesListApi>()
 
-    fun setData(movies: List<List<MovieApi>>) {
-        data.addAll(movies)
+    fun setData(categories: ArrayList<MoviesListApi>) {
+        data.addAll(categories)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesListViewHolder {
@@ -36,9 +36,8 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
     }
 
     override fun onBindViewHolder(holder: MoviesListViewHolder, position: Int) {
-        setTitle(holder, position)
-
         with(holder) {
+            title.text = data[position].title
             recyclerView.layoutManager =
                 LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false)
             val adapter = MoviesAdapter(object : OnItemViewClickListener {
@@ -57,8 +56,10 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
                 }
             })
             recyclerView.adapter = adapter
-            data[position]?.let { adapter.setData(it) }
-            adapter.notifyDataSetChanged()
+            data[position].items?.let {
+                adapter.setData(it)
+                adapter.notifyItemInserted(position)
+            }
         }
     }
 

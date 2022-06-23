@@ -5,36 +5,34 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.model.appstate.MainState
 import com.kerencev.movieapp.model.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+const val CATEGORY_MOST_POPULAR = "MostPopularMovies"
+const val CATEGORY_TOP_250 = "Top250Movies"
+const val CATEGORY_COMING_SOON = "ComingSoon"
+
 class MainViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<MainState>()
     val liveData: LiveData<MainState> get() = localLiveData
 
-    fun getMovies() = getDataFromServer()
+    fun getMovies(categories: ArrayList<String>) = getDataFromServer(categories)
 //    fun getMovies() = getDataFromLocalStorage()
 
-    private fun getDataFromServer() {
+    private fun getDataFromServer(categories: ArrayList<String>) {
         localLiveData.value = MainState.Loading
+        val result = ArrayList<MoviesListApi>()
         viewModelScope.launch(Dispatchers.IO) {
-            val mostPopular: List<MovieApi>?
-            val top250: List<MovieApi>?
-            val comingSoon: List<MovieApi>?
             try {
-                mostPopular = repository.getMoviesFromServer("MostPopularMovies")
-//                top250 = repository.getMoviesFromServer("Top250Movies")
-//                comingSoon = repository.getMoviesFromServer("ComingSoon")
-//                if (checkNullMovies(mostPopular, top250, comingSoon)) {
-//                    localLiveData.postValue(MainState.Error)
-//                    return@launch
-//                }
-                val list = listOf(mostPopular)
-//                val list = listOf(mostPopular, top250, comingSoon)
-                localLiveData.postValue(MainState.Success(list))
+                categories.forEach { category ->
+                    val dto = repository.getMoviesFromServer(category)
+                    dto?.let { result.add(it) }
+                }
+                localLiveData.postValue(MainState.Success(result))
             } catch (e: IOException) {
                 localLiveData.postValue(MainState.Error)
             }
@@ -53,10 +51,10 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         return false
     }
 
-    private fun getDataFromLocalStorage() {
-        localLiveData.value = MainState.Loading
-        val result1 = repository.getMoviesFromLocalStorage()
-        val result = listOf(result1, result1, result1)
-        localLiveData.postValue(MainState.Success(result))
-    }
+//    private fun getDataFromLocalStorage() {
+//        localLiveData.value = MainState.Loading
+//        val result1 = repository.getMoviesFromLocalStorage()
+//        val result = listOf(result1, result1, result1)
+//        localLiveData.postValue(MainState.Success(result))
+//    }
 }
