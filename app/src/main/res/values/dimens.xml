@@ -44,4 +44,7 @@
     <dimen name="corners_background_pressed_category">16dp</dimen>
     <dimen name="margin_top_divider_settings">8dp</dimen>
     <dimen name="padding_edit_text">8dp</dimen>
+    <dimen name="margin_start_item_recycler_images">12dp</dimen>
+    <dimen name="margin_my_rating_card">16dp</dimen>
+    <dimen name="corners_my_rating_card">16dp</dimen>
 </resources>

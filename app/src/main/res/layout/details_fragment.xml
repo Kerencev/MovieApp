@@ -121,6 +121,7 @@
                 android:id="@+id/linear_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
                 android:background="@color/title_background_color"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_tv_title"
@@ -164,8 +165,8 @@
                 android:id="@+id/card_user_rating"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/corners_radius"
-                app:cardCornerRadius="@dimen/corners_radius"
+                android:layout_margin="@dimen/margin_my_rating_card"
+                app:cardCornerRadius="@dimen/corners_my_rating_card"
                 app:cardElevation="@dimen/card_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +210,7 @@
                 android:id="@+id/tv_directors"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/corners_radius"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
                 android:background="@color/title_background_color"
                 android:padding="@dimen/padding_tv_title"
                 android:text="@string/director"
@@ -223,6 +224,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/tv_images"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_directors" />
@@ -231,13 +233,13 @@
                 android:id="@+id/linear_full_actor_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/corners_radius"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
                 android:background="@color/title_background_color"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_tv_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linear_directors_list">
+                app:layout_constraintTop_toBottomOf="@id/recycler_images">
 
                 <TextView
                     android:id="@+id/tv_cast_group"
@@ -263,11 +265,37 @@
                 android:id="@+id/linear_actors_list"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/limited_actors_list_height"
+                android:layout_marginBottom="@dimen/margin_my_rating_card"
                 android:orientation="vertical"
                 app:flow_maxElementsWrap="3"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear_full_actor_title" />
+
+            <TextView
+                android:id="@+id/tv_images"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
+                android:background="@color/title_background_color"
+                android:padding="@dimen/padding_tv_title"
+                android:text="@string/casting_images"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_directors_list" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_images"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_images" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

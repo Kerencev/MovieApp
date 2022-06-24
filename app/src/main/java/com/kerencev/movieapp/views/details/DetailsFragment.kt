@@ -17,12 +17,15 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
+import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.preferences.IS_SAVE_HISTORY_KEY
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
+import com.kerencev.movieapp.views.adapters.ImagesAdapter
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import com.kerencev.movieapp.views.person.PersonFragment
 import kotlinx.coroutines.CoroutineScope
@@ -59,6 +62,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         initDirectorsDataObserver()
         initLikedMovieDataObserver()
         initUserRatingDataObserver()
+        initImagesDataObserver()
         initListenerOnChangeUserRating()
         setToolbarClicks()
     }
@@ -87,6 +91,20 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
             }
         }
         viewModel.liveNameData.observe(viewLifecycleOwner, nameDataObserver)
+    }
+
+    private fun initImagesDataObserver() {
+        val dataObserver = Observer<ImagesApi?> { initRecyclerImages(it) }
+        viewModel.imagesData.observe(viewLifecycleOwner, dataObserver)
+        id?.let { viewModel.getImagesFromServer(it) }
+    }
+
+    private fun initRecyclerImages(data: ImagesApi?) {
+        val adapter = ImagesAdapter()
+        binding.recyclerImages.adapter = adapter
+        data?.let {
+            adapter.setData(it)
+        }
     }
 
     private fun initUserRatingDataObserver() {

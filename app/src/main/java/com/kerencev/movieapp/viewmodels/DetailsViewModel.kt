@@ -5,34 +5,37 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerencev.movieapp.data.database.entities.NoteEntity
+import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.model.helpers.FormatActorName
 import com.kerencev.movieapp.model.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class DetailsViewModel(private val repository: Repository) : ViewModel() {
     private var movieData: MovieDetailsApi? = null
+
     private val localLiveData = MutableLiveData<DetailsState>()
     val liveData: LiveData<DetailsState> get() = localLiveData
+
     private val localLiveNameData = MutableLiveData<List<NameData>>()
     val liveNameData: LiveData<List<NameData>> get() = localLiveNameData
+
     private val localLiveDataIsLiked = MutableLiveData<Boolean>(false)
     val liveDataIsLiked: MutableLiveData<Boolean> get() = localLiveDataIsLiked
+
     private val localNoteData = MutableLiveData<NoteEntity?>()
     val noteData: MutableLiveData<NoteEntity?> get() = localNoteData
 
+    private val _imagesData = MutableLiveData<ImagesApi?>()
+    val imagesData: LiveData<ImagesApi?> get() = _imagesData
+
     fun getMovieDetails(id: String, isSaveHistory: Boolean) = getDataFromServer(id, isSaveHistory)
 //    fun getMovieDetails(id: String) = getDataFromLocalStorage()
-
-    private fun getDataFromLocalStorage() {
-        val movieDetails = repository.getMovieDetailsFromLocalStorage()
-        localLiveData.postValue(DetailsState.Success(movieDetails))
-        movieData = movieDetails
-        saveHistory(movieDetails)
-    }
 
     fun isLikedMovie(id: String) = checkLikedMovieDataBase(id)
 
@@ -49,16 +52,34 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private fun saveHistory(movie: MovieDetailsApi) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveHistory(movie)
-        }
-    }
-
     fun getNote(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val data = repository.getNote(id)
             localNoteData.postValue(data)
+        }
+    }
+
+    fun getImagesFromServer(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val data = repository.getImages(id)
+                _imagesData.postValue(data)
+            } catch (e: IOException) {
+                _imagesData.postValue(null)
+            }
+        }
+    }
+
+    private fun getDataFromLocalStorage() {
+        val movieDetails = repository.getMovieDetailsFromLocalStorage()
+        localLiveData.postValue(DetailsState.Success(movieDetails))
+        movieData = movieDetails
+        saveHistory(movieDetails)
+    }
+
+    private fun saveHistory(movie: MovieDetailsApi) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveHistory(movie)
         }
     }
 

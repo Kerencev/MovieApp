@@ -2,8 +2,10 @@ package com.kerencev.movieapp.model.repository
 
 import com.kerencev.movieapp.data.database.entities.HistoryEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
+import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
@@ -29,4 +31,5 @@ interface Repository {
     fun getSearchHistory(): SearchedMovies
     fun clearSearchHistory()
     fun isSearchHistoryEmpty(): Boolean
+    fun getImages(id: String): ImagesApi?
 }

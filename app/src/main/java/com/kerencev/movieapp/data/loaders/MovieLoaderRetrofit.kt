@@ -1,6 +1,8 @@
 package com.kerencev.movieapp.data.loaders
 
+import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
@@ -24,9 +26,14 @@ interface MovieLoaderRetrofit {
     @GET("/ru/API/SearchMovie/$API_KEY/{title}")
     fun getSearchedMovies(@Path("title") title: String): Call<SearchedMovies>
 
+    @GET("/ru/API/Images/$API_KEY/{id}/Full")
+    fun getImages(@Path("id") id: String): Call<ImagesApi>
+
+
+
     companion object {
-        private const val API_KEY = "k_62zj7tzu"
-        //        private const val API_KEY = "k_aled87g3"
+//        private const val API_KEY = "k_62zj7tzu"
+                private const val API_KEY = "k_aled87g3"
         private const val BASE_URL = "https://imdb-api.com/"
 
         fun create(): MovieLoaderRetrofit {

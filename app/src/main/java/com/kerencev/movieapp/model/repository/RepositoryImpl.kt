@@ -6,7 +6,9 @@ import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.database.entities.SearchHistoryEntity
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
+import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.*
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.Result
@@ -150,6 +152,13 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         return when (db.searchHistoryDao().getFirst()) {
             null -> true
             else -> false
+        }
+    }
+
+    override fun getImages(id: String): ImagesApi? {
+        return when (val dto = MovieLoaderRetrofit.create().getImages(id).execute().body()) {
+            null -> null
+            else -> dto
         }
     }
 
