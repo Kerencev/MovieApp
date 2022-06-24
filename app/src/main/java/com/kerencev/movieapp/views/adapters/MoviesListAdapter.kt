@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +17,12 @@ import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.views.details.DetailsFragment
 import com.kerencev.movieapp.views.main.MainFragment
 
-class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
+class MoviesListAdapter(private val onCategoryClickListener: OnCategoryClickListener, private val fragmentManager: FragmentManager?) :
     RecyclerView.Adapter<MoviesListAdapter.MoviesListViewHolder>() {
+
+    interface OnCategoryClickListener {
+        fun onCategoryClick(movies: MoviesListApi)
+    }
 
     interface OnItemViewClickListener {
         fun onItemViewClick(movie: MovieApi)
@@ -55,9 +61,12 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
                     }
                 }
             })
+            rootTitle.setOnClickListener {
+                onCategoryClickListener.onCategoryClick(data[position])
+            }
             recyclerView.adapter = adapter
-            data[position].items?.let {
-                adapter.setData(it)
+            data[position].items?.let { movies ->
+                adapter.setData(movies)
                 adapter.notifyItemInserted(position)
             }
         }
@@ -79,6 +88,7 @@ class MoviesListAdapter(private val fragmentManager: FragmentManager?) :
 
     inner class MoviesListViewHolder(itemView: View, val context: Context) :
         RecyclerView.ViewHolder(itemView) {
+        val rootTitle: LinearLayoutCompat = itemView.findViewById(R.id.root_title_recycler_list)
         val title: TextView = itemView.findViewById(R.id.title_recycler_list)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.recycler_child);
     }

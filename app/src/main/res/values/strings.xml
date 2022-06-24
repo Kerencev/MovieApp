@@ -44,6 +44,13 @@
     <string name="summary">Резюме</string>
     <string name="data_could_not_be_retrieved_check_your_internet_connection">Не удалось получить данные. Проверьте соединение с интернетом</string>
     <string name="reload">Перезагрузить</string>
-    <string name="enter_movie_name">Введите название фильма</string>
+    <string name="enter_movie_name">Введите название..</string>
     <string name="nothing_was_found_for_your_query">По вашему запросу ничего не найдено</string>
+    <string name="all">Всё</string>
+    <string name="clean_watches_history">Очистить историю просмотров</string>
+    <string name="the_browsing_history_has_been_cleared">История просмотров очищена</string>
+    <string name="watches_history_is_empty">История просмотров пуста</string>
+    <string name="save_search_history">Сохранять историю поиска</string>
+    <string name="clean_search_history">Очистить историю поиска</string>
+    <string name="search_history_has_been_cleared">История поиска очищена</string>
 </resources>

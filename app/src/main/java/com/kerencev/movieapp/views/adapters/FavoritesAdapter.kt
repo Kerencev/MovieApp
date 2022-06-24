@@ -39,7 +39,10 @@ class FavoritesAdapter(private val itemClickListener: OnItemFavoriteClickListene
 
     private var data = mutableListOf<MovieApi>()
 
-    fun setData(movies: List<MovieApi>) = data.addAll(movies)
+    fun setData(movies: List<MovieApi>) {
+        data.addAll(movies)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val itemView: View =

@@ -33,6 +33,18 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
+        val observer = Observer<FavoritesState> { renderData(it) }
+        viewModel.liveData.observe(viewLifecycleOwner, observer)
+        viewModel.getFavoritesMovieFromDataBase()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initAdapter() {
         adapter = FavoritesAdapter(object : FavoritesAdapter.OnItemFavoriteClickListener {
             override fun onItemViewClick(movie: MovieApi) {
                 parentFragmentManager.let { manager ->
@@ -47,18 +59,14 @@ class FavoritesFragment : Fragment() {
                 }
             }
         })
-        recycler.adapter = adapter
-        val observer = Observer<FavoritesState> { renderData(it) }
-        viewModel.liveData.observe(viewLifecycleOwner, observer)
-        viewModel.getFavoritesMovieFromDataBase()
+        binding.recycler.adapter = adapter
     }
 
     private fun renderData(favoritesState: FavoritesState) = with(binding) {
         when (favoritesState) {
             is FavoritesState.Success -> {
-                val moviesData = favoritesState.moviesData
-                adapter.setData(moviesData)
-                adapter.notifyDataSetChanged()
+                tvEmpty.visibility = View.GONE
+                adapter.setData(favoritesState.moviesData)
             }
             is FavoritesState.Loading -> {
             }
@@ -69,10 +77,5 @@ class FavoritesFragment : Fragment() {
                     .show()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

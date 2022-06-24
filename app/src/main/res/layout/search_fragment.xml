@@ -27,28 +27,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_search_fragment_edit"
+        android:background="@drawable/background_pressed_category"
         android:hint="@string/enter_movie_name"
+        android:padding="@dimen/padding_edit_text"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@id/action_search"
         app:layout_constraintEnd_toStartOf="@id/action_search"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar" />
+        app:layout_constraintTop_toTopOf="@id/action_search" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/action_search"
         android:layout_width="@dimen/width_btn_search"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_search_fragment_edit"
         android:layout_marginEnd="@dimen/margin_search_fragment_edit"
         android:text="@string/search"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/edit_search"
-        app:layout_constraintTop_toTopOf="@id/edit_search" />
+        app:layout_constraintTop_toBottomOf="@id/app_bar" />
 
     <TextView
         android:id="@+id/tv_empty_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/nothing_was_found_for_your_query"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:text="@string/empty"
+        android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,16 +72,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/action_search"
-        tools:listitem="@layout/item_favorite_movie" />
+        tools:listitem="@layout/item_searched_movie" />
 
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

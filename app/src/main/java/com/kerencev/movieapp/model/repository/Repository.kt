@@ -24,4 +24,9 @@ interface Repository {
     fun saveHistory(movie: MovieDetailsApi)
     fun getAllHistory(): List<HistoryEntity>
     fun clearHistory()
+    fun isHistoryEmpty(): Boolean
+    fun saveSearchHistory(data: SearchedMovies?)
+    fun getSearchHistory(): SearchedMovies
+    fun clearSearchHistory()
+    fun isSearchHistoryEmpty(): Boolean
 }

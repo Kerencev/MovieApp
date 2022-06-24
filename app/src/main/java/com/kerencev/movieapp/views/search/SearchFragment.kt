@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
+import com.kerencev.movieapp.data.preferences.IS_SAVE_SEARCH_HISTORY_KEY
+import com.kerencev.movieapp.data.preferences.Pref
 import com.kerencev.movieapp.databinding.SearchFragmentBinding
 import com.kerencev.movieapp.model.helpers.Keyboard
 import com.kerencev.movieapp.viewmodels.SearchViewModel
@@ -42,9 +44,26 @@ class SearchFragment : Fragment() {
             viewModel.getData(binding.editSearch.text.toString())
         }
         initAdapter()
-        recycler.adapter = adapter
-        val observer = Observer<SearchedMovies?> { renderData(it) }
+        initSearchDataObserver()
+        initSearchHistoryObserver()
+    }
+
+    private fun initSearchDataObserver() {
+        val observer = Observer<SearchedMovies?> {
+            if (Pref.getDataIsChecked(activity, IS_SAVE_SEARCH_HISTORY_KEY)) {
+                viewModel.saveHistory(it)
+            }
+            renderData(it)
+        }
         viewModel.liveData.observe(viewLifecycleOwner, observer)
+    }
+
+    private fun initSearchHistoryObserver() {
+        val observer = Observer<SearchedMovies> {
+            renderData(it)
+        }
+        viewModel.historyData.observe(viewLifecycleOwner, observer)
+        viewModel.getHistory()
     }
 
     private fun initAdapter() {
@@ -59,6 +78,7 @@ class SearchFragment : Fragment() {
                     .commitAllowingStateLoss()
             }
         })
+        binding.recycler.adapter = adapter
     }
 
     private fun renderData(data: SearchedMovies?) {

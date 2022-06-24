@@ -4,10 +4,12 @@ import com.kerencev.movieapp.data.database.DataBase
 import com.kerencev.movieapp.data.database.entities.HistoryEntity
 import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
+import com.kerencev.movieapp.data.database.entities.SearchHistoryEntity
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.list.*
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.search.Result
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
 import com.kerencev.movieapp.model.helpers.MyDate
 import com.kerencev.movieapp.viewmodels.CATEGORY_COMING_SOON
@@ -90,7 +92,10 @@ class RepositoryImpl(private val db: DataBase) : Repository {
     }
 
     override fun getAllLikedMovie(): List<MovieApi>? {
-        return convertLikedMovieEntityToMovieApi(db.likedMovieDao().getAll())
+        return when (val result = db.likedMovieDao().getAll()) {
+            null -> null
+            else -> convertLikedMovieEntityToMovieApi(result)
+        }
     }
 
     override fun isLikedMovie(id: String): Boolean {
@@ -117,7 +122,71 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         db.historyDao().deleteAll()
     }
 
-    private fun convertLikedMovieEntityToMovieApi(entityList: List<LikedMovieEntity>): List<MovieApi> {
+    override fun isHistoryEmpty(): Boolean {
+        return when (db.historyDao().getFirst()) {
+            null -> true
+            else -> false
+        }
+    }
+
+    override fun saveSearchHistory(data: SearchedMovies?) {
+        if (data?.results == null || data.results.isEmpty()) return
+        val listEntities = convertSearchedMoviesToSearchedMoviesEntity(data.results)
+        listEntities.forEach { movie ->
+            db.searchHistoryDao().insert(movie)
+        }
+    }
+
+    override fun getSearchHistory(): SearchedMovies {
+        val listEntities = db.searchHistoryDao().getAll()
+        return convertSearchedMoviesEntityToSearchedMovies(listEntities)
+    }
+
+    override fun clearSearchHistory() {
+        db.searchHistoryDao().deleteAll()
+    }
+
+    override fun isSearchHistoryEmpty(): Boolean {
+        return when (db.searchHistoryDao().getFirst()) {
+            null -> true
+            else -> false
+        }
+    }
+
+    private fun convertSearchedMoviesToSearchedMoviesEntity(list: List<Result>): List<SearchHistoryEntity> {
+        return list.map { movie ->
+            SearchHistoryEntity(
+                id = movie.id ?: "",
+                title = movie.title,
+                image = movie.image,
+                createdAt = System.currentTimeMillis()
+            )
+        }
+    }
+
+    private fun convertSearchedMoviesEntityToSearchedMovies(list: List<SearchHistoryEntity>): SearchedMovies {
+        val result = SearchedMovies(
+            errorMessage = null,
+            expression = null,
+            results = list.map { movie ->
+                var id: String? = null
+                if (movie.id.isNotEmpty()) {
+                    id = movie.id
+                }
+                Result(
+                    description = null,
+                    id = id,
+                    image = movie.image,
+                    title = movie.title,
+                    resultType = null
+                )
+            },
+            searchType = null
+        )
+        return result
+    }
+
+    private fun convertLikedMovieEntityToMovieApi(entityList: List<LikedMovieEntity>): List<MovieApi>? {
         return entityList.map { likedMovieEntity ->
             MovieApi(
                 id = likedMovieEntity.id,
@@ -207,10 +276,12 @@ class RepositoryImpl(private val db: DataBase) : Repository {
 
     private fun getTitle(category: String): String {
         return when (category) {
-            CATEGORY_TOP_250 ->  "Top 250 IMdb"
-            CATEGORY_MOST_POPULAR ->  "Most Popular"
-            CATEGORY_COMING_SOON ->  "Coming soon"
-            else -> {""}
+            CATEGORY_TOP_250 -> "Top 250 IMdb"
+            CATEGORY_MOST_POPULAR -> "Most Popular"
+            CATEGORY_COMING_SOON -> "Coming soon"
+            else -> {
+                ""
+            }
         }
     }
 }

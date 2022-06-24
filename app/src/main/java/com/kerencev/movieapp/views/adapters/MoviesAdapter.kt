@@ -65,7 +65,10 @@ class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewC
         return data.size
     }
 
-    fun setData(movies: List<MovieApi>) = data.addAll(movies)
+    fun setData(movies: List<MovieApi>) {
+        data.addAll(movies)
+        notifyDataSetChanged()
+    }
 
     private fun setRightBackgroundForRating(color: String, holder: MovieViewHolder) {
         when (color) {

@@ -19,13 +19,12 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
+import com.kerencev.movieapp.data.preferences.IS_SAVE_HISTORY_KEY
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
-import com.kerencev.movieapp.model.extensions.showToast
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import com.kerencev.movieapp.views.person.PersonFragment
-import com.kerencev.movieapp.views.settings.IS_SAVE_HISTORY_KEY
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope

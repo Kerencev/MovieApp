@@ -13,6 +13,12 @@ class HistoryViewModel(private val repository: Repository) : ViewModel() {
     private val localLiveData = MutableLiveData<HistoryState>()
     val liveData: LiveData<HistoryState> get() = localLiveData
 
+    private val localLiveDataIsClearHistory = MutableLiveData<Boolean>()
+    val liveDataIsClearHistory: LiveData<Boolean> get() = localLiveDataIsClearHistory
+
+    private val _isClearSearchHistory = MutableLiveData<Boolean>()
+    val isClearSearchHistory: LiveData<Boolean> get() = _isClearSearchHistory
+
     fun getHistoryFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
             val data = repository.getAllHistory()
@@ -22,7 +28,25 @@ class HistoryViewModel(private val repository: Repository) : ViewModel() {
 
     fun clearHistoryFromDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.clearHistory()
+            when (repository.isHistoryEmpty()) {
+                true -> localLiveDataIsClearHistory.postValue(true)
+                false -> {
+                    localLiveDataIsClearHistory.postValue(false)
+                    repository.clearHistory()
+                }
+            }
+        }
+    }
+
+    fun clearSearchHistoryFromDataBase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (repository.isSearchHistoryEmpty()) {
+                true -> _isClearSearchHistory.postValue(true)
+                false -> {
+                    _isClearSearchHistory.postValue(false)
+                    repository.clearSearchHistory()
+                }
+            }
         }
     }
 }

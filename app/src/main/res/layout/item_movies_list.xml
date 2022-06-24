@@ -3,21 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginTop="@dimen/card_elevation">
+    android:layout_marginTop="@dimen/card_elevation"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title_recycler_list"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/root_title_recycler_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textStyle="bold"
-        tools:text="Заголовок"
-        android:layout_marginStart="@dimen/card_elevation"/>
+        android:layout_marginHorizontal="@dimen/card_elevation"
+        android:padding="@dimen/padding_category_title"
+        android:orientation="horizontal"
+        android:background="@drawable/background_category_button">
+
+        <TextView
+            android:id="@+id/title_recycler_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textStyle="bold"
+            tools:text="Заголовок" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/all"
+            android:textColor="@color/design_default_color_primary"
+            android:textSize="@dimen/text_size_all" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_child"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_movie"/>
 
 </LinearLayout>

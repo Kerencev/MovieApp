@@ -6,7 +6,7 @@ import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 @Dao
 interface LikedMovieDao {
     @Query("SELECT * FROM LikedMovieEntity")
-    fun getAll(): List<LikedMovieEntity>
+    fun getAll(): List<LikedMovieEntity>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: LikedMovieEntity)

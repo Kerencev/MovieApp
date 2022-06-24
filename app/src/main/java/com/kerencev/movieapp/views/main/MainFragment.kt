@@ -11,7 +11,11 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
+import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
+import com.kerencev.movieapp.data.preferences.COMING_SOON_KEY
+import com.kerencev.movieapp.data.preferences.MOST_POPULAR_KEY
 import com.kerencev.movieapp.data.preferences.Pref
+import com.kerencev.movieapp.data.preferences.TOP_250_KEY
 import com.kerencev.movieapp.databinding.MainFragmentBinding
 import com.kerencev.movieapp.model.appstate.MainState
 import com.kerencev.movieapp.model.receivers.LoadMovieDetailsBR
@@ -21,10 +25,7 @@ import com.kerencev.movieapp.viewmodels.CATEGORY_MOST_POPULAR
 import com.kerencev.movieapp.viewmodels.CATEGORY_TOP_250
 import com.kerencev.movieapp.viewmodels.MainViewModel
 import com.kerencev.movieapp.views.adapters.MoviesListAdapter
-import com.kerencev.movieapp.views.settings.COMING_SOON_KEY
-import com.kerencev.movieapp.views.settings.MOST_POPULAR_KEY
-import com.kerencev.movieapp.views.settings.SettingsFragment
-import com.kerencev.movieapp.views.settings.TOP_250_KEY
+import com.kerencev.movieapp.views.category.CategoryFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -79,7 +80,16 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     private fun initRecyclerList() {
-        adapter = MoviesListAdapter(fragmentManager = parentFragmentManager)
+        adapter = MoviesListAdapter(object : MoviesListAdapter.OnCategoryClickListener {
+            override fun onCategoryClick(movies: MoviesListApi) {
+                parentFragmentManager.beginTransaction()
+                    .hide(this@MainFragment)
+                    .add(R.id.container, CategoryFragment.newInstance(movies))
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+            }
+
+        }, fragmentManager = parentFragmentManager)
         binding.recycler.adapter = adapter
     }
 
