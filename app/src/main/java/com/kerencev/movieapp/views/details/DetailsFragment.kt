@@ -30,10 +30,8 @@ import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.views.adapters.ImagesAdapter
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import com.kerencev.movieapp.views.person.PersonFragment
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope

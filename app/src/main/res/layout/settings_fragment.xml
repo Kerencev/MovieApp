@@ -102,8 +102,9 @@
                     android:id="@+id/action_clean_watched_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_category_button"
-                    android:orientation="horizontal">
+                    android:background="@drawable/background_title"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_settings_menu_item">
 
                     <TextView
                         android:layout_width="0dp"
@@ -118,12 +119,6 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_divider"
-                    android:layout_marginTop="@dimen/margin_top_divider_settings"
-                    android:background="@color/divider_item_history" />
-
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switch_save_search_history"
                     android:layout_width="match_parent"
@@ -134,8 +129,9 @@
                     android:id="@+id/action_clean_search_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_category_button"
-                    android:orientation="horizontal">
+                    android:background="@drawable/background_title"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_settings_menu_item">
 
                     <TextView
                         android:layout_width="0dp"

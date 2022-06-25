@@ -47,4 +47,5 @@
     <dimen name="margin_start_item_recycler_images">12dp</dimen>
     <dimen name="margin_my_rating_card">16dp</dimen>
     <dimen name="corners_my_rating_card">16dp</dimen>
+    <dimen name="padding_settings_menu_item">4dp</dimen>
 </resources>
