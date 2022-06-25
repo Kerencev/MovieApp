@@ -117,6 +117,42 @@
                 app:layout_constraintTop_toBottomOf="@id/linear_rating"
                 tools:text="2021, комедия, семейный\nРоссия, 1h 45min" />
 
+            <LinearLayout
+                android:id="@+id/title_youtube"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
+                android:background="@drawable/background_title"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_tv_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/trailer"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/watch_at_youtube"
+                    android:textColor="@color/green" />
+
+            </LinearLayout>
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtube_player"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:autoPlay="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_youtube" />
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linear_description"
                 android:layout_width="0dp"
@@ -127,8 +163,7 @@
                 android:padding="@dimen/padding_tv_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/details">
-
+                app:layout_constraintTop_toBottomOf="@id/youtube_player">
 
                 <TextView
                     android:id="@+id/tv_description"
@@ -259,7 +294,6 @@
                     android:textColor="@color/green" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linear_actors_list"

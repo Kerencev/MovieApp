@@ -9,6 +9,7 @@ import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
+import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 
 interface Repository {
     fun getMoviesFromServer(category: String): MoviesListApi?
@@ -32,4 +33,5 @@ interface Repository {
     fun clearSearchHistory()
     fun isSearchHistoryEmpty(): Boolean
     fun getImages(id: String): ImagesApi?
+    fun getTrailerDataFromServer(id: String): YouTubeTrailer?
 }

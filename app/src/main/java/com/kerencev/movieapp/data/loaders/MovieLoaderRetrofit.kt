@@ -6,6 +6,7 @@ import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
+import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,11 +30,12 @@ interface MovieLoaderRetrofit {
     @GET("/ru/API/Images/$API_KEY/{id}/Full")
     fun getImages(@Path("id") id: String): Call<ImagesApi>
 
-
+    @GET("/ru/API/YouTubeTrailer/$API_KEY/{id}")
+    fun getTrailer(@Path("id") id: String): Call<YouTubeTrailer>
 
     companion object {
-//        private const val API_KEY = "k_62zj7tzu"
-                private const val API_KEY = "k_aled87g3"
+        //        private const val API_KEY = "k_62zj7tzu"
+        private const val API_KEY = "k_aled87g3"
         private const val BASE_URL = "https://imdb-api.com/"
 
         fun create(): MovieLoaderRetrofit {

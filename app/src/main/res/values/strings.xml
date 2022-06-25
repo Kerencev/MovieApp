@@ -54,4 +54,6 @@
     <string name="clean_search_history">Очистить историю поиска</string>
     <string name="search_history_has_been_cleared">История поиска очищена</string>
     <string name="casting_images">Фото со съёмок</string>
+    <string name="trailer">Трейлер</string>
+    <string name="watch_at_youtube">Смотреть в YouTube</string>
 </resources>

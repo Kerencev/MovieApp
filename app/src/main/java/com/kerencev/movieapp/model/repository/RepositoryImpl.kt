@@ -13,6 +13,7 @@ import com.kerencev.movieapp.data.loaders.entities.list.*
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.search.Result
 import com.kerencev.movieapp.data.loaders.entities.search.SearchedMovies
+import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 import com.kerencev.movieapp.model.helpers.MyDate
 import com.kerencev.movieapp.viewmodels.CATEGORY_COMING_SOON
 import com.kerencev.movieapp.viewmodels.CATEGORY_MOST_POPULAR
@@ -160,6 +161,10 @@ class RepositoryImpl(private val db: DataBase) : Repository {
             null -> null
             else -> dto
         }
+    }
+
+    override fun getTrailerDataFromServer(id: String): YouTubeTrailer? {
+        return MovieLoaderRetrofit.create().getTrailer(id).execute().body()
     }
 
     private fun convertSearchedMoviesToSearchedMoviesEntity(list: List<Result>): List<SearchHistoryEntity> {

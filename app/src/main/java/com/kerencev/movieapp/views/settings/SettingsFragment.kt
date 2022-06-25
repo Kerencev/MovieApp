@@ -1,5 +1,7 @@
 package com.kerencev.movieapp.views.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import com.kerencev.movieapp.databinding.SettingsFragmentBinding
 import com.kerencev.movieapp.model.extensions.showSnackBar
 import com.kerencev.movieapp.viewmodels.HistoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class SettingsFragment : Fragment() {
     private val viewModel: HistoryViewModel by viewModel()
@@ -26,7 +29,7 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
         setRightSwitchPosition()
         setRightCheckBoxPosition()
@@ -51,9 +54,15 @@ class SettingsFragment : Fragment() {
         actionCleanSearchHistory.setOnClickListener {
             viewModel.clearSearchHistoryFromDataBase()
         }
-        val cleanHistoryObserver = Observer<Boolean> { showSnackHistory(it, R.string.the_browsing_history_has_been_cleared) }
+        val cleanHistoryObserver = Observer<Boolean> {
+            showSnackHistory(
+                it,
+                R.string.the_browsing_history_has_been_cleared
+            )
+        }
         viewModel.liveDataIsClearHistory.observe(viewLifecycleOwner, cleanHistoryObserver)
-        val cleanSearchHistoryObserver = Observer<Boolean> { showSnackHistory(it, R.string.search_history_has_been_cleared) }
+        val cleanSearchHistoryObserver =
+            Observer<Boolean> { showSnackHistory(it, R.string.search_history_has_been_cleared) }
         viewModel.isClearSearchHistory.observe(viewLifecycleOwner, cleanSearchHistoryObserver)
     }
 
@@ -64,7 +73,8 @@ class SettingsFragment : Fragment() {
 
     private fun setRightSwitchPosition() = with(binding) {
         switchSaveHistory.isChecked = Pref.getDataIsChecked(activity, IS_SAVE_HISTORY_KEY)
-        switchSaveSearchHistory.isChecked = Pref.getDataIsChecked(activity, IS_SAVE_SEARCH_HISTORY_KEY)
+        switchSaveSearchHistory.isChecked =
+            Pref.getDataIsChecked(activity, IS_SAVE_SEARCH_HISTORY_KEY)
     }
 
     private fun setRightCheckBoxPosition() {

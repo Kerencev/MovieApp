@@ -9,6 +9,7 @@ import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.model.helpers.FormatActorName
 import com.kerencev.movieapp.model.repository.Repository
@@ -33,6 +34,9 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
 
     private val _imagesData = MutableLiveData<ImagesApi?>()
     val imagesData: LiveData<ImagesApi?> get() = _imagesData
+
+    private val _trailerData = MutableLiveData<YouTubeTrailer?>()
+    val trailerData: LiveData<YouTubeTrailer?> get() = _trailerData
 
     fun getMovieDetails(id: String, isSaveHistory: Boolean) = getDataFromServer(id, isSaveHistory)
 //    fun getMovieDetails(id: String) = getDataFromLocalStorage()
@@ -66,6 +70,17 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
                 _imagesData.postValue(data)
             } catch (e: IOException) {
                 _imagesData.postValue(null)
+            }
+        }
+    }
+
+    fun getTrailerFromServer(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val data = repository.getTrailerDataFromServer(id)
+                _trailerData.postValue(data)
+            } catch (e: IOException) {
+                _trailerData.postValue(null)
             }
         }
     }

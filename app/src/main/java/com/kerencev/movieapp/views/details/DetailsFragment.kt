@@ -2,6 +2,8 @@ package com.kerencev.movieapp.views.details
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -17,10 +19,10 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
-import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
+import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 import com.kerencev.movieapp.data.preferences.IS_SAVE_HISTORY_KEY
 import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
@@ -28,11 +30,16 @@ import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.views.adapters.ImagesAdapter
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import com.kerencev.movieapp.views.person.PersonFragment
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
@@ -63,6 +70,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         initLikedMovieDataObserver()
         initUserRatingDataObserver()
         initImagesDataObserver()
+        initTrailerDataObserver()
         initListenerOnChangeUserRating()
         setToolbarClicks()
     }
@@ -97,6 +105,12 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         val dataObserver = Observer<ImagesApi?> { initRecyclerImages(it) }
         viewModel.imagesData.observe(viewLifecycleOwner, dataObserver)
         id?.let { viewModel.getImagesFromServer(it) }
+    }
+
+    private fun initTrailerDataObserver() {
+        val dataObserver = Observer<YouTubeTrailer?> { renderTrailerData(it) }
+        viewModel.trailerData.observe(viewLifecycleOwner, dataObserver)
+        id?.let { viewModel.getTrailerFromServer(it) }
     }
 
     private fun initRecyclerImages(data: ImagesApi?) {
@@ -201,6 +215,29 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 }
             }
         }
+    }
+
+    private fun renderTrailerData(trailer: YouTubeTrailer?) = with(binding) {
+        lifecycle.addObserver(youtubePlayer);
+        trailer?.videoUrl?.let { url ->
+            titleYoutube.setOnClickListener {
+                openYouTubeApp(url)
+            }
+        }
+        trailer?.videoId?.let { videoId ->
+            youtubePlayer.getYouTubePlayerWhenReady(object : YouTubePlayerCallback {
+                override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
+                    youTubePlayer.cueVideo(videoId, 0f)
+                }
+            })
+        }
+    }
+
+    private fun openYouTubeApp(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setPackage("com.google.android.youtube")
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
     private fun setAllClicks() = with(binding) {

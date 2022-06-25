@@ -80,6 +80,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/corners_radius"
@@ -148,7 +149,6 @@
                         android:src="@drawable/ic_baseline_delete_sweep_24" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
