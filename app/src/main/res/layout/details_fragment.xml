@@ -141,7 +141,7 @@
                 app:layout_constraintTop_toBottomOf="@id/container_with_image">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/trailer"
@@ -270,10 +270,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/tv_images"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_directors" />
+
+            <TextView
+                android:id="@+id/title_awards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
+                android:background="@color/title_background_color"
+                android:padding="@dimen/padding_tv_title"
+                android:text="@string/awards"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_directors_list" />
+
+            <TextView
+                android:id="@+id/tv_awards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_background"
+                android:padding="@dimen/card_elevation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_awards"
+                tools:text="Top rated movie #34 | Awards, 6 wins  15 nominations" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linear_full_actor_title"
@@ -310,13 +333,36 @@
                 android:id="@+id/linear_actors_list"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/limited_actors_list_height"
-                android:layout_marginBottom="@dimen/margin_my_rating_card"
                 android:orientation="vertical"
                 app:flow_maxElementsWrap="3"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear_full_actor_title" />
+
+            <TextView
+                android:id="@+id/title_similars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_my_rating_card"
+                android:background="@color/title_background_color"
+                android:padding="@dimen/card_elevation"
+                android:text="@string/similars_movies"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_actors_list" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_similars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_similars"
+                tools:listitem="@layout/item_movie" />
 
             <TextView
                 android:id="@+id/tv_images"
@@ -329,7 +375,7 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_directors_list" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_awards" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_images"
@@ -340,7 +386,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_images" />
+                app:layout_constraintTop_toBottomOf="@id/tv_images"
+                tools:listitem="@layout/item_recycler_images" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

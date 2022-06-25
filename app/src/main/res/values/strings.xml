@@ -59,4 +59,5 @@
     <string name="select_the_categories_to_be_displayed">Выберите категории, которые будут отображаться</string>
     <string name="clean_favorites">Очистить избранное</string>
     <string name="favorites_is_cleared">Избранное очищено</string>
+    <string name="similars_movies">Похожие фильмы</string>
 </resources>

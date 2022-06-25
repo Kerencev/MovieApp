@@ -20,7 +20,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.details.Similar
 import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
+import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 import com.kerencev.movieapp.data.preferences.IS_SAVE_HISTORY_KEY
@@ -28,6 +30,8 @@ import com.kerencev.movieapp.databinding.DetailsFragmentBinding
 import com.kerencev.movieapp.model.appstate.DetailsState
 import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.views.adapters.ImagesAdapter
+import com.kerencev.movieapp.views.adapters.MoviesAdapter
+import com.kerencev.movieapp.views.adapters.MoviesListAdapter
 import com.kerencev.movieapp.views.dialogfragments.NoteDialogFragment
 import com.kerencev.movieapp.views.person.PersonFragment
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -316,7 +320,30 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         details.text =
             "${moviesData?.year}, ${moviesData?.genres}, ${moviesData?.countries}, ${moviesData?.runtimeStr}"
         description.text = moviesData?.plotLocal
+        tvAwards.text = moviesData?.awards
         setActorsList(moviesData)
+        initSimilarsList(moviesData?.similars)
+    }
+
+    private fun initSimilarsList(similarsData: List<Similar?>?) {
+        if (similarsData == null || similarsData.isEmpty()) return
+        val dataForAdapter = viewModel.convertListSimillarsToListMovieApi(similarsData)
+        val adapter = MoviesAdapter(object : MoviesListAdapter.OnItemViewClickListener {
+            override fun onItemViewClick(movie: MovieApi) {
+                movie.id?.let { id ->
+                    val bundle = Bundle().apply {
+                        putString(BUNDLE_MOVIE, id)
+                    }
+                    parentFragmentManager.beginTransaction()
+                        .hide(this@DetailsFragment)
+                        .add(R.id.container, DetailsFragment.newInstance(bundle))
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+            }
+        })
+        binding.recyclerSimilars.adapter = adapter
+        adapter.setData(dataForAdapter)
     }
 
     private fun setActorsList(moviesData: MovieDetailsApi?) = with(binding) {

@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kerencev.movieapp.data.database.entities.NoteEntity
-import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
+import com.kerencev.movieapp.data.loaders.entities.details.Similar
 import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
+import com.kerencev.movieapp.data.loaders.entities.list.*
 import com.kerencev.movieapp.data.loaders.entities.name.NameData
 import com.kerencev.movieapp.data.loaders.entities.trailer.YouTubeTrailer
 import com.kerencev.movieapp.model.appstate.DetailsState
@@ -85,6 +86,25 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    fun convertListSimillarsToListMovieApi(data: List<Similar?>): List<MovieApi> {
+        val result = mutableListOf<MovieApi>()
+        data.forEach { similar ->
+            similar?.let {
+                result.add(
+                    MovieApi(
+                        id = similar.id,
+                        title = similar.title,
+                        year = null,
+                        imDbRating = similar.imDbRating,
+                        image = similar.image,
+                        colorOfRating = setRightColor(similar.imDbRating)
+                    )
+                )
+            }
+        }
+        return result
+    }
+
     private fun getDataFromLocalStorage() {
         val movieDetails = repository.getMovieDetailsFromLocalStorage()
         localLiveData.postValue(DetailsState.Success(movieDetails))
@@ -145,5 +165,20 @@ class DetailsViewModel(private val repository: Repository) : ViewModel() {
             director.id?.let { idList.add(it) }
         }
         return idList
+    }
+
+    private fun setRightColor(rating: String?): String {
+        if (rating?.isEmpty() == true) {
+            return COLOR_NULL
+        }
+        val ratingDouble = rating?.toDouble()
+        if (ratingDouble == null || ratingDouble == 0.0) {
+            return COLOR_NULL
+        }
+        when {
+            ratingDouble < 5.0 -> return COLOR_RATING_RED
+            ratingDouble < 7.0 -> return COLOR_RATING_GRAY
+        }
+        return COLOR_RATING_GREEN
     }
 }
