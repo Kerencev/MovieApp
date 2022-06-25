@@ -13,13 +13,16 @@
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_rating_red.xml" value="0.147" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_title.xml" value="0.157" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/background_unpressed_title.xml" value="0.157" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/delete_sweep_red.xml" value="0.157" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.157" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.157" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_delete_sweep_24.xml" value="0.157" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.133" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.133" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/stroke_background.xml" value="0.1455" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/category_details_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/contacts_fragment.xml" value="0.1" />
-        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/details_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/details_fragment.xml" value="0.152" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/dialig_fragment_note.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/favorites_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Keren/AndroidStudioProjects/MovieApp/app/src/main/res/layout/history_fragment.xml" value="0.25416666666666665" />

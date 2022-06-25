@@ -239,7 +239,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     private fun setAllClicks() = with(binding) {
-        actionUnrollDescription.setOnClickListener {
+        linearDescription.setOnClickListener {
             when (description.maxLines) {
                 DESCRIPTION_UNLIMITED_HEIGHT -> {
                     description.maxLines = DESCRIPTION_LIMITED_HEIGHT
@@ -251,7 +251,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 }
             }
         }
-        actionUnrollCastGroup.setOnClickListener {
+        linearFullActorTitle.setOnClickListener {
             val actionRollBtn = actionUnrollCastGroup.text.toString()
             if (actionRollBtn == unroll) {
                 val params = linearActorsList.layoutParams
@@ -301,7 +301,8 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     @SuppressLint("SetTextI18n")
     private fun setAllViewContent(moviesData: MovieDetailsApi?) = with(binding) {
-        launch(Dispatchers.Main) {
+        toolbar.title = moviesData?.title
+        launch {
             moviesData?.image?.let {
                 Glide.with(requireContext())
                     .load(it)

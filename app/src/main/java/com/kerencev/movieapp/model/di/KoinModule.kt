@@ -26,4 +26,5 @@ val appModule = module {
     viewModel { HistoryViewModel(get()) }
     viewModel { PersonViewModel(get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { SettingsViewModel(get()) }
 }

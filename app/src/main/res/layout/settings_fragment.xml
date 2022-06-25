@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/toolbar"
-            app:title="@string/settings" />
+            app:title="@string/settings"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,7 +29,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_settings_fragment_linear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar">
@@ -36,19 +36,28 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_title_settings"
+            android:layout_marginTop="@dimen/padding_settings_fragment_linear"
             android:text="@string/main"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/corners_radius"
-            app:cardElevation="@dimen/card_elevation">
+            android:layout_marginHorizontal="@dimen/margin_top_item_history"
+            app:cardCornerRadius="@dimen/corners_radius">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_item_history"
+                    android:gravity="center"
+                    android:text="@string/select_the_categories_to_be_displayed" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/checkbox_top250"
@@ -75,6 +84,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_title_settings"
             android:layout_marginTop="@dimen/padding_settings_fragment_linear"
             android:text="@string/history"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
@@ -83,8 +93,8 @@
             android:id="@+id/card_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/corners_radius"
-            app:cardElevation="@dimen/card_elevation">
+            android:layout_marginHorizontal="@dimen/margin_top_item_history"
+            app:cardCornerRadius="@dimen/corners_radius">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -115,7 +125,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_delete_sweep_24" />
+                        android:src="@drawable/delete_sweep_red" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -142,9 +152,46 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_delete_sweep_24" />
+                        android:src="@drawable/delete_sweep_red" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_title_settings"
+            android:layout_marginTop="@dimen/padding_settings_fragment_linear"
+            android:text="@string/favourites"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_top_item_history"
+            app:cardCornerRadius="@dimen/corners_radius">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/action_clean_favorites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_title"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_settings_fragment_linear">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/clean_favorites" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/delete_sweep_red" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -53,10 +53,6 @@ class HistoryFragment : Fragment(), CoroutineScope by MainScope() {
         val observer = Observer<HistoryState> { renderData(it) }
         viewModel.liveData.observe(viewLifecycleOwner, observer)
         viewModel.getHistoryFromDataBase()
-        actionClearHistory.setOnClickListener {
-            viewModel.clearHistoryFromDataBase()
-            showEmptyMessage()
-        }
     }
 
     private fun renderData(historyState: HistoryState) = with(binding) {
@@ -82,7 +78,6 @@ class HistoryFragment : Fragment(), CoroutineScope by MainScope() {
 
     private fun showEmptyMessage() = with(binding) {
         recycler.visibility = View.GONE
-        actionClearHistory.visibility = View.GONE
         tvEmpty.visibility = View.VISIBLE
     }
 

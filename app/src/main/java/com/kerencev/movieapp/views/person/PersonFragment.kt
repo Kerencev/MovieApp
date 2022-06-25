@@ -71,6 +71,7 @@ class PersonFragment : Fragment(), CoroutineScope by MainScope() {
                     .show()
             }
             else -> {
+                toolbar.title = nameData.name
                 tvName.text = nameData.name
                 tvRole.text = nameData.role
                 tvSummary.text = nameData.summary

@@ -25,28 +25,4 @@ class HistoryViewModel(private val repository: Repository) : ViewModel() {
             localLiveData.postValue(HistoryState.Success(data))
         }
     }
-
-    fun clearHistoryFromDataBase() {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (repository.isHistoryEmpty()) {
-                true -> localLiveDataIsClearHistory.postValue(true)
-                false -> {
-                    localLiveDataIsClearHistory.postValue(false)
-                    repository.clearHistory()
-                }
-            }
-        }
-    }
-
-    fun clearSearchHistoryFromDataBase() {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (repository.isSearchHistoryEmpty()) {
-                true -> _isClearSearchHistory.postValue(true)
-                false -> {
-                    _isClearSearchHistory.postValue(false)
-                    repository.clearSearchHistory()
-                }
-            }
-        }
-    }
 }

@@ -56,4 +56,7 @@
     <string name="casting_images">Фото со съёмок</string>
     <string name="trailer">Трейлер</string>
     <string name="watch_at_youtube">Смотреть в YouTube</string>
+    <string name="select_the_categories_to_be_displayed">Выберите категории, которые будут отображаться</string>
+    <string name="clean_favorites">Очистить избранное</string>
+    <string name="favorites_is_cleared">Избранное очищено</string>
 </resources>

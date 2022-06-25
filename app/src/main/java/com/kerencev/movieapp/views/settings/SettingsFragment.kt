@@ -1,7 +1,5 @@
 package com.kerencev.movieapp.views.settings
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +10,12 @@ import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.preferences.*
 import com.kerencev.movieapp.databinding.SettingsFragmentBinding
 import com.kerencev.movieapp.model.extensions.showSnackBar
-import com.kerencev.movieapp.viewmodels.HistoryViewModel
+import com.kerencev.movieapp.viewmodels.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SettingsFragment : Fragment() {
-    private val viewModel: HistoryViewModel by viewModel()
+    private val viewModel: SettingsViewModel by viewModel()
     private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -29,10 +27,20 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRightSwitchPosition()
         setRightCheckBoxPosition()
+        initAllClicks()
+        initObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initAllClicks() = with(binding) {
         switchSaveHistory.setOnCheckedChangeListener { _, isChecked ->
             Pref.saveDataIsChecked(activity, IS_SAVE_HISTORY_KEY, isChecked)
         }
@@ -54,21 +62,9 @@ class SettingsFragment : Fragment() {
         actionCleanSearchHistory.setOnClickListener {
             viewModel.clearSearchHistoryFromDataBase()
         }
-        val cleanHistoryObserver = Observer<Boolean> {
-            showSnackHistory(
-                it,
-                R.string.the_browsing_history_has_been_cleared
-            )
+        actionCleanFavorites.setOnClickListener {
+            viewModel.cleanFavoritesFromDataBase()
         }
-        viewModel.liveDataIsClearHistory.observe(viewLifecycleOwner, cleanHistoryObserver)
-        val cleanSearchHistoryObserver =
-            Observer<Boolean> { showSnackHistory(it, R.string.search_history_has_been_cleared) }
-        viewModel.isClearSearchHistory.observe(viewLifecycleOwner, cleanSearchHistoryObserver)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setRightSwitchPosition() = with(binding) {
@@ -81,6 +77,24 @@ class SettingsFragment : Fragment() {
         binding.checkboxTop250.isChecked = Pref.getDataIsChecked(activity, TOP_250_KEY)
         binding.checkboxMostPopular.isChecked = Pref.getDataIsChecked(activity, MOST_POPULAR_KEY)
         binding.checkboxComingSoon.isChecked = Pref.getDataIsChecked(activity, COMING_SOON_KEY)
+    }
+
+    private fun initObservers() {
+        val cleanHistoryObserver = Observer<Boolean> {
+            showSnackHistory(
+                it,
+                R.string.the_browsing_history_has_been_cleared
+            )
+        }
+        viewModel.liveDataIsClearHistory.observe(viewLifecycleOwner, cleanHistoryObserver)
+
+        val cleanSearchHistoryObserver =
+            Observer<Boolean> { showSnackHistory(it, R.string.search_history_has_been_cleared) }
+        viewModel.isClearSearchHistory.observe(viewLifecycleOwner, cleanSearchHistoryObserver)
+
+        val cleanFavoritesObserver =
+            Observer<Boolean> { showSnackHistory(it, R.string.favorites_is_cleared) }
+        viewModel.isClearFavorites.observe(viewLifecycleOwner, cleanFavoritesObserver)
     }
 
     private fun showSnackHistory(isHistoryEmpty: Boolean, resId: Int) = with(binding) {

@@ -28,6 +28,8 @@ interface Repository {
     fun getAllHistory(): List<HistoryEntity>
     fun clearHistory()
     fun isHistoryEmpty(): Boolean
+    fun clearFavorites()
+    fun isFavoritesEmpty(): Boolean
     fun saveSearchHistory(data: SearchedMovies?)
     fun getSearchHistory(): SearchedMovies
     fun clearSearchHistory()

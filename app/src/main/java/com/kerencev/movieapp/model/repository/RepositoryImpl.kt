@@ -132,6 +132,17 @@ class RepositoryImpl(private val db: DataBase) : Repository {
         }
     }
 
+    override fun clearFavorites() {
+        db.likedMovieDao().deleteAll()
+    }
+
+    override fun isFavoritesEmpty(): Boolean {
+        return when (db.likedMovieDao().getFirst()) {
+            null -> true
+            else -> false
+        }
+    }
+
     override fun saveSearchHistory(data: SearchedMovies?) {
         if (data?.results == null || data.results.isEmpty()) return
         val listEntities = convertSearchedMoviesToSearchedMoviesEntity(data.results)
