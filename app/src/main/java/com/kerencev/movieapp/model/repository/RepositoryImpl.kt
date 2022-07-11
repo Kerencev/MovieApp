@@ -6,7 +6,6 @@ import com.kerencev.movieapp.data.database.entities.LikedMovieEntity
 import com.kerencev.movieapp.data.database.entities.NoteEntity
 import com.kerencev.movieapp.data.database.entities.SearchHistoryEntity
 import com.kerencev.movieapp.data.loaders.MovieLoaderRetrofit
-import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.*

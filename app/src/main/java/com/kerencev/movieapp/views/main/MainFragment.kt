@@ -1,6 +1,5 @@
 package com.kerencev.movieapp.views.main
 
-import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
-import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 import com.kerencev.movieapp.data.preferences.COMING_SOON_KEY
 import com.kerencev.movieapp.data.preferences.MOST_POPULAR_KEY

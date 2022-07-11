@@ -1,6 +1,5 @@
 package com.kerencev.movieapp.data.loaders
 
-import com.kerencev.movieapp.data.loaders.entities.details.Images
 import com.kerencev.movieapp.data.loaders.entities.details.MovieDetailsApi
 import com.kerencev.movieapp.data.loaders.entities.images.ImagesApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi

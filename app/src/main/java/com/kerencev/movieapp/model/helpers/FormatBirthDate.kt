@@ -3,7 +3,6 @@ package com.kerencev.movieapp.model.helpers
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 object FormatBirthDate {
     @SuppressLint("SimpleDateFormat")

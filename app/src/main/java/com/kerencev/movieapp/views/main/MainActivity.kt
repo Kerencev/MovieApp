@@ -2,17 +2,12 @@ package com.kerencev.movieapp.views.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.MainActivityBinding
-import com.kerencev.movieapp.model.extensions.showToast
 import com.kerencev.movieapp.views.favorites.FavoritesFragment
 import com.kerencev.movieapp.views.history.HistoryFragment
-import com.kerencev.movieapp.views.person.PersonFragment
 import com.kerencev.movieapp.views.search.SearchFragment
 import com.kerencev.movieapp.views.settings.SettingsFragment
-
-const val ID_NAME_DATA = "nm0000154"
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
-                .replace(R.id.container, SearchFragment())
+                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
                 .commitNow()
         }
         setBottomNavigation()

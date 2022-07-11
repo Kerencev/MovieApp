@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.bumptech.glide.Glide
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.images.ImageApi

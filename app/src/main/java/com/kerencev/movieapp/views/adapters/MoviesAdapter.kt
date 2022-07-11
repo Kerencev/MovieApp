@@ -12,16 +12,11 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.loaders.entities.list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import com.bumptech.glide.request.target.Target;
-import com.kerencev.movieapp.model.extensions.showToast
-import java.lang.RuntimeException
 
 class MoviesAdapter(private val itemClickListener: MoviesListAdapter.OnItemViewClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>(), CoroutineScope by MainScope() {

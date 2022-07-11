@@ -11,7 +11,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.data.database.entities.NoteEntity
-import com.kerencev.movieapp.viewmodels.DetailsViewModel
 import com.kerencev.movieapp.viewmodels.NoteViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

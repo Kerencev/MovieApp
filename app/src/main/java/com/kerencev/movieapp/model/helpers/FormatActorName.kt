@@ -1,7 +1,5 @@
 package com.kerencev.movieapp.model.helpers
 
-import java.lang.StringBuilder
-
 object FormatActorName {
 
     fun getName(name: String): String {

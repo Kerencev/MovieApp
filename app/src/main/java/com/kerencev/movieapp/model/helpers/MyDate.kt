@@ -1,8 +1,6 @@
 package com.kerencev.movieapp.model.helpers
 
 import android.annotation.SuppressLint
-import okhttp3.internal.UTC
-import okio.Utf8
 import java.text.SimpleDateFormat
 import java.util.*
 

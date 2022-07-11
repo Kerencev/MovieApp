@@ -1,6 +1,5 @@
 package com.kerencev.movieapp.model.appstate
 
-import com.kerencev.movieapp.data.loaders.entities.list.MovieApi
 import com.kerencev.movieapp.data.loaders.entities.list.MoviesListApi
 
 sealed class MainState {
