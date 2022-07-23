@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -42,7 +43,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     private val viewModel: DetailsViewModel by viewModel()
@@ -65,6 +65,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeScroll()
         isSaveHistory = getIsSaveHistoryFromPref()
         id = arguments?.getString(BUNDLE_MOVIE)
         initMainDataObserver()
@@ -80,6 +81,19 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun observeScroll() = with(binding) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                poster.alpha = ((1000 - scrollY.toFloat())/1000) + 0.5f
+                if (scrollY >= scroll.height - scroll.y + title.height) {
+                    toolbar.title = title.text.toString()
+                } else {
+                    toolbar.title = null
+                }
+            }
+        }
     }
 
     private fun initLikedMovieDataObserver() {
@@ -306,14 +320,15 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     @SuppressLint("SetTextI18n")
     private fun setAllViewContent(moviesData: MovieDetailsApi?) = with(binding) {
         toolbar.title = moviesData?.title
-        launch {
-            moviesData?.image?.let {
-                Glide.with(requireContext())
-                    .load(it)
-                    .placeholder(R.drawable.movie)
-                    .fitCenter()
-                    .into(poster)
-            }
+        moviesData?.image?.let {
+            Glide.with(requireContext())
+                .load(it)
+                .placeholder(R.drawable.movie)
+                .fitCenter()
+                .into(poster)
+            Glide.with(requireContext())
+                .load(it)
+                .into(backgroundPoster)
         }
         title.text = moviesData?.title
         rating.text = "${moviesData?.imDbRating} (${moviesData?.imDbRatingVotes})"

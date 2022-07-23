@@ -8,6 +8,7 @@ import com.kerencev.movieapp.views.favorites.FavoritesFragment
 import com.kerencev.movieapp.views.history.HistoryFragment
 import com.kerencev.movieapp.views.search.SearchFragment
 import com.kerencev.movieapp.views.settings.SettingsFragment
+import com.kerencev.movieapp.views.test.TestFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
-                .replace(R.id.container, SearchFragment())
+                .replace(R.id.container, TestFragment())
                 .commitNow()
         }
         setBottomNavigation()

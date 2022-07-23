@@ -49,4 +49,10 @@
     <dimen name="corners_my_rating_card">16dp</dimen>
     <dimen name="padding_settings_menu_item">4dp</dimen>
     <dimen name="margin_start_title_settings">16dp</dimen>
+    <dimen name="margin_horizontal_poster_details">40dp</dimen>
+    <dimen name="margin_bottom_poster_details">100dp</dimen>
+    <dimen name="margin_top_constraint_scroll_details">560dp</dimen>
+    <dimen name="width_view_bottom_sheet">24dp</dimen>
+    <dimen name="height_view_bottom_sheet">1dp</dimen>
+    <dimen name="margin_top_view_bottom_sheet">4dp</dimen>
 </resources>

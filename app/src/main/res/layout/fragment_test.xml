@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,44 +18,34 @@
         android:id="@+id/background_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.3"
+        android:alpha="0.2"
         android:contentDescription="@string/poster_film"
         android:scaleType="center"
-        app:layout_behavior=".views.details.behaviors.BackgroundDetailsBehavior"
-        tools:src="@drawable/matrix" />
+        android:src="@drawable/matrix"
+        app:layout_behavior=".views.details.behaviors.BackgroundDetailsBehavior" />
 
     <ImageView
         android:id="@+id/poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/margin_horizontal_poster_details"
-        android:layout_marginBottom="@dimen/margin_bottom_poster_details"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="100dp"
         android:contentDescription="@string/poster_film"
-        app:layout_behavior=".views.details.behaviors.PosterBehavior"
-        tools:src="@drawable/matrix" />
+        android:src="@drawable/matrix"
+        app:layout_behavior=".views.details.behaviors.PosterBehavior" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         app:layout_behavior=".views.details.behaviors.ScrollBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_constraint_scroll_details"
+            android:layout_marginTop="560dp"
             android:background="@drawable/background_bottom_sheet">
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="@dimen/width_view_bottom_sheet"
-                android:layout_height="@dimen/height_view_bottom_sheet"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/margin_top_view_bottom_sheet"
-                android:background="@color/gray"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar_details"
@@ -73,7 +62,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/title"
