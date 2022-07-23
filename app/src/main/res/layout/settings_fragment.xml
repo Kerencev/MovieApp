@@ -26,6 +26,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"

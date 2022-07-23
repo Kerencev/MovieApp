@@ -1,9 +1,11 @@
 package com.kerencev.movieapp.views.search
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -35,13 +37,18 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
-        Keyboard.showKeyBoard(requireActivity(), editSearch)
-        actionSearch.setOnClickListener {
-            progress.visibility = View.VISIBLE
-            Keyboard.hideKeyBoard(requireActivity(), editSearch)
-            recycler.visibility = View.GONE
-            tvEmptyMessage.visibility = View.GONE
-            viewModel.getData(binding.editSearch.text.toString())
+        editSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                progress.visibility = View.VISIBLE
+                Keyboard.hideKeyBoard(requireActivity(), editSearch)
+                recycler.visibility = View.GONE
+                tvEmptyMessage.visibility = View.GONE
+                viewModel.getData(binding.editSearch.text.toString())
+            }
+            true
+        }
+        inputLayout.setEndIconOnClickListener {
+            editSearch.text = null
         }
         initAdapter()
         initSearchDataObserver()
