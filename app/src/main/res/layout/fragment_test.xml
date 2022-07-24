@@ -11,7 +11,7 @@
         android:layout_height="@dimen/height_bottom_navigation"
         android:elevation="12dp"
         app:menu="@menu/details_toolbar"
-        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:navigationIcon="@drawable/ic_back_details"
         app:titleTextColor="@color/white" />
 
     <ImageView

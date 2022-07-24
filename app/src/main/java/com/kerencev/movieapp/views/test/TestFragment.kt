@@ -1,13 +1,11 @@
 package com.kerencev.movieapp.views.test
 
-import android.graphics.BlurMaskFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import coil.load
 import coil.transform.BlurTransformation
-import coil.transform.RoundedCornersTransformation
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.FragmentTestBinding
 import com.kerencev.movieapp.views.ViewBindingFragment
@@ -29,11 +27,9 @@ class TestFragment : ViewBindingFragment<FragmentTestBinding>(FragmentTestBindin
                     if (scrollY >= scroll.height - scroll.y) {
                         toolbar.title = title.text.toString()
                         toolbar.setBackgroundResource(R.color.toolbar)
-                        backgroundPoster.visibility = View.INVISIBLE
                     } else {
                         toolbar.title = null
                         toolbar.setBackgroundResource(0)
-                        backgroundPoster.visibility = View.VISIBLE
                     }
                 }
             }

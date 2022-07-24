@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import coil.load
 import coil.transform.BlurTransformation
-import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
@@ -91,19 +90,15 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
                 poster.alpha = ((1000 - scrollY.toFloat()) / 1000) + 0.9f
-
                 val params = poster.layoutParams as CoordinatorLayout.LayoutParams
                 params.height = scroll.height - scrollY + 200
                 poster.layoutParams = params
-
                 if (scrollY >= scroll.height - scroll.y) {
                     toolbar.title = title.text.toString()
                     toolbar.setBackgroundResource(R.color.toolbar)
-                    backgroundPoster.visibility = View.INVISIBLE
                 } else {
                     toolbar.title = null
                     toolbar.setBackgroundResource(0)
-                    backgroundPoster.visibility = View.VISIBLE
                 }
             }
         }
@@ -326,7 +321,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
             true -> binding.toolbar.menu.getItem(0).icon =
                 resources.getDrawable(R.drawable.favorite_check)
             false -> binding.toolbar.menu.getItem(0).icon =
-                resources.getDrawable(R.drawable.ic_baseline_favorite_border_24)
+                resources.getDrawable(R.drawable.ic_favorite_border_details)
         }
     }
 
