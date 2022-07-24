@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance(), MainFragment.MAIN_FRAGMENT_TAG)
+//                .replace(R.id.container, SplashScreenMainFragment())
                 .replace(R.id.container, TestFragment())
                 .commitNow()
         }
@@ -39,8 +39,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(
                             R.id.container,
-                            MainFragment.newInstance(),
-                            MainFragment.MAIN_FRAGMENT_TAG
+                            SplashScreenMainFragment()
                         )
                         .commitAllowingStateLoss()
                 }

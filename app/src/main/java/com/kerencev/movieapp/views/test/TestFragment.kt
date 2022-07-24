@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.transition.TransitionManager
 import coil.load
 import coil.transform.BlurTransformation
 import com.kerencev.movieapp.R

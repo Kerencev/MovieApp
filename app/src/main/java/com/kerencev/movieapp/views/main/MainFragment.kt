@@ -28,8 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment(), CoroutineScope by MainScope() {
-    private val viewModel: MainViewModel by viewModel()
+class MainFragment(private val viewModel: MainViewModel) : Fragment(), CoroutineScope by MainScope() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MoviesListAdapter
@@ -61,9 +60,7 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
         super.onViewCreated(view, savedInstanceState)
         categoriesToShow = getCorrectCategoriesFromPref()
         initRecyclerList()
-        val observer = Observer<MainState> { renderData(it) }
-        viewModel.liveData.observe(viewLifecycleOwner, observer)
-        viewModel.getMovies(categoriesToShow)
+        viewModel.liveData.value?.let { renderData(it) }
     }
 
     override fun onStop() {
@@ -131,7 +128,7 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance(viewModel: MainViewModel) = MainFragment(viewModel)
         const val MAIN_FRAGMENT_TAG = "MAIN_FRAGMENT_TAG"
     }
 }

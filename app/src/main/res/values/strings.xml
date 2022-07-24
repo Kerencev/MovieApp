@@ -60,4 +60,7 @@
     <string name="clean_favorites">Очистить избранное</string>
     <string name="favorites_is_cleared">Избранное очищено</string>
     <string name="similars_movies">Похожие фильмы</string>
+
+    //fragment_splash_screen_main.xml
+    <string name="loading_list_of_movies">Загружаю список фильмов..</string>
 </resources>

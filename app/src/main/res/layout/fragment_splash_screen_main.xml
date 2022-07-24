@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgMovie"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_img_movie"
+        android:layout_gravity="center"
+        android:padding="@dimen/padding_img_movie"
+        android:src="@drawable/movie_icon" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_tv"
+        android:gravity="center"
+        android:text="@string/loading_list_of_movies"
+        android:textSize="@dimen/text_size_tv" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_progress"
+        android:layout_marginTop="@dimen/margin_top_progress"
+        android:background="@color/white_black"
+        app:indicatorColor="@color/yellow" />
+
+</LinearLayout>

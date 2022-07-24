@@ -24,7 +24,6 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 //    fun getMovies() = getDataFromLocalStorage()
 
     private fun getDataFromServer(categories: ArrayList<String>) {
-        localLiveData.value = MainState.Loading
         val result = ArrayList<MoviesListApi>()
         viewModelScope.launch(Dispatchers.IO) {
             try {

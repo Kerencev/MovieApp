@@ -55,4 +55,12 @@
     <dimen name="width_view_bottom_sheet">24dp</dimen>
     <dimen name="height_view_bottom_sheet">1dp</dimen>
     <dimen name="margin_top_view_bottom_sheet">4dp</dimen>
+
+    //fragment_splash_screen_main.xml
+    <dimen name="height_img_movie">400dp</dimen>
+    <dimen name="padding_img_movie">16dp</dimen>
+    <dimen name="margin_top_tv">12dp</dimen>
+    <dimen name="text_size_tv">24sp</dimen>
+    <dimen name="margin_top_progress">40dp</dimen>
+    <dimen name="margin_horizontal_progress">20dp</dimen>
 </resources>
