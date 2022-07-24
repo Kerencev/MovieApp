@@ -2,6 +2,7 @@ package com.kerencev.movieapp.views.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.kerencev.movieapp.R
 import com.kerencev.movieapp.databinding.MainActivityBinding
 import com.kerencev.movieapp.views.favorites.FavoritesFragment
@@ -31,35 +32,29 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.favourites -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, FavoritesFragment())
-                        .commitAllowingStateLoss()
+                    navigateTo(FavoritesFragment())
                 }
                 R.id.main -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(
-                            R.id.container,
-                            SplashScreenMainFragment()
-                        )
-                        .commitAllowingStateLoss()
+                    navigateTo(SplashScreenMainFragment())
                 }
                 R.id.history -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, HistoryFragment())
-                        .commitAllowingStateLoss()
+                    navigateTo(HistoryFragment())
                 }
                 R.id.settings -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, SettingsFragment())
-                        .commitAllowingStateLoss()
+                    navigateTo(SettingsFragment())
                 }
                 R.id.search -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, SearchFragment())
-                        .commitAllowingStateLoss()
+                    navigateTo(SearchFragment())
                 }
             }
             return@setOnNavigationItemSelectedListener true
         }
+    }
+
+    private fun navigateTo(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.animator.alpha_to_1_navigation, R.animator.alpha_to_0_navigation)
+            .replace(R.id.container, fragment)
+            .commitAllowingStateLoss()
     }
 }
