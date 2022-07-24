@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.marginBottom
 import androidx.core.widget.NestedScrollView
 
 class PosterBehaviorTest(context: Context, attrs: AttributeSet?=null) : CoordinatorLayout.Behavior<View>(context, attrs) {
@@ -22,7 +23,7 @@ class PosterBehaviorTest(context: Context, attrs: AttributeSet?=null) : Coordina
         dependency: View
     ): Boolean {
         if (dependency is NestedScrollView) {
-            child.y = dependency.y
+            child.y = parent.y
         }
         return super.onDependentViewChanged(parent, child, dependency)
     }

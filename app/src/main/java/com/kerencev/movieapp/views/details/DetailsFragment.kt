@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import coil.load
@@ -89,7 +90,12 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
         toolbar.setBackgroundResource(0)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                poster.alpha = ((1000 - scrollY.toFloat()) / 1000) + 0.5f
+                poster.alpha = ((1000 - scrollY.toFloat()) / 1000) + 0.9f
+
+                val params = poster.layoutParams as CoordinatorLayout.LayoutParams
+                params.height = scroll.height - scrollY + 200
+                poster.layoutParams = params
+
                 if (scrollY >= scroll.height - scroll.y) {
                     toolbar.title = title.text.toString()
                     toolbar.setBackgroundResource(R.color.toolbar)
@@ -327,22 +333,24 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
     @SuppressLint("SetTextI18n")
     private fun setAllViewContent(moviesData: MovieDetailsApi?) = with(binding) {
         moviesData?.image?.let {
+//            Load a poster
+            Glide.with(requireContext())
+                .load(it)
+                .placeholder(R.drawable.movie)
+                .fitCenter()
+                .into(poster)
 //            poster.load(it) {
 //                crossfade(750)
 //                placeholder(R.drawable.movie)
 //                transformations(RoundedCornersTransformation(20f))
 //            }
+//            Load a background for the poster
             backgroundPoster.load(it) {
                 transformations(
                     BlurTransformation(requireContext(), 25f)
                 )
                 build()
             }
-            Glide.with(requireContext())
-                .load(it)
-                .placeholder(R.drawable.movie)
-                .fitCenter()
-                .into(poster)
 //            Glide.with(requireContext())
 //                .load(it)
 //                .into(backgroundPoster)

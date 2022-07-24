@@ -22,7 +22,7 @@ class PosterBehavior(context: Context, attrs: AttributeSet?=null) : CoordinatorL
         dependency: View
     ): Boolean {
         if (dependency is NestedScrollView) {
-            child.y = dependency.y
+            child.y = parent.y
         }
         return super.onDependentViewChanged(parent, child, dependency)
     }
