@@ -19,9 +19,9 @@
         android:id="@+id/background_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.2"
+        android:alpha="0.5"
         android:contentDescription="@string/poster_film"
-        android:scaleType="center"
+        android:scaleType="fitXY"
         app:layout_behavior=".views.details.behaviors.BackgroundDetailsBehavior"
         tools:src="@drawable/matrix" />
 
@@ -29,7 +29,8 @@
         android:id="@+id/poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/margin_horizontal_poster_details"
+        android:scaleType="fitCenter"
+        android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="@dimen/margin_bottom_poster_details"
         android:contentDescription="@string/poster_film"
         app:layout_behavior=".views.details.behaviors.PosterBehavior"

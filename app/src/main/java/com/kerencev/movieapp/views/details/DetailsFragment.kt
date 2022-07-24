@@ -16,6 +16,8 @@ import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import coil.load
+import coil.transform.BlurTransformation
+import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kerencev.movieapp.R
@@ -91,11 +93,11 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
                 if (scrollY >= scroll.height - scroll.y) {
                     toolbar.title = title.text.toString()
                     toolbar.setBackgroundResource(R.color.toolbar)
-                    backgroundPoster.alpha = 0.0f
+                    backgroundPoster.visibility = View.INVISIBLE
                 } else {
                     toolbar.title = null
                     toolbar.setBackgroundResource(0)
-                    backgroundPoster.alpha = 0.2f
+                    backgroundPoster.visibility = View.VISIBLE
                 }
             }
         }
@@ -324,16 +326,26 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 
     @SuppressLint("SetTextI18n")
     private fun setAllViewContent(moviesData: MovieDetailsApi?) = with(binding) {
-        toolbar.title = moviesData?.title
         moviesData?.image?.let {
+//            poster.load(it) {
+//                crossfade(750)
+//                placeholder(R.drawable.movie)
+//                transformations(RoundedCornersTransformation(20f))
+//            }
+            backgroundPoster.load(it) {
+                transformations(
+                    BlurTransformation(requireContext(), 25f)
+                )
+                build()
+            }
             Glide.with(requireContext())
                 .load(it)
                 .placeholder(R.drawable.movie)
                 .fitCenter()
                 .into(poster)
-            Glide.with(requireContext())
-                .load(it)
-                .into(backgroundPoster)
+//            Glide.with(requireContext())
+//                .load(it)
+//                .into(backgroundPoster)
         }
         title.text = moviesData?.title
         rating.text = "${moviesData?.imDbRating} (${moviesData?.imDbRatingVotes})"
