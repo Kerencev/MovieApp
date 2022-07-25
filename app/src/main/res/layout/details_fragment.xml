@@ -9,8 +9,10 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_bottom_navigation"
-        android:elevation="12dp"
+        android:layout_height="@dimen/height_toolbar_details"
+        android:elevation="@dimen/elevation_toolbar_details"
+        android:paddingTop="@dimen/padding_top_toolbar_details"
+
         app:menu="@menu/details_toolbar"
         app:navigationIcon="@drawable/ic_back_details"
         app:titleTextColor="@color/white" />
@@ -19,10 +21,9 @@
         android:id="@+id/background_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.5"
         android:contentDescription="@string/poster_film"
         android:scaleType="fitXY"
-        app:layout_behavior=".views.details.behaviors.BackgroundDetailsBehavior"
+        app:layout_behavior=".ui.details.behaviors.BackgroundDetailsBehavior"
         tools:src="@drawable/matrix" />
 
     <ImageView
@@ -31,7 +32,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/margin_horizontal_poster_details"
         android:contentDescription="@string/poster_film"
-        app:layout_behavior=".views.details.behaviors.PosterBehavior"
+        app:layout_behavior=".ui.details.behaviors.PosterBehavior"
         tools:src="@drawable/matrix" />
 
     <androidx.core.widget.NestedScrollView
@@ -39,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_behavior=".views.details.behaviors.ScrollBehavior">
+        app:layout_behavior=".ui.details.behaviors.ScrollBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -51,11 +52,11 @@
                 android:id="@+id/view"
                 android:layout_width="@dimen/width_view_bottom_sheet"
                 android:layout_height="@dimen/height_view_bottom_sheet"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_top_view_bottom_sheet"
-                android:background="@color/gray"/>
+                android:background="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
                 android:id="@+id/progress_bar_details"

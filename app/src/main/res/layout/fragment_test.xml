@@ -10,7 +10,8 @@
         android:id="@+id/toolbar"
         android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_bottom_navigation"
+        android:paddingTop="24dp"
+        android:layout_height="80dp"
         android:elevation="12dp"
         app:menu="@menu/details_toolbar"
         app:navigationIcon="@drawable/ic_back_details"
@@ -22,9 +23,9 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/poster_film"
         android:scaleType="fitXY"
-        android:alpha="0.5"
+        android:alpha="1"
         android:src="@drawable/matrix"
-        app:layout_behavior=".views.test.BackgroundDetailsBehaviorTest" />
+        app:layout_behavior=".ui.test.BackgroundDetailsBehaviorTest" />
 
     <ImageView
         android:id="@+id/poster"
@@ -33,13 +34,13 @@
         android:layout_marginHorizontal="40dp"
         android:contentDescription="@string/poster_film"
         android:src="@drawable/matrix"
-        app:layout_behavior=".views.test.PosterBehaviorTest" />
+        app:layout_behavior=".ui.test.PosterBehaviorTest" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior=".views.test.ScrollBehaviorTest">
+        app:layout_behavior=".ui.test.ScrollBehaviorTest">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_content"
