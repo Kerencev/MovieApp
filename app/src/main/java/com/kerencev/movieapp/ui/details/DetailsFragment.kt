@@ -355,6 +355,7 @@ class DetailsFragment : Fragment(), CoroutineScope by MainScope() {
 //            }
 //            Load a background for the poster
             backgroundPoster.load(it) {
+                placeholder(R.drawable.placeholder_background_details)
                 transformations(
                     BlurTransformation(requireContext(), 25f, 10f)
                 )
